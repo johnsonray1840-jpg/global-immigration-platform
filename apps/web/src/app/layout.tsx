@@ -5,7 +5,6 @@ import SocketProvider from "@/components/providers/socket-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { LanguageProvider } from "@/i18n/LanguageContext";
 import type { Metadata, Viewport } from "next";
-import AppLoading from '@/components/layout/AppLoading';
 
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });

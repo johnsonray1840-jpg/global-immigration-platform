@@ -1,23 +1,21 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { cn } from '@/lib/utils';
+import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { GlassCard } from '@/components/shared/glass-card';
 import { ArrowRight, ShieldCheck, Compass } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import api from '@/lib/api-client';
 import AnimatedCounter from '@/components/shared/AnimatedCounter';
 
+// Dynamic import for 3D globe with loading fallback
 const GlobeMap = dynamic(() => import('@/components/map/GlobeMap'), {
   ssr: false,
   loading: () => (
     <div className="absolute inset-0 flex items-center justify-center bg-[#0B5D66]">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#C9A96E]"></div>
     </div>
   ),
 });
@@ -33,34 +31,7 @@ const purposes = [
   'business',
 ];
 
-export function SectionHeading({
-  title,
-  subtitle,
-  className,
-  titleClassName,
-}: {
-  title: string;
-  subtitle?: string;
-  className?: string;
-  titleClassName?: string;
-}) {
-  return (
-    <div className={cn('mb-10 md:mb-12 text-center', className)}>
-      <h2 className={cn('font-display text-3xl md:text-4xl font-semibold tracking-tight text-[#111827]', titleClassName)}>
-        {title}
-      </h2>
-      {subtitle && (
-        <p className="mx-auto mt-3 md:mt-4 max-w-2xl text-base md:text-lg text-[#6B7280]">
-          {subtitle}
-        </p>
-      )}
-      <div className="mt-4 mx-auto h-0.5 w-16 bg-[#C9A96E]" />
-    </div>
-  );
-}
-
 export default function PremiumHero() {
-  const router = useRouter();
   const { t } = useLanguage();
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
@@ -68,21 +39,27 @@ export default function PremiumHero() {
   const [countries, setCountries] = useState<any[]>([]);
 
   useEffect(() => {
-    api.get('/countries').then((res) => setCountries(res.data)).catch(() => {});
+    api.get('/countries')
+      .then((res) => setCountries(res.data))
+      .catch(() => {});
   }, []);
 
   const handleSearch = () => {
-    router.push(`/eligibility?from=${from}&to=${to}&purpose=${purpose}`);
+    const params = new URLSearchParams();
+    if (from) params.set('from', from);
+    if (to) params.set('to', to);
+    if (purpose) params.set('purpose', purpose);
+    window.location.href = `/eligibility?${params.toString()}`;
   };
 
   return (
     <section className="relative h-screen min-h-[600px] overflow-hidden bg-[#0B5D66]">
-      {/* Globe background */}
+      {/* Interactive 3D Globe background */}
       <div className="absolute inset-0 z-0 opacity-80">
         <GlobeMap className="h-full w-full" />
       </div>
 
-      {/* Gradient overlay for readability */}
+      {/* Overlay gradient for text readability */}
       <div className="absolute inset-0 z-[1] bg-gradient-to-r from-[#0B5D66]/95 via-[#0B5D66]/80 to-[#0B5D66]/40" />
       <div className="absolute inset-0 z-[1] bg-gradient-to-t from-[#0B5D66]/60 to-transparent" />
 
@@ -138,7 +115,12 @@ export default function PremiumHero() {
         </motion.div>
 
         {/* Trust indicators */}
-        <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.4 }}
+          className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 w-full"
+        >
           <div className="text-center text-white">
             <p className="font-display text-3xl font-semibold">
               <AnimatedCounter end={50} suffix="+" />
@@ -163,7 +145,7 @@ export default function PremiumHero() {
             </p>
             <p className="mt-1 text-sm text-white/80">{t('stats.years')}</p>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

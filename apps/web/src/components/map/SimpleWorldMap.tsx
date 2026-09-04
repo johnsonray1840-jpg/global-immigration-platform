@@ -54,7 +54,7 @@ export default function SimpleWorldMap({ className = '' }: { className?: string 
               <path
                 key={i}
                 d={path || ''}
-                fill={isHovered ? '#4DA8FF' : '#E5E7EB'}
+                fill={isHovered ? '#C9A96E' : '#E8EEEE'}   // Gold hover, light ash default
                 stroke="#FFFFFF"
                 strokeWidth="0.5"
                 style={{ cursor: 'pointer', transition: 'fill 0.2s' }}
@@ -67,7 +67,7 @@ export default function SimpleWorldMap({ className = '' }: { className?: string 
       </svg>
       {tooltip && (
         <div
-          className="pointer-events-none fixed z-50 rounded-lg bg-black/80 px-3 py-1.5 text-sm text-white shadow-lg"
+          className="pointer-events-none fixed z-50 rounded-lg bg-[#0B5D66] px-3 py-1.5 text-sm text-white shadow-lg"
           style={{ left: tooltip.x + 10, top: tooltip.y + 10 }}
         >
           {tooltip.name}

@@ -58,7 +58,7 @@ describe('EligibilityService', () => {
     expect(result.results[0].eligibilityLabel).toBe(EligibilityLabel.LIKELY_ELIGIBLE);
   });
 
-  it('should return NEEDS_REVIEW for insufficient income', async () => {
+  it('should return POTENTIALLY_ELIGIBLE for insufficient income', async () => {
     mockPrisma.country.findUnique.mockResolvedValue({ id: 'US', name: 'United States', code: 'US' });
     mockPrisma.countryVisaRule.findMany.mockResolvedValue([
       {
@@ -82,6 +82,7 @@ describe('EligibilityService', () => {
       annualIncome: 1000,
     });
 
-    expect(result.results).toHaveLength(0);
+    expect(result.results).toHaveLength(1);
+    expect(result.results[0].eligibilityLabel).toBe(EligibilityLabel.POTENTIALLY_ELIGIBLE);
   });
 });
