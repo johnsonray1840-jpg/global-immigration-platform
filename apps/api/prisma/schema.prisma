@@ -759,6 +759,138 @@ model Program {
   faqs        Json
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  
+  investments InvestmentProgram[]
+}
+
+// ──────────────────────────────────────────────
+// Investment & CBI Tracking Models
+// ──────────────────────────────────────────────
+
+enum InvestmentType {
+  REAL_ESTATE
+  GOVERNMENT_BOND
+  BUSINESS_INVESTMENT
+  DONATION
+  BANK_DEPOSIT
+  STOCK_PURCHASE
+  FUND_INVESTMENT
+  OTHER
+}
+
+enum InvestmentStatus {
+  PLEDGED
+  PENDING_TRANSFER
+  TRANSFERRED
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  LOCKED
+  RELEASED
+  EXITED
+}
+
+enum MilestoneStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+  BLOCKED
+  SKIPPED
+}
+
+model InvestmentProgram {
+  id                String   @id @default(cuid())
+  programId         String
+  userId            String
+  caseId            String?
+  investmentType    InvestmentType
+  targetAmount      Float
+  investedAmount    Float     @default(0)
+  currency          String    @default("USD")
+  status            InvestmentStatus @default(PLEDGED)
+  expectedROI       Float?
+  actualROI         Float?
+  lockPeriodMonths  Int?
+  startDate         DateTime?
+  maturityDate      DateTime?
+  exitDate          DateTime?
+  assetDetails      Json?
+  propertyDetails   Json?
+  businessDetails   Json?
+  complianceChecks  Json?     @default([])
+  riskRating        String?
+  notes             String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  program           Program    @relation(fields: [programId], references: [id])
+  user              User       @relation(fields: [userId], references: [id])
+  case              Case?      @relation(fields: [caseId], references: [id])
+  milestones        InvestmentMilestone[]
+  transactions      InvestmentTransaction[]
+  documents         InvestmentDocument[]
+  performanceLogs   InvestmentPerformance[]
+}
+
+model InvestmentMilestone {
+  id                String   @id @default(cuid())
+  investmentId      String
+  title             String
+  description       String?
+  order             Int      @default(0)
+  status            MilestoneStatus @default(NOT_STARTED)
+  dueDate           DateTime?
+  completedAt       DateTime?
+  evidenceRequired  Boolean  @default(false)
+  evidenceProvided  String?
+  notes             String?
+  createdAt         DateTime @default(now())
+  
+  investment        InvestmentProgram @relation(fields: [investmentId], references: [id])
+}
+
+model InvestmentTransaction {
+  id                String   @id @default(cuid())
+  investmentId      String
+  type              String
+  amount            Float
+  currency          String    @default("USD")
+  transactionDate   DateTime
+  reference         String?
+  proofOfPayment    String?
+  status            String    @default("PENDING")
+  notes             String?
+  createdAt         DateTime @default(now())
+  
+  investment        InvestmentProgram @relation(fields: [investmentId], references: [id])
+}
+
+model InvestmentDocument {
+  id                String   @id @default(cuid())
+  investmentId      String
+  name              String
+  type              String
+  fileUrl           String
+  category          String?
+  uploadedAt        DateTime @default(now())
+  verifiedAt        DateTime?
+  expiryDate        DateTime?
+  status            DocumentStatus @default(UPLOADED)
+  
+  investment        InvestmentProgram @relation(fields: [investmentId], references: [id])
+}
+
+model InvestmentPerformance {
+  id                String   @id @default(cuid())
+  investmentId      String
+  recordedAt        DateTime @default(now())
+  currentValue      Float
+  accruedReturns    Float?
+  roiPercentage     Float?
+  marketConditions  String?
+  notes             String?
+  
+  investment        InvestmentProgram @relation(fields: [investmentId], references: [id])
 }
 
 model CryptoWallet {

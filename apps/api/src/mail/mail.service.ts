@@ -196,4 +196,16 @@ export class MailService {
     });
     await this.send(email, 'Password Reset Code', html);
   }
+
+  // Investment release confirmation
+  async sendInvestmentReleaseConfirmation(email: string, investmentId: string) {
+    const html = this.renderEmail({
+      title: 'Investment Released',
+      body: `<p>Your investment (ID: ${investmentId}) has been successfully released.</p>
+             <p>The funds will be processed according to the exit terms of your investment program.</p>`,
+      ctaText: 'View Investment',
+      ctaLink: `https://globalimmigration.example.com/investments/${investmentId}`,
+    });
+    await this.send(email, 'Investment Release Confirmation', html);
+  }
 }

@@ -21,6 +21,7 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { ReferralsModule } from './referrals/referrals.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { RedisModule } from './redis/redis.module';
+import { InvestmentsModule } from './investments/investments.module';
 
 
 
@@ -49,6 +50,7 @@ import { RedisModule } from './redis/redis.module';
     NotificationsModule,
     ReferralsModule,
     RedisModule,
+    InvestmentsModule,
   ],
 })
 export class AppModule {}
