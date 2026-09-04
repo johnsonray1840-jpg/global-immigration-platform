@@ -2,41 +2,29 @@
 # Dependencies
 node_modules/
 
-# Environment variables
+# Prisma
+prisma/migrations/
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Environment
 .env
 .env.local
-.env.*
+*.env.*
 
-# IDE specific
+# Editors
 .vscode/
+.idea/
 
-# Logs
-*.log
-
-# Build artifacts
-dist/
-build/
-target/
-
-# Python specific
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 .Python
-env/
 venv/
 .venv/
-pip-log.txt
-pip-delete-this-directory.txt
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.log
-.git/modules/
-.DS_Store
+.env
 ```
