@@ -1,0 +1,232 @@
+import { CasesService } from './cases.service';
+import { CreateCaseDto } from './dto/create-case.dto';
+export declare class CasesController {
+    private casesService;
+    constructor(casesService: CasesService);
+    create(req: any, dto: CreateCaseDto): Promise<{
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        userId: string;
+        originCountryId: string;
+        destinationCountryId: string;
+        visaRuleId: string | null;
+        eligibilityLabel: import(".prisma/client").$Enums.EligibilityLabel | null;
+        status: import(".prisma/client").$Enums.CaseStatus;
+        timeline: import("@prisma/client/runtime/library").JsonValue | null;
+        governmentFeeEstimate: number | null;
+        serviceFeeEstimate: number | null;
+        totalCostEstimate: number | null;
+        estimatedProcessingDays: number | null;
+        notes: string | null;
+        consultantId: string | null;
+    }>;
+    findAll(req: any): Promise<({
+        documents: {
+            id: string;
+            updatedAt: Date;
+            name: string;
+            userId: string;
+            status: import(".prisma/client").$Enums.DocumentStatus;
+            type: string;
+            expiryDate: Date | null;
+            fileUrl: string;
+            ocrText: string | null;
+            uploadedAt: Date;
+            caseId: string;
+            verifiedById: string | null;
+        }[];
+        originCountry: {
+            id: string;
+            name: string;
+            currency: string | null;
+            code: string;
+            continent: string | null;
+            passportRank: number | null;
+            safetyIndex: number | null;
+            livingCostIndex: number | null;
+            healthcareIndex: number | null;
+            educationIndex: number | null;
+            taxRate: number | null;
+            languages: string[];
+            climate: string | null;
+            imageUrl: string | null;
+            lastUpdated: Date;
+        };
+        destinationCountry: {
+            id: string;
+            name: string;
+            currency: string | null;
+            code: string;
+            continent: string | null;
+            passportRank: number | null;
+            safetyIndex: number | null;
+            livingCostIndex: number | null;
+            healthcareIndex: number | null;
+            educationIndex: number | null;
+            taxRate: number | null;
+            languages: string[];
+            climate: string | null;
+            imageUrl: string | null;
+            lastUpdated: Date;
+        };
+        visaRule: ({
+            visaType: {
+                id: string;
+                category: import(".prisma/client").$Enums.VisaCategory;
+                description: string | null;
+                name: string;
+                isGlobal: boolean;
+            };
+        } & {
+            id: string;
+            lastUpdated: Date;
+            eligibilityJson: import("@prisma/client/runtime/library").JsonValue;
+            requiredDocs: import("@prisma/client/runtime/library").JsonValue | null;
+            governmentFee: number | null;
+            feeCurrency: string;
+            processingTimeMin: number | null;
+            processingTimeMax: number | null;
+            validityPeriod: number | null;
+            renewalAllowed: boolean;
+            workspaceSchema: import("@prisma/client/runtime/library").JsonValue | null;
+            countryId: string;
+            visaTypeId: string;
+        }) | null;
+    } & {
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        userId: string;
+        originCountryId: string;
+        destinationCountryId: string;
+        visaRuleId: string | null;
+        eligibilityLabel: import(".prisma/client").$Enums.EligibilityLabel | null;
+        status: import(".prisma/client").$Enums.CaseStatus;
+        timeline: import("@prisma/client/runtime/library").JsonValue | null;
+        governmentFeeEstimate: number | null;
+        serviceFeeEstimate: number | null;
+        totalCostEstimate: number | null;
+        estimatedProcessingDays: number | null;
+        notes: string | null;
+        consultantId: string | null;
+    })[]>;
+    findOne(req: any, id: string): Promise<{
+        documents: {
+            id: string;
+            updatedAt: Date;
+            name: string;
+            userId: string;
+            status: import(".prisma/client").$Enums.DocumentStatus;
+            type: string;
+            expiryDate: Date | null;
+            fileUrl: string;
+            ocrText: string | null;
+            uploadedAt: Date;
+            caseId: string;
+            verifiedById: string | null;
+        }[];
+        originCountry: {
+            id: string;
+            name: string;
+            currency: string | null;
+            code: string;
+            continent: string | null;
+            passportRank: number | null;
+            safetyIndex: number | null;
+            livingCostIndex: number | null;
+            healthcareIndex: number | null;
+            educationIndex: number | null;
+            taxRate: number | null;
+            languages: string[];
+            climate: string | null;
+            imageUrl: string | null;
+            lastUpdated: Date;
+        };
+        destinationCountry: {
+            id: string;
+            name: string;
+            currency: string | null;
+            code: string;
+            continent: string | null;
+            passportRank: number | null;
+            safetyIndex: number | null;
+            livingCostIndex: number | null;
+            healthcareIndex: number | null;
+            educationIndex: number | null;
+            taxRate: number | null;
+            languages: string[];
+            climate: string | null;
+            imageUrl: string | null;
+            lastUpdated: Date;
+        };
+        visaRule: ({
+            visaType: {
+                id: string;
+                category: import(".prisma/client").$Enums.VisaCategory;
+                description: string | null;
+                name: string;
+                isGlobal: boolean;
+            };
+        } & {
+            id: string;
+            lastUpdated: Date;
+            eligibilityJson: import("@prisma/client/runtime/library").JsonValue;
+            requiredDocs: import("@prisma/client/runtime/library").JsonValue | null;
+            governmentFee: number | null;
+            feeCurrency: string;
+            processingTimeMin: number | null;
+            processingTimeMax: number | null;
+            validityPeriod: number | null;
+            renewalAllowed: boolean;
+            workspaceSchema: import("@prisma/client/runtime/library").JsonValue | null;
+            countryId: string;
+            visaTypeId: string;
+        }) | null;
+        checklistItems: {
+            id: string;
+            notes: string | null;
+            caseId: string;
+            documentName: string;
+            isRequired: boolean;
+            isProvided: boolean;
+        }[];
+    } & {
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        userId: string;
+        originCountryId: string;
+        destinationCountryId: string;
+        visaRuleId: string | null;
+        eligibilityLabel: import(".prisma/client").$Enums.EligibilityLabel | null;
+        status: import(".prisma/client").$Enums.CaseStatus;
+        timeline: import("@prisma/client/runtime/library").JsonValue | null;
+        governmentFeeEstimate: number | null;
+        serviceFeeEstimate: number | null;
+        totalCostEstimate: number | null;
+        estimatedProcessingDays: number | null;
+        notes: string | null;
+        consultantId: string | null;
+    }>;
+    updateStatus(req: any, id: string, body: {
+        status: string;
+    }): Promise<{
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        userId: string;
+        originCountryId: string;
+        destinationCountryId: string;
+        visaRuleId: string | null;
+        eligibilityLabel: import(".prisma/client").$Enums.EligibilityLabel | null;
+        status: import(".prisma/client").$Enums.CaseStatus;
+        timeline: import("@prisma/client/runtime/library").JsonValue | null;
+        governmentFeeEstimate: number | null;
+        serviceFeeEstimate: number | null;
+        totalCostEstimate: number | null;
+        estimatedProcessingDays: number | null;
+        notes: string | null;
+        consultantId: string | null;
+    }>;
+}

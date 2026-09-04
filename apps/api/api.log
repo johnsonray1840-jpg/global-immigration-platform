@@ -1,0 +1,177 @@
+
+> api@0.0.1 start:dev
+> nest start --watch
+
+[2J[3J[H[[90m4:01:22 AM[0m] Starting compilation in watch mode...
+
+[[90m4:01:44 AM[0m] Found 0 errors. Watching for file changes.
+
+(node:3171) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.20.2.
+
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +40ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDiscoveryModule dependencies initialized[39m[38;5;3m +0ms[39m
+⚠️ Google Document AI not configured. OCR will use mock text.
+⚠️ RESEND_API_KEY not set. Emails will be logged to console.
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +6ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mRealTimeModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mScheduleModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mRedisModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mMailModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mCountriesModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mEligibilityModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAiModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPublicModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAnalyticsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mNotificationsModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mCasesModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDocumentsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPaymentsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppointmentsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConsultantModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mReferralsModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mWalletModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +51ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +3ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/google, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/google/callback, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/2fa/generate, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/2fa/verify, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/2fa/disable, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/verify-email, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/forgot-password, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/reset-password, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/2fa/verify-login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/resend-verification, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mUsersController {/users}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/users/me, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/users/me, PUT} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/users/onboarding, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mCountriesController {/countries}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/countries, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/countries/:code, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mEligibilityController {/eligibility}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/eligibility/check, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mCasesController {/cases}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/cases, POST} route[39m[38;5;3m +22ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/cases, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/cases/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/cases/:id/status, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mNotificationsController {/notifications}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/notifications, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/notifications/:id/read, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/notifications/read-all, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mDocumentsController {/cases/:caseId/documents}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/cases/:caseId/documents/upload, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mPaymentsController {/payments}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/payments/methods, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/payments/invoice, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/payments/wire-details, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/payments/crypto/initiate, POST} route[39m[38;5;3m +10ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/payments/crypto/confirm/:sessionId, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/payments/paypal/initiate, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/payments/wire/initiate, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/payments/request-approval, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/payments/crypto-wallets, GET} route[39m[38;5;3m +4ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mWalletController {/wallet}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/wallet, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/wallet/transactions, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/wallet/deposit, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAiController {/ai}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/ai/chat, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/ai/chat/stream, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppointmentsController {/appointments}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/appointments/availability/:consultantId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/appointments, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/appointments, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/appointments/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/appointments/:id/cancel, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminCrudController {/admin/crud}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/crud/:model, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/crud/:model/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/crud/:model, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/crud/:model/:id, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/crud/:model/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminPaymentMethodsController {/admin/payment-methods}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/payment-methods, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/payment-methods/:id, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminWireAccountsController {/admin/wire-accounts}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/wire-accounts, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/wire-accounts, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/wire-accounts/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/wire-accounts/:id, DELETE} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/wire-accounts/assign-user, POST} route[39m[38;5;3m +4ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminApprovalsController {/admin/approvals}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/approvals, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/approvals/:id/review, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAnalyticsController {/admin/analytics}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/analytics/overview, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/analytics/country-demand, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/analytics/activity, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mPublicController {/}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/faqs, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/packages, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/packages/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/scholarships, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/scholarships/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/consultants, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/universities, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/offices, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/partners, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/programs, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/programs/:slug, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/pages/:slug, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/news, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/news/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/newsletter/subscribe, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mConsultantController {/consultant}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/consultant/stats, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/consultant/cases, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/consultant/cases/:id, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/consultant/cases/:id/status, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/consultant/cases/:id/notes, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/consultant/cases/:id/documents, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/consultant/documents/:id/verify, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mReferralsController {/referrals}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/referrals/code, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/referrals/stats, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3171  - [39m09/04/2026, 4:01:47 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/referrals/apply, POST} route[39m[38;5;3m +0ms[39m
+Redis error: 
+Redis error: 
+/workspace/apps/api/node_modules/@prisma/client/runtime/library.js:112
+You may have to run ${qe("prisma generate")} for your changes to take effect.`,this.config.clientVersion);return t}}parseEngineResponse(t){if(!t)throw new B("Response from the Engine was empty",{clientVersion:this.config.clientVersion});try{return JSON.parse(t)}catch{throw new B("Unable to JSON.parse response from engine",{clientVersion:this.config.clientVersion})}}async loadEngine(){if(!this.engine){this.QueryEngineConstructor||(this.library=await this.libraryLoader.loadLibrary(this.config),this.QueryEngineConstructor=this.library.QueryEngine);try{let t=new WeakRef(this),{adapter:r}=this.config;r&&Ae("Using driver adapter: %O",r),this.engine=new this.QueryEngineConstructor({datamodel:this.datamodel,env:process.env,logQueries:this.config.logQueries??!1,ignoreEnvVarErrors:!0,datasourceOverrides:this.datasourceOverrides??{},logLevel:this.logLevel,configDir:this.config.cwd,engineProtocol:"json"},n=>{t.deref()?.logger(n)},r)}catch(t){let r=t,n=this.parseInitError(r.message);throw typeof n=="string"?r:new R(n.message,this.config.clientVersion,n.error_code)}}}logger(t){let r=this.parseEngineResponse(t);if(r){if("span"in r){this.config.tracingHelper.createEngineSpan(r);return}r.level=r?.level.toLowerCase()??"unknown",fm(r)?this.logEmitter.emit("query",{timestamp:new Date,query:r.query,params:r.params,duration:Number(r.duration_ms),target:r.module_path}):gm(r)?this.loggerRustPanic=new le(lo(this,`${r.message}: ${r.reason} in ${r.file}:${r.line}:${r.column}`),this.config.clientVersion):this.logEmitter.emit(r.level,{timestamp:new Date,message:r.message,target:r.module_path})}}parseInitError(t){try{return JSON.parse(t)}catch{}return t}parseRequestError(t){try{return JSON.parse(t)}catch{}return t}onBeforeExit(){throw new Error('"beforeExit" hook is not applicable to the library engine since Prisma 5.0.0, it is only relevant and implemented for the binary engine. Please add your event listener to the `process` object directly instead.')}async start(){if(await this.libraryInstantiationPromise,await this.libraryStoppingPromise,this.libraryStartingPromise)return Ae(`library already starting, this.libraryStarted: ${this.libraryStarted}`),this.libraryStartingPromise;if(this.libraryStarted)return;let t=async()=>{Ae("library starting");try{let r={traceparent:this.config.tracingHelper.getTraceParent()};await this.engine?.connect(JSON.stringify(r)),this.libraryStarted=!0,Ae("library started")}catch(r){let n=this.parseInitError(r.message);throw typeof n=="string"?r:new R(n.message,this.config.clientVersion,n.error_code)}finally{this.libraryStartingPromise=void 0}};return this.libraryStartingPromise=this.config.tracingHelper.runInChildSpan("connect",t),this.libraryStartingPromise}async stop(){if(await this.libraryStartingPromise,await this.executingQueryPromise,this.libraryStoppingPromise)return Ae("library is already stopping"),this.libraryStoppingPromise;if(!this.libraryStarted)return;let t=async()=>{await new Promise(n=>setTimeout(n,5)),Ae("library stopping");let r={traceparent:this.config.tracingHelper.getTraceParent()};await this.engine?.disconnect(JSON.stringify(r)),this.libraryStarted=!1,this.libraryStoppingPromise=void 0,Ae("library stopped")};return this.libraryStoppingPromise=this.config.tracingHelper.runInChildSpan("disconnect",t),this.libraryStoppingPromise}version(){return this.versionInfo=this.library?.version(),this.versionInfo?.version??"unknown"}debugPanic(t){return this.library?.debugPanic(t)}async request(t,{traceparent:r,interactiveTransaction:n}){Ae(`sending request, this.libraryStarted: ${this.libraryStarted}`);let i=JSON.stringify({traceparent:r}),o=JSON.stringify(t);try{await this.start(),this.executingQueryPromise=this.engine?.query(o,i,n?.id),this.lastQuery=o;let s=this.parseEngineResponse(await this.executingQueryPromise);if(s.errors)throw s.errors.length===1?this.buildQueryError(s.errors[0]):new B(JSON.stringify(s.errors),{clientVersion:this.config.clientVersion});if(this.loggerRustPanic)throw this.loggerRustPanic;return{data:s,elapsed:0}}catch(s){if(s instanceof R)throw s;if(s.code==="GenericFailure"&&s.message?.startsWith("PANIC:"))throw new le(lo(this,s.message),this.config.clientVersion);let a=this.parseRequestError(s.message);throw typeof a=="string"?s:new B(`${a.message}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+
+PrismaClientInitializationError: Can't reach database server at `localhost:5432`
+
+Please make sure your database server is running at `localhost:5432`.
+    at t (/workspace/apps/api/node_modules/@prisma/client/runtime/library.js:112:2488)
+    at async Proxy.onModuleInit (/workspace/apps/api/src/prisma/prisma.service.ts:7:5)
+    at async Promise.all (index 0)
+    at async callModuleInitHook (/workspace/apps/api/node_modules/@nestjs/core/hooks/on-module-init.hook.js:43:5)
+    at async NestApplication.callInitHook (/workspace/apps/api/node_modules/@nestjs/core/nest-application-context.js:252:13)
+    at async NestApplication.init (/workspace/apps/api/node_modules/@nestjs/core/nest-application.js:105:9)
+    at async NestApplication.listen (/workspace/apps/api/node_modules/@nestjs/core/nest-application.js:177:13)
+    at async bootstrap (/workspace/apps/api/src/main.ts:12:3) {
+  clientVersion: '5.22.0',
+  errorCode: 'P1001'
+}
+
+Node.js v20.20.2

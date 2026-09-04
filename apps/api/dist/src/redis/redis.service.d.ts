@@ -1,0 +1,12 @@
+import { OnModuleDestroy } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+export declare class RedisService implements OnModuleDestroy {
+    private configService;
+    private client;
+    constructor(configService: ConfigService);
+    get(key: string): Promise<string | null>;
+    set(key: string, value: any, ttlSeconds?: number): Promise<void>;
+    del(key: string): Promise<void>;
+    onModuleDestroy(): Promise<void>;
+    keys(pattern: string): Promise<string[]>;
+}

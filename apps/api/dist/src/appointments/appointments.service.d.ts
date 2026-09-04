@@ -1,0 +1,186 @@
+import { PrismaService } from '../prisma/prisma.service';
+import { MailService } from '../mail/mail.service';
+import { NotificationsService } from '../notifications/notifications.service';
+import { CalendarService } from './calendar.service';
+import { CreateAppointmentDto } from './dto/create-appointment.dto';
+export declare class AppointmentsService {
+    private prisma;
+    private mailService;
+    private notificationsService;
+    private calendarService;
+    constructor(prisma: PrismaService, mailService: MailService, notificationsService: NotificationsService, calendarService: CalendarService);
+    getAvailableSlots(consultantId: string, date: string): Promise<{
+        start: string;
+        end: string;
+    }[]>;
+    create(userId: string, dto: CreateAppointmentDto): Promise<{
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        scheduledAt: Date;
+        userId: string;
+        status: string;
+        notes: string | null;
+        consultantId: string;
+        type: import(".prisma/client").$Enums.AppointmentType;
+        caseId: string | null;
+        durationMin: number;
+        meetingLink: string | null;
+        officeId: string | null;
+        reminderSent: boolean;
+    }>;
+    findAllForUser(userId: string): Promise<({
+        case: {
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            originCountryId: string;
+            destinationCountryId: string;
+            visaRuleId: string | null;
+            eligibilityLabel: import(".prisma/client").$Enums.EligibilityLabel | null;
+            status: import(".prisma/client").$Enums.CaseStatus;
+            timeline: import("@prisma/client/runtime/library").JsonValue | null;
+            governmentFeeEstimate: number | null;
+            serviceFeeEstimate: number | null;
+            totalCostEstimate: number | null;
+            estimatedProcessingDays: number | null;
+            notes: string | null;
+            consultantId: string | null;
+        } | null;
+        consultant: {
+            user: {
+                id: string;
+                createdAt: Date;
+                updatedAt: Date;
+                email: string;
+                googleId: string | null;
+                appleId: string | null;
+                microsoftId: string | null;
+                referralCode: string | null;
+                passwordHash: string | null;
+                role: import(".prisma/client").$Enums.Role;
+                isEmailVerified: boolean;
+                twoFactorEnabled: boolean;
+                twoFactorSecret: string | null;
+                kycStatus: string | null;
+                passportExpiry: Date | null;
+                preferredLanguage: string;
+                darkMode: boolean;
+                deletedAt: Date | null;
+                onboardingCompleted: boolean;
+                verificationCode: string | null;
+                verificationCodeExpires: Date | null;
+                resetCode: string | null;
+                resetCodeExpires: Date | null;
+            };
+        } & {
+            id: string;
+            userId: string;
+            officeId: string | null;
+            bio: string | null;
+            specialities: string[];
+            calendarEmail: string | null;
+        };
+    } & {
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        scheduledAt: Date;
+        userId: string;
+        status: string;
+        notes: string | null;
+        consultantId: string;
+        type: import(".prisma/client").$Enums.AppointmentType;
+        caseId: string | null;
+        durationMin: number;
+        meetingLink: string | null;
+        officeId: string | null;
+        reminderSent: boolean;
+    })[]>;
+    findOne(userId: string, appointmentId: string): Promise<{
+        case: {
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            originCountryId: string;
+            destinationCountryId: string;
+            visaRuleId: string | null;
+            eligibilityLabel: import(".prisma/client").$Enums.EligibilityLabel | null;
+            status: import(".prisma/client").$Enums.CaseStatus;
+            timeline: import("@prisma/client/runtime/library").JsonValue | null;
+            governmentFeeEstimate: number | null;
+            serviceFeeEstimate: number | null;
+            totalCostEstimate: number | null;
+            estimatedProcessingDays: number | null;
+            notes: string | null;
+            consultantId: string | null;
+        } | null;
+        consultant: {
+            user: {
+                id: string;
+                createdAt: Date;
+                updatedAt: Date;
+                email: string;
+                googleId: string | null;
+                appleId: string | null;
+                microsoftId: string | null;
+                referralCode: string | null;
+                passwordHash: string | null;
+                role: import(".prisma/client").$Enums.Role;
+                isEmailVerified: boolean;
+                twoFactorEnabled: boolean;
+                twoFactorSecret: string | null;
+                kycStatus: string | null;
+                passportExpiry: Date | null;
+                preferredLanguage: string;
+                darkMode: boolean;
+                deletedAt: Date | null;
+                onboardingCompleted: boolean;
+                verificationCode: string | null;
+                verificationCodeExpires: Date | null;
+                resetCode: string | null;
+                resetCodeExpires: Date | null;
+            };
+        } & {
+            id: string;
+            userId: string;
+            officeId: string | null;
+            bio: string | null;
+            specialities: string[];
+            calendarEmail: string | null;
+        };
+    } & {
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        scheduledAt: Date;
+        userId: string;
+        status: string;
+        notes: string | null;
+        consultantId: string;
+        type: import(".prisma/client").$Enums.AppointmentType;
+        caseId: string | null;
+        durationMin: number;
+        meetingLink: string | null;
+        officeId: string | null;
+        reminderSent: boolean;
+    }>;
+    cancel(userId: string, appointmentId: string): Promise<{
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        scheduledAt: Date;
+        userId: string;
+        status: string;
+        notes: string | null;
+        consultantId: string;
+        type: import(".prisma/client").$Enums.AppointmentType;
+        caseId: string | null;
+        durationMin: number;
+        meetingLink: string | null;
+        officeId: string | null;
+        reminderSent: boolean;
+    }>;
+}

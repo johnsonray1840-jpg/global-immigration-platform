@@ -19,6 +19,11 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Verify lock files exist
+        run: |
+          ls -la apps/api/package-lock.json
+          ls -la apps/web/package-lock.json
+
       - name: Install backend dependencies
         working-directory: apps/api
         run: npm ci

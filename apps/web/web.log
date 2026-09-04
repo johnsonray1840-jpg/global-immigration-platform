@@ -1,0 +1,25 @@
+
+> web@0.1.0 dev
+> next dev
+
+⚠ Port 3000 is in use by an unknown process, using available port 3001 instead.
+▲ Next.js 16.3.0 (Turbopack)
+- Local:         http://localhost:3001
+- Network:       http://21.0.3.70:3001
+✓ Ready in 1267ms
+✓ Running next.config.ts took 226ms
+⨯ Another next dev server is already running.
+
+- Local:        http://localhost:3000
+- PID:          2687
+- Dir:          /workspace/apps/web
+- Log:          .next/dev/logs/next-development.log
+
+You can access the existing server at http://localhost:3000,
+or run kill 2687 to stop it and start a new one.
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+[?25h
