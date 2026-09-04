@@ -44,6 +44,7 @@ enum VisaCategory {
 
 enum CaseStatus {
   PROFILE_CREATED
+  PENDING_ADMIN_APPROVAL
   DOCUMENTS_PENDING
   DOCUMENTS_VERIFIED
   UNDER_INTERNAL_REVIEW
@@ -120,88 +121,89 @@ enum PaymentRequestStatus {
 // ──────────────────────────────────────────────
 
 model User {
-  id                String    @id @default(cuid())
-  email             String    @unique
-  passwordHash      String?
-  googleId          String?   @unique
-  appleId           String?   @unique
-  microsoftId       String?   @unique
-  role              Role      @default(CLIENT)
-  isEmailVerified   Boolean   @default(false)
-  twoFactorEnabled  Boolean   @default(false)
-  twoFactorSecret   String?
-  kycStatus         String?
-  passportExpiry    DateTime?
-  preferredLanguage String    @default("en")
-  darkMode          Boolean   @default(false)
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
-  deletedAt         DateTime?
-  referralCode      String?   @unique
-  onboardingCompleted   Boolean   @default(false)
+  id                      String    @id @default(cuid())
+  email                   String    @unique
+  passwordHash            String?
+  googleId                String?   @unique
+  appleId                 String?   @unique
+  microsoftId             String?   @unique
+  role                    Role      @default(CLIENT)
+  isEmailVerified         Boolean   @default(false)
+  twoFactorEnabled        Boolean   @default(false)
+  twoFactorSecret         String?
+  kycStatus               String?
+  passportExpiry          DateTime?
+  preferredLanguage       String    @default("en")
+  darkMode                Boolean   @default(false)
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+  deletedAt               DateTime?
+  referralCode            String?   @unique
+  onboardingCompleted     Boolean   @default(false)
   verificationCode        String?
   verificationCodeExpires DateTime?
-  resetCode           String?
-  resetCodeExpires    DateTime?
+  resetCode               String?
+  resetCodeExpires        DateTime?
 
-  profile              UserProfile?
-  consultantProfile    ConsultantProfile?
-  cases                Case[]
-  documents            Document[]
-  payments             Payment[]
-  invoices             Invoice[]
-  appointments         Appointment[]
-  notifications        Notification[]
-  messagesSent         Message[]         @relation("Sender")
-  messagesReceived     Message[]         @relation("Receiver")
-  auditLogs            AuditLog[]
-  referralsSent        Referral[]        @relation("Referrer")
-  referralsReceived    Referral[]        @relation("Referee")
-  refreshTokens        RefreshToken[]
-  wallet               Wallet?
+  profile               UserProfile?
+  consultantProfile     ConsultantProfile?
+  cases                 Case[]
+  documents             Document[]
+  payments              Payment[]
+  invoices              Invoice[]
+  appointments          Appointment[]
+  notifications         Notification[]
+  messagesSent          Message[]              @relation("Sender")
+  messagesReceived      Message[]              @relation("Receiver")
+  auditLogs             AuditLog[]
+  referralsSent         Referral[]             @relation("Referrer")
+  referralsReceived     Referral[]             @relation("Referee")
+  refreshTokens         RefreshToken[]
+  wallet                Wallet?
   wireAccountAssignment UserWireAccount?
-  cryptoSessions CryptoPaymentSession[]
-  pprovalsRequested  PaymentApproval[]   @relation("RequestedBy")
-  approvalsReviewed   PaymentApproval[]   @relation("ReviewedBy")
-  
+  cryptoSessions        CryptoPaymentSession[]
+  pprovalsRequested     PaymentApproval[]      @relation("RequestedBy")
+  approvalsReviewed     PaymentApproval[]      @relation("ReviewedBy")
+
+  InvestmentProgram InvestmentProgram[]
 }
 
 model UserProfile {
-  id              String  @id @default(cuid())
-  userId          String  @unique
-  firstName       String?
-  lastName        String?
-  nationality     String?
-  dateOfBirth     DateTime?
-  phone           String?
-  addressLine1    String?
-  addressLine2    String?
-  city            String?
-  country         String?
-  postalCode      String?
-  occupation      String?
-  educationLevel  String?
-  annualIncome    Float?
-  maritalStatus   String?
-  languageTest    String?
-  investmentBudget Float?
-  familySize        Int?
+  id                    String    @id @default(cuid())
+  userId                String    @unique
+  firstName             String?
+  lastName              String?
+  nationality           String?
+  dateOfBirth           DateTime?
+  phone                 String?
+  addressLine1          String?
+  addressLine2          String?
+  city                  String?
+  country               String?
+  postalCode            String?
+  occupation            String?
+  educationLevel        String?
+  annualIncome          Float?
+  maritalStatus         String?
+  languageTest          String?
+  investmentBudget      Float?
+  familySize            Int?
   migrationPurpose      String?
-  preferredDestinations String[]    @default([])
+  preferredDestinations String[]  @default([])
 
   user User @relation(fields: [userId], references: [id])
 }
 
 model ConsultantProfile {
-  id            String  @id @default(cuid())
-  userId        String  @unique
+  id            String   @id @default(cuid())
+  userId        String   @unique
   bio           String?
   specialities  String[]
   officeId      String?
   calendarEmail String?
 
-  user              User            @relation(fields: [userId], references: [id])
-  office            Office?         @relation(fields: [officeId], references: [id])
+  user              User          @relation(fields: [userId], references: [id])
+  office            Office?       @relation(fields: [officeId], references: [id])
   cases             Case[]
   messages          Message[]
   documentsVerified Document[]
@@ -219,9 +221,9 @@ model RefreshToken {
 }
 
 model Country {
-  id              String  @id @default(cuid())
-  name            String  @unique
-  code            String  @unique
+  id              String   @id @default(cuid())
+  name            String   @unique
+  code            String   @unique
   continent       String?
   passportRank    Int?
   safetyIndex     Float?
@@ -235,13 +237,13 @@ model Country {
   imageUrl        String?
   lastUpdated     DateTime @updatedAt
 
-  visaRules           CountryVisaRule[]
-  scholarships        Scholarship[]
-  universities        University[]
-  offices             Office[]
-  destinationCases    Case[]          @relation("DestinationCountry")
-  originCases         Case[]          @relation("OriginCountry")
-  wireBankAccounts    WireBankAccount[]
+  visaRules        CountryVisaRule[]
+  scholarships     Scholarship[]
+  universities     University[]
+  offices          Office[]
+  destinationCases Case[]            @relation("DestinationCountry")
+  originCases      Case[]            @relation("OriginCountry")
+  wireBankAccounts WireBankAccount[]
 }
 
 model VisaType {
@@ -255,75 +257,76 @@ model VisaType {
 }
 
 model CountryVisaRule {
-  id              String   @id @default(cuid())
-  countryId       String
-  visaTypeId      String
-  eligibilityJson Json
-  requiredDocs    Json?
-  governmentFee   Float?
-  feeCurrency     String   @default("USD")
+  id                String   @id @default(cuid())
+  countryId         String
+  visaTypeId        String
+  eligibilityJson   Json
+  requiredDocs      Json?
+  governmentFee     Float?
+  feeCurrency       String   @default("USD")
   processingTimeMin Int?
   processingTimeMax Int?
-  validityPeriod  Int?
-  renewalAllowed  Boolean  @default(false)
-  workspaceSchema Json?
-  lastUpdated     DateTime @updatedAt
+  validityPeriod    Int?
+  renewalAllowed    Boolean  @default(false)
+  workspaceSchema   Json?
+  lastUpdated       DateTime @updatedAt
 
-  country  Country   @relation(fields: [countryId], references: [id])
-  visaType VisaType  @relation(fields: [visaTypeId], references: [id])
+  country  Country  @relation(fields: [countryId], references: [id])
+  visaType VisaType @relation(fields: [visaTypeId], references: [id])
   cases    Case[]
 }
 
 model Case {
-  id                  String      @id @default(cuid())
-  userId              String
-  consultantId        String?
-  originCountryId     String
-  destinationCountryId String
-  visaRuleId          String?
-  status              CaseStatus  @default(PROFILE_CREATED)
-  timeline            Json?
-  eligibilityLabel    EligibilityLabel?
-  governmentFeeEstimate Float?
-  serviceFeeEstimate    Float?
-  totalCostEstimate     Float?
+  id                      String            @id @default(cuid())
+  userId                  String
+  consultantId            String?
+  originCountryId         String
+  destinationCountryId    String
+  visaRuleId              String?
+  status                  CaseStatus        @default(PROFILE_CREATED)
+  timeline                Json?
+  eligibilityLabel        EligibilityLabel?
+  governmentFeeEstimate   Float?
+  serviceFeeEstimate      Float?
+  totalCostEstimate       Float?
   estimatedProcessingDays Int?
-  createdAt           DateTime    @default(now())
-  updatedAt           DateTime    @updatedAt
-  notes               String?
+  createdAt               DateTime          @default(now())
+  updatedAt               DateTime          @updatedAt
+  notes                   String?
 
-  user             User            @relation(fields: [userId], references: [id])
-  consultant       ConsultantProfile? @relation(fields: [consultantId], references: [id])
-  originCountry    Country         @relation("OriginCountry", fields: [originCountryId], references: [id])
-  destinationCountry Country       @relation("DestinationCountry", fields: [destinationCountryId], references: [id])
-  visaRule         CountryVisaRule? @relation(fields: [visaRuleId], references: [id])
-  documents        Document[]
-  checklistItems   ChecklistItem[]
-  appointments     Appointment[]
-  workspaceData    WorkspaceData?
-  roadmap          Roadmap?
-  invoices         Invoice[]
-  testimonials     Testimonial[]
-  successStories   SuccessStory[]
+  user               User                @relation(fields: [userId], references: [id])
+  consultant         ConsultantProfile?  @relation(fields: [consultantId], references: [id])
+  originCountry      Country             @relation("OriginCountry", fields: [originCountryId], references: [id])
+  destinationCountry Country             @relation("DestinationCountry", fields: [destinationCountryId], references: [id])
+  visaRule           CountryVisaRule?    @relation(fields: [visaRuleId], references: [id])
+  documents          Document[]
+  checklistItems     ChecklistItem[]
+  appointments       Appointment[]
+  workspaceData      WorkspaceData?
+  roadmap            Roadmap?
+  invoices           Invoice[]
+  testimonials       Testimonial[]
+  successStories     SuccessStory[]
+  InvestmentProgram  InvestmentProgram[]
 }
 
 model Document {
-  id          String         @id @default(cuid())
-  caseId      String
-  userId      String
-  name        String
-  type        String
-  fileUrl     String
-  ocrText     String?
-  status      DocumentStatus @default(UPLOADED)
-  expiryDate  DateTime?
+  id           String         @id @default(cuid())
+  caseId       String
+  userId       String
+  name         String
+  type         String
+  fileUrl      String
+  ocrText      String?
+  status       DocumentStatus @default(UPLOADED)
+  expiryDate   DateTime?
   verifiedById String?
-  uploadedAt  DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  uploadedAt   DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
 
-  case      Case            @relation(fields: [caseId], references: [id])
-  user      User            @relation(fields: [userId], references: [id])
-  verifier  ConsultantProfile? @relation(fields: [verifiedById], references: [id])
+  case     Case               @relation(fields: [caseId], references: [id])
+  user     User               @relation(fields: [userId], references: [id])
+  verifier ConsultantProfile? @relation(fields: [verifiedById], references: [id])
 }
 
 model ChecklistItem {
@@ -358,20 +361,20 @@ model Roadmap {
 }
 
 model Appointment {
-  id             String          @id @default(cuid())
-  userId         String
-  consultantId   String
-  caseId         String?
-  type           AppointmentType
-  scheduledAt    DateTime
-  durationMin    Int             @default(60)
-  meetingLink    String?
-  officeId       String?
-  notes          String?
-  status         String          @default("SCHEDULED")
-  reminderSent   Boolean         @default(false)
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
+  id           String          @id @default(cuid())
+  userId       String
+  consultantId String
+  caseId       String?
+  type         AppointmentType
+  scheduledAt  DateTime
+  durationMin  Int             @default(60)
+  meetingLink  String?
+  officeId     String?
+  notes        String?
+  status       String          @default("SCHEDULED")
+  reminderSent Boolean         @default(false)
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
 
   user       User              @relation(fields: [userId], references: [id])
   consultant ConsultantProfile @relation(fields: [consultantId], references: [id])
@@ -380,42 +383,42 @@ model Appointment {
 }
 
 model Office {
-  id         String  @id @default(cuid())
-  countryId  String
-  address    String
-  phone      String?
-  email      String?
-  lat        Float?
-  lng        Float?
-  imageUrl   String?
-  createdAt  DateTime @default(now())
+  id        String   @id @default(cuid())
+  countryId String
+  address   String
+  phone     String?
+  email     String?
+  lat       Float?
+  lng       Float?
+  imageUrl  String?
+  createdAt DateTime @default(now())
 
-  country      Country            @relation(fields: [countryId], references: [id])
+  country      Country             @relation(fields: [countryId], references: [id])
   consultants  ConsultantProfile[]
   appointments Appointment[]
 }
 
 model Invoice {
-  id               String        @id @default(cuid())
-  userId           String
-  packageId        String?
-  caseId           String?
-  amount           Float
-  currency         String        @default("USD")
-  status           InvoiceStatus @default(PENDING)
-  expiresAt        DateTime?
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
-  promoCode         String?
-  breakdownJson    Json?
+  id            String        @id @default(cuid())
+  userId        String
+  packageId     String?
+  caseId        String?
+  amount        Float
+  currency      String        @default("USD")
+  status        InvoiceStatus @default(PENDING)
+  expiresAt     DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  promoCode     String?
+  breakdownJson Json?
 
-  user     User            @relation(fields: [userId], references: [id])
-  package  ServicePackage? @relation(fields: [packageId], references: [id])
-  case     Case?           @relation(fields: [caseId], references: [id])
-  payments Payment[]
-  approval PaymentApproval?
+  user           User                   @relation(fields: [userId], references: [id])
+  package        ServicePackage?        @relation(fields: [packageId], references: [id])
+  case           Case?                  @relation(fields: [caseId], references: [id])
+  payments       Payment[]
+  approval       PaymentApproval?
   cryptoSessions CryptoPaymentSession[]
-  walletDeposit    Boolean        @default(false)
+  walletDeposit  Boolean                @default(false)
 }
 
 model Payment {
@@ -436,23 +439,23 @@ model Payment {
 }
 
 model ServicePackage {
-  id           String   @id @default(cuid())
-  name         String
-  category     String
-  description  String?
-  serviceFee   Float
-  currency     String   @default("USD")
-  includes     String[]
-  imageUrl     String?
-  isActive     Boolean  @default(true)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id          String   @id @default(cuid())
+  name        String
+  category    String
+  description String?
+  serviceFee  Float
+  currency    String   @default("USD")
+  includes    String[]
+  imageUrl    String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   invoices Invoice[]
 }
 
 model Scholarship {
-  id              String   @id @default(cuid())
+  id              String    @id @default(cuid())
   universityId    String
   countryId       String
   name            String
@@ -461,7 +464,7 @@ model Scholarship {
   deadline        DateTime?
   eligibilityJson Json?
   link            String?
-  createdAt       DateTime @default(now())
+  createdAt       DateTime  @default(now())
 
   university University @relation(fields: [universityId], references: [id])
   country    Country    @relation(fields: [countryId], references: [id])
@@ -481,13 +484,13 @@ model University {
 }
 
 model Faq {
-  id       String   @id @default(cuid())
-  question String
-  answer   String
-  category String?
-  tags     String[]
-  language String   @default("en")
-  order    Int      @default(0)
+  id        String   @id @default(cuid())
+  question  String
+  answer    String
+  category  String?
+  tags      String[]
+  language  String   @default("en")
+  order     Int      @default(0)
   createdAt DateTime @default(now())
 }
 
@@ -530,14 +533,14 @@ model Partner {
 }
 
 model Testimonial {
-  id        String   @id @default(cuid())
+  id         String   @id @default(cuid())
   clientName String
-  photoUrl  String?
-  text      String
-  rating    Int      @default(5)
-  caseId    String?
-  featured  Boolean  @default(false)
-  createdAt DateTime @default(now())
+  photoUrl   String?
+  text       String
+  rating     Int      @default(5)
+  caseId     String?
+  featured   Boolean  @default(false)
+  createdAt  DateTime @default(now())
 
   case Case? @relation(fields: [caseId], references: [id])
 }
@@ -580,28 +583,28 @@ model Notification {
 }
 
 model Referral {
-  id         String   @id @default(cuid())
-  referrerId String
-  refereeId  String
-  code       String   
+  id           String   @id @default(cuid())
+  referrerId   String
+  refereeId    String
+  code         String
   rewardStatus String?
-  createdAt  DateTime @default(now())
+  createdAt    DateTime @default(now())
 
   referrer User @relation("Referrer", fields: [referrerId], references: [id])
   referee  User @relation("Referee", fields: [refereeId], references: [id])
 }
 
 model AuditLog {
-  id         String   @id @default(cuid())
-  userId     String?
-  action     String
-  entity     String
-  entityId   String?
-  oldValue   Json?
-  newValue   Json?
-  ipAddress  String?
-  userAgent  String?
-  createdAt  DateTime @default(now())
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String
+  entity    String
+  entityId  String?
+  oldValue  Json?
+  newValue  Json?
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
 
   user User? @relation(fields: [userId], references: [id])
 }
@@ -644,9 +647,9 @@ model WireBankAccount {
   isActive      Boolean  @default(true)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-  isFallback        Boolean  @default(false)
+  isFallback    Boolean  @default(false)
 
-  country        Country             @relation(fields: [countryId], references: [id])
+  country         Country           @relation(fields: [countryId], references: [id])
   userAssignments UserWireAccount[]
 }
 
@@ -662,26 +665,26 @@ model UserWireAccount {
 }
 
 model CryptoPaymentSession {
-  id            String              @id @default(cuid())
+  id            String               @id @default(cuid())
   invoiceId     String
   userId        String
   currency      CryptoCurrency
   walletAddress String
   amount        Float
   status        PaymentRequestStatus @default(PENDING)
-  confirmations Int                 @default(0)
+  confirmations Int                  @default(0)
   expiresAt     DateTime
-  createdAt     DateTime            @default(now())
+  createdAt     DateTime             @default(now())
 
   invoice Invoice @relation(fields: [invoiceId], references: [id])
   user    User    @relation(fields: [userId], references: [id])
 }
 
 model Wallet {
-  id        String  @id @default(cuid())
-  userId    String  @unique
-  balance   Float   @default(0)
-  currency  String  @default("USD")
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  balance   Float    @default(0)
+  currency  String   @default("USD")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -690,28 +693,28 @@ model Wallet {
 }
 
 model WalletTransaction {
-  id        String              @id @default(cuid())
+  id        String             @id @default(cuid())
   walletId  String
   invoiceId String?
   amount    Float
   type      String
-  status    String              @default("PENDING")
+  status    String             @default("PENDING")
   method    PaymentMethodEnum?
   reference String?
-  createdAt DateTime            @default(now())
+  createdAt DateTime           @default(now())
 
   wallet Wallet @relation(fields: [walletId], references: [id])
 }
 
 model PaymentApproval {
-  id              String              @id @default(cuid())
-  invoiceId       String              @unique
+  id              String               @id @default(cuid())
+  invoiceId       String               @unique
   requestedById   String?
   reviewedById    String?
   status          PaymentRequestStatus @default(PENDING)
   reason          String?
-  createdAt       DateTime            @default(now())
-  updatedAt       DateTime            @updatedAt
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
   paymentMethodId String?
 
   invoice       Invoice        @relation(fields: [invoiceId], references: [id])
@@ -731,35 +734,35 @@ model EmailLog {
 }
 
 model Promotion {
-  id          String   @id @default(cuid())
-  code        String   @unique
+  id          String    @id @default(cuid())
+  code        String    @unique
   description String?
-  discountPct Float    @default(0)
+  discountPct Float     @default(0)
   validUntil  DateTime?
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
 }
 
 model Program {
-  id          String   @id @default(cuid())
-  slug        String   @unique
-  title       String
-  category    String
-  description String
-  eligibility Json
-  requirements Json
-  documents   Json
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  title          String
+  category       String
+  description    String
+  eligibility    Json
+  requirements   Json
+  documents      Json
   governmentFees String
-  serviceFees String
+  serviceFees    String
   processingTime String
-  validity     String
-  renewal      String
+  validity       String
+  renewal        String
   commonMistakes Json
-  approvalRate String
-  faqs        Json
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
+  approvalRate   String
+  faqs           Json
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
   investments InvestmentProgram[]
 }
 
@@ -799,107 +802,107 @@ enum MilestoneStatus {
 }
 
 model InvestmentProgram {
-  id                String   @id @default(cuid())
-  programId         String
-  userId            String
-  caseId            String?
-  investmentType    InvestmentType
-  targetAmount      Float
-  investedAmount    Float     @default(0)
-  currency          String    @default("USD")
-  status            InvestmentStatus @default(PLEDGED)
-  expectedROI       Float?
-  actualROI         Float?
-  lockPeriodMonths  Int?
-  startDate         DateTime?
-  maturityDate      DateTime?
-  exitDate          DateTime?
-  assetDetails      Json?
-  propertyDetails   Json?
-  businessDetails   Json?
-  complianceChecks  Json?     @default([])
-  riskRating        String?
-  notes             String?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  
-  program           Program    @relation(fields: [programId], references: [id])
-  user              User       @relation(fields: [userId], references: [id])
-  case              Case?      @relation(fields: [caseId], references: [id])
-  milestones        InvestmentMilestone[]
-  transactions      InvestmentTransaction[]
-  documents         InvestmentDocument[]
-  performanceLogs   InvestmentPerformance[]
+  id               String           @id @default(cuid())
+  programId        String
+  userId           String
+  caseId           String?
+  investmentType   InvestmentType
+  targetAmount     Float
+  investedAmount   Float            @default(0)
+  currency         String           @default("USD")
+  status           InvestmentStatus @default(PLEDGED)
+  expectedROI      Float?
+  actualROI        Float?
+  lockPeriodMonths Int?
+  startDate        DateTime?
+  maturityDate     DateTime?
+  exitDate         DateTime?
+  assetDetails     Json?
+  propertyDetails  Json?
+  businessDetails  Json?
+  complianceChecks Json?
+  riskRating       String?
+  notes            String?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  program         Program                 @relation(fields: [programId], references: [id])
+  user            User                    @relation(fields: [userId], references: [id])
+  case            Case?                   @relation(fields: [caseId], references: [id])
+  milestones      InvestmentMilestone[]
+  transactions    InvestmentTransaction[]
+  documents       InvestmentDocument[]
+  performanceLogs InvestmentPerformance[]
 }
 
 model InvestmentMilestone {
-  id                String   @id @default(cuid())
-  investmentId      String
-  title             String
-  description       String?
-  order             Int      @default(0)
-  status            MilestoneStatus @default(NOT_STARTED)
-  dueDate           DateTime?
-  completedAt       DateTime?
-  evidenceRequired  Boolean  @default(false)
-  evidenceProvided  String?
-  notes             String?
-  createdAt         DateTime @default(now())
-  
-  investment        InvestmentProgram @relation(fields: [investmentId], references: [id])
+  id               String          @id @default(cuid())
+  investmentId     String
+  title            String
+  description      String?
+  order            Int             @default(0)
+  status           MilestoneStatus @default(NOT_STARTED)
+  dueDate          DateTime?
+  completedAt      DateTime?
+  evidenceRequired Boolean         @default(false)
+  evidenceProvided String?
+  notes            String?
+  createdAt        DateTime        @default(now())
+
+  investment InvestmentProgram @relation(fields: [investmentId], references: [id])
 }
 
 model InvestmentTransaction {
-  id                String   @id @default(cuid())
-  investmentId      String
-  type              String
-  amount            Float
-  currency          String    @default("USD")
-  transactionDate   DateTime
-  reference         String?
-  proofOfPayment    String?
-  status            String    @default("PENDING")
-  notes             String?
-  createdAt         DateTime @default(now())
-  
-  investment        InvestmentProgram @relation(fields: [investmentId], references: [id])
+  id              String   @id @default(cuid())
+  investmentId    String
+  type            String
+  amount          Float
+  currency        String   @default("USD")
+  transactionDate DateTime
+  reference       String?
+  proofOfPayment  String?
+  status          String   @default("PENDING")
+  notes           String?
+  createdAt       DateTime @default(now())
+
+  investment InvestmentProgram @relation(fields: [investmentId], references: [id])
 }
 
 model InvestmentDocument {
-  id                String   @id @default(cuid())
-  investmentId      String
-  name              String
-  type              String
-  fileUrl           String
-  category          String?
-  uploadedAt        DateTime @default(now())
-  verifiedAt        DateTime?
-  expiryDate        DateTime?
-  status            DocumentStatus @default(UPLOADED)
-  
-  investment        InvestmentProgram @relation(fields: [investmentId], references: [id])
+  id           String         @id @default(cuid())
+  investmentId String
+  name         String
+  type         String
+  fileUrl      String
+  category     String?
+  uploadedAt   DateTime       @default(now())
+  verifiedAt   DateTime?
+  expiryDate   DateTime?
+  status       DocumentStatus @default(UPLOADED)
+
+  investment InvestmentProgram @relation(fields: [investmentId], references: [id])
 }
 
 model InvestmentPerformance {
-  id                String   @id @default(cuid())
-  investmentId      String
-  recordedAt        DateTime @default(now())
-  currentValue      Float
-  accruedReturns    Float?
-  roiPercentage     Float?
-  marketConditions  String?
-  notes             String?
-  
-  investment        InvestmentProgram @relation(fields: [investmentId], references: [id])
+  id               String   @id @default(cuid())
+  investmentId     String
+  recordedAt       DateTime @default(now())
+  currentValue     Float
+  accruedReturns   Float?
+  roiPercentage    Float?
+  marketConditions String?
+  notes            String?
+
+  investment InvestmentProgram @relation(fields: [investmentId], references: [id])
 }
 
 model CryptoWallet {
-  id        String          @id @default(cuid())
-  currency  CryptoCurrency   @unique
+  id        String         @id @default(cuid())
+  currency  CryptoCurrency @unique
   address   String
-  isActive  Boolean         @default(true)
-  createdAt DateTime        @default(now())
-  updatedAt DateTime        @updatedAt
+  isActive  Boolean        @default(true)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
 }
 
 model Subscriber {

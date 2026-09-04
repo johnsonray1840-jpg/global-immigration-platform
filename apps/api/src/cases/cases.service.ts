@@ -20,6 +20,7 @@ export class CasesService {
         destinationCountryId: dto.destinationCountryId,
         visaRuleId: dto.visaRuleId,
         eligibilityLabel: dto.eligibilityLabel as any,
+        status: 'PENDING_ADMIN_APPROVAL',
       },
     });
 
@@ -27,9 +28,23 @@ export class CasesService {
     await this.notificationsService.createNotification(
       userId,
       'Case Created',
-      'Your immigration case has been created successfully.',
+      'Your immigration case has been created successfully and is pending admin approval.',
       { caseId: result.id },
     );
+
+    // Notify admins about new case pending approval
+    const admins = await this.prisma.user.findMany({
+      where: { role: { in: ['SUPER_ADMIN', 'ADMIN', 'COMPLIANCE'] } },
+    });
+    
+    for (const admin of admins) {
+      await this.notificationsService.createNotification(
+        admin.id,
+        'New Case Pending Approval',
+        `A new case requires your review.`,
+        { caseId: result.id, userId },
+      );
+    }
 
     return result;
   }
