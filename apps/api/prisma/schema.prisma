@@ -1,0 +1,777 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ──────────────────────────────────────────────
+// Enums
+// ──────────────────────────────────────────────
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  COMPLIANCE
+  CONSULTANT
+  FINANCE
+  SUPPORT
+  CONTENT_EDITOR
+  DOCUMENT_VERIFIER
+  CLIENT
+}
+
+enum VisaCategory {
+  PERMANENT_RESIDENCE
+  CITIZENSHIP_NATURALIZATION
+  CITIZENSHIP_INVESTMENT
+  FAMILY_SPONSORSHIP
+  SKILLED_WORKER
+  STUDENT
+  INVESTOR
+  ENTREPRENEUR
+  DIGITAL_NOMAD
+  RETIREMENT
+  WORK_PERMIT
+  TOURIST
+  MEDICAL
+  TRANSIT
+  REFUGEE
+  BUSINESS
+}
+
+enum CaseStatus {
+  PROFILE_CREATED
+  DOCUMENTS_PENDING
+  DOCUMENTS_VERIFIED
+  UNDER_INTERNAL_REVIEW
+  SUBMITTED_TO_GOVERNMENT
+  BIOMETRICS_SCHEDULED
+  AWAITING_DECISION
+  APPROVED
+  VISA_ISSUED
+  REJECTED
+  CLOSED
+}
+
+enum DocumentStatus {
+  UPLOADED
+  VERIFIED
+  REJECTED
+  EXPIRED
+}
+
+enum InvoiceStatus {
+  PENDING
+  PAID
+  PARTIALLY_PAID
+  EXPIRED
+  CANCELLED
+  REFUNDED
+  PENDING_APPROVAL
+}
+
+enum PaymentMethodEnum {
+  CARD
+  PAYPAL
+  BANK_TRANSFER
+  SWIFT
+  USDT
+  USDC
+  BTC
+  ETH
+  CRYPTO
+}
+
+enum AppointmentType {
+  VIDEO
+  PHONE
+  OFFICE
+}
+
+enum EligibilityLabel {
+  LIKELY_ELIGIBLE
+  POTENTIALLY_ELIGIBLE
+  NEEDS_REVIEW
+}
+
+enum CryptoCurrency {
+  BTC
+  USDT
+  ETH
+  XRP
+  LTC
+  XLM
+  BNB
+}
+
+enum PaymentRequestStatus {
+  PENDING
+  VERIFYING
+  CONFIRMED
+  DECLINED
+  EXPIRED
+}
+
+// ──────────────────────────────────────────────
+// Models
+// ──────────────────────────────────────────────
+
+model User {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  passwordHash      String?
+  googleId          String?   @unique
+  appleId           String?   @unique
+  microsoftId       String?   @unique
+  role              Role      @default(CLIENT)
+  isEmailVerified   Boolean   @default(false)
+  twoFactorEnabled  Boolean   @default(false)
+  twoFactorSecret   String?
+  kycStatus         String?
+  passportExpiry    DateTime?
+  preferredLanguage String    @default("en")
+  darkMode          Boolean   @default(false)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  deletedAt         DateTime?
+  referralCode      String?   @unique
+  onboardingCompleted   Boolean   @default(false)
+  verificationCode        String?
+  verificationCodeExpires DateTime?
+  resetCode           String?
+  resetCodeExpires    DateTime?
+
+  profile              UserProfile?
+  consultantProfile    ConsultantProfile?
+  cases                Case[]
+  documents            Document[]
+  payments             Payment[]
+  invoices             Invoice[]
+  appointments         Appointment[]
+  notifications        Notification[]
+  messagesSent         Message[]         @relation("Sender")
+  messagesReceived     Message[]         @relation("Receiver")
+  auditLogs            AuditLog[]
+  referralsSent        Referral[]        @relation("Referrer")
+  referralsReceived    Referral[]        @relation("Referee")
+  refreshTokens        RefreshToken[]
+  wallet               Wallet?
+  wireAccountAssignment UserWireAccount?
+  cryptoSessions CryptoPaymentSession[]
+  pprovalsRequested  PaymentApproval[]   @relation("RequestedBy")
+  approvalsReviewed   PaymentApproval[]   @relation("ReviewedBy")
+  
+}
+
+model UserProfile {
+  id              String  @id @default(cuid())
+  userId          String  @unique
+  firstName       String?
+  lastName        String?
+  nationality     String?
+  dateOfBirth     DateTime?
+  phone           String?
+  addressLine1    String?
+  addressLine2    String?
+  city            String?
+  country         String?
+  postalCode      String?
+  occupation      String?
+  educationLevel  String?
+  annualIncome    Float?
+  maritalStatus   String?
+  languageTest    String?
+  investmentBudget Float?
+  familySize        Int?
+  migrationPurpose      String?
+  preferredDestinations String[]    @default([])
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model ConsultantProfile {
+  id            String  @id @default(cuid())
+  userId        String  @unique
+  bio           String?
+  specialities  String[]
+  officeId      String?
+  calendarEmail String?
+
+  user              User            @relation(fields: [userId], references: [id])
+  office            Office?         @relation(fields: [officeId], references: [id])
+  cases             Case[]
+  messages          Message[]
+  documentsVerified Document[]
+  appointments      Appointment[]
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Country {
+  id              String  @id @default(cuid())
+  name            String  @unique
+  code            String  @unique
+  continent       String?
+  passportRank    Int?
+  safetyIndex     Float?
+  livingCostIndex Float?
+  healthcareIndex Float?
+  educationIndex  Float?
+  taxRate         Float?
+  currency        String?
+  languages       String[]
+  climate         String?
+  imageUrl        String?
+  lastUpdated     DateTime @updatedAt
+
+  visaRules           CountryVisaRule[]
+  scholarships        Scholarship[]
+  universities        University[]
+  offices             Office[]
+  destinationCases    Case[]          @relation("DestinationCountry")
+  originCases         Case[]          @relation("OriginCountry")
+  wireBankAccounts    WireBankAccount[]
+}
+
+model VisaType {
+  id          String       @id @default(cuid())
+  category    VisaCategory
+  name        String
+  description String?
+  isGlobal    Boolean      @default(false)
+
+  countryRules CountryVisaRule[]
+}
+
+model CountryVisaRule {
+  id              String   @id @default(cuid())
+  countryId       String
+  visaTypeId      String
+  eligibilityJson Json
+  requiredDocs    Json?
+  governmentFee   Float?
+  feeCurrency     String   @default("USD")
+  processingTimeMin Int?
+  processingTimeMax Int?
+  validityPeriod  Int?
+  renewalAllowed  Boolean  @default(false)
+  workspaceSchema Json?
+  lastUpdated     DateTime @updatedAt
+
+  country  Country   @relation(fields: [countryId], references: [id])
+  visaType VisaType  @relation(fields: [visaTypeId], references: [id])
+  cases    Case[]
+}
+
+model Case {
+  id                  String      @id @default(cuid())
+  userId              String
+  consultantId        String?
+  originCountryId     String
+  destinationCountryId String
+  visaRuleId          String?
+  status              CaseStatus  @default(PROFILE_CREATED)
+  timeline            Json?
+  eligibilityLabel    EligibilityLabel?
+  governmentFeeEstimate Float?
+  serviceFeeEstimate    Float?
+  totalCostEstimate     Float?
+  estimatedProcessingDays Int?
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  notes               String?
+
+  user             User            @relation(fields: [userId], references: [id])
+  consultant       ConsultantProfile? @relation(fields: [consultantId], references: [id])
+  originCountry    Country         @relation("OriginCountry", fields: [originCountryId], references: [id])
+  destinationCountry Country       @relation("DestinationCountry", fields: [destinationCountryId], references: [id])
+  visaRule         CountryVisaRule? @relation(fields: [visaRuleId], references: [id])
+  documents        Document[]
+  checklistItems   ChecklistItem[]
+  appointments     Appointment[]
+  workspaceData    WorkspaceData?
+  roadmap          Roadmap?
+  invoices         Invoice[]
+  testimonials     Testimonial[]
+  successStories   SuccessStory[]
+}
+
+model Document {
+  id          String         @id @default(cuid())
+  caseId      String
+  userId      String
+  name        String
+  type        String
+  fileUrl     String
+  ocrText     String?
+  status      DocumentStatus @default(UPLOADED)
+  expiryDate  DateTime?
+  verifiedById String?
+  uploadedAt  DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  case      Case            @relation(fields: [caseId], references: [id])
+  user      User            @relation(fields: [userId], references: [id])
+  verifier  ConsultantProfile? @relation(fields: [verifiedById], references: [id])
+}
+
+model ChecklistItem {
+  id           String  @id @default(cuid())
+  caseId       String
+  documentName String
+  isRequired   Boolean @default(true)
+  isProvided   Boolean @default(false)
+  notes        String?
+
+  case Case @relation(fields: [caseId], references: [id])
+}
+
+model WorkspaceData {
+  id        String   @id @default(cuid())
+  caseId    String   @unique
+  formData  Json
+  reviewed  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  case Case @relation(fields: [caseId], references: [id])
+}
+
+model Roadmap {
+  id        String   @id @default(cuid())
+  caseId    String   @unique
+  steps     Json
+  createdAt DateTime @default(now())
+
+  case Case @relation(fields: [caseId], references: [id])
+}
+
+model Appointment {
+  id             String          @id @default(cuid())
+  userId         String
+  consultantId   String
+  caseId         String?
+  type           AppointmentType
+  scheduledAt    DateTime
+  durationMin    Int             @default(60)
+  meetingLink    String?
+  officeId       String?
+  notes          String?
+  status         String          @default("SCHEDULED")
+  reminderSent   Boolean         @default(false)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  user       User              @relation(fields: [userId], references: [id])
+  consultant ConsultantProfile @relation(fields: [consultantId], references: [id])
+  case       Case?             @relation(fields: [caseId], references: [id])
+  office     Office?           @relation(fields: [officeId], references: [id])
+}
+
+model Office {
+  id         String  @id @default(cuid())
+  countryId  String
+  address    String
+  phone      String?
+  email      String?
+  lat        Float?
+  lng        Float?
+  imageUrl   String?
+  createdAt  DateTime @default(now())
+
+  country      Country            @relation(fields: [countryId], references: [id])
+  consultants  ConsultantProfile[]
+  appointments Appointment[]
+}
+
+model Invoice {
+  id               String        @id @default(cuid())
+  userId           String
+  packageId        String?
+  caseId           String?
+  amount           Float
+  currency         String        @default("USD")
+  status           InvoiceStatus @default(PENDING)
+  expiresAt        DateTime?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  promoCode         String?
+  breakdownJson    Json?
+
+  user     User            @relation(fields: [userId], references: [id])
+  package  ServicePackage? @relation(fields: [packageId], references: [id])
+  case     Case?           @relation(fields: [caseId], references: [id])
+  payments Payment[]
+  approval PaymentApproval?
+  cryptoSessions CryptoPaymentSession[]
+  walletDeposit    Boolean        @default(false)
+}
+
+model Payment {
+  id            String            @id @default(cuid())
+  invoiceId     String
+  userId        String
+  amount        Float
+  method        PaymentMethodEnum
+  gatewayRef    String?
+  cryptoAddress String?
+  cryptoTxHash  String?
+  status        String            @default("PENDING")
+  paidAt        DateTime?
+  createdAt     DateTime          @default(now())
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+}
+
+model ServicePackage {
+  id           String   @id @default(cuid())
+  name         String
+  category     String
+  description  String?
+  serviceFee   Float
+  currency     String   @default("USD")
+  includes     String[]
+  imageUrl     String?
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  invoices Invoice[]
+}
+
+model Scholarship {
+  id              String   @id @default(cuid())
+  universityId    String
+  countryId       String
+  name            String
+  description     String?
+  fundingAmount   Float?
+  deadline        DateTime?
+  eligibilityJson Json?
+  link            String?
+  createdAt       DateTime @default(now())
+
+  university University @relation(fields: [universityId], references: [id])
+  country    Country    @relation(fields: [countryId], references: [id])
+}
+
+model University {
+  id           String   @id @default(cuid())
+  countryId    String
+  name         String
+  ranking      Int?
+  tuitionRange String?
+  website      String?
+  createdAt    DateTime @default(now())
+
+  country      Country       @relation(fields: [countryId], references: [id])
+  scholarships Scholarship[]
+}
+
+model Faq {
+  id       String   @id @default(cuid())
+  question String
+  answer   String
+  category String?
+  tags     String[]
+  language String   @default("en")
+  order    Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model News {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  summary   String?
+  imageUrl  String?
+  tags      String[]
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Page {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  content   Json
+  metaTitle String?
+  metaDesc  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Media {
+  id        String   @id @default(cuid())
+  url       String
+  alt       String?
+  type      String
+  createdAt DateTime @default(now())
+}
+
+model Partner {
+  id        String   @id @default(cuid())
+  name      String
+  logoUrl   String
+  website   String?
+  createdAt DateTime @default(now())
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  clientName String
+  photoUrl  String?
+  text      String
+  rating    Int      @default(5)
+  caseId    String?
+  featured  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  case Case? @relation(fields: [caseId], references: [id])
+}
+
+model SuccessStory {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  imageUrl  String?
+  caseId    String?
+  createdAt DateTime @default(now())
+
+  case Case? @relation(fields: [caseId], references: [id])
+}
+
+model Message {
+  id           String   @id @default(cuid())
+  senderId     String
+  receiverId   String
+  consultantId String?
+  content      String
+  read         Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  sender     User               @relation("Sender", fields: [senderId], references: [id])
+  receiver   User               @relation("Receiver", fields: [receiverId], references: [id])
+  consultant ConsultantProfile? @relation(fields: [consultantId], references: [id])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  body      String
+  read      Boolean  @default(false)
+  data      Json?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Referral {
+  id         String   @id @default(cuid())
+  referrerId String
+  refereeId  String
+  code       String   
+  rewardStatus String?
+  createdAt  DateTime @default(now())
+
+  referrer User @relation("Referrer", fields: [referrerId], references: [id])
+  referee  User @relation("Referee", fields: [refereeId], references: [id])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  action     String
+  entity     String
+  entityId   String?
+  oldValue   Json?
+  newValue   Json?
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id])
+}
+
+model AiDocument {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  embedding Json?
+  createdAt DateTime @default(now())
+}
+
+// ──────────────────────────────────────────────
+// New Payment System Models
+// ──────────────────────────────────────────────
+
+model PaymentMethod {
+  id                String            @id @default(cuid())
+  type              PaymentMethodEnum
+  displayName       String
+  logoUrl           String?
+  isActive          Boolean           @default(true)
+  suspensionMessage String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  paymentApprovals PaymentApproval[]
+}
+
+model WireBankAccount {
+  id            String   @id @default(cuid())
+  countryId     String
+  bankName      String
+  accountName   String
+  accountNumber String
+  swiftCode     String
+  routingNumber String?
+  iban          String?
+  address       String?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  isFallback        Boolean  @default(false)
+
+  country        Country             @relation(fields: [countryId], references: [id])
+  userAssignments UserWireAccount[]
+}
+
+model UserWireAccount {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  wireAccountId String
+  assignedAt    DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user        User            @relation(fields: [userId], references: [id])
+  wireAccount WireBankAccount @relation(fields: [wireAccountId], references: [id])
+}
+
+model CryptoPaymentSession {
+  id            String              @id @default(cuid())
+  invoiceId     String
+  userId        String
+  currency      CryptoCurrency
+  walletAddress String
+  amount        Float
+  status        PaymentRequestStatus @default(PENDING)
+  confirmations Int                 @default(0)
+  expiresAt     DateTime
+  createdAt     DateTime            @default(now())
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+}
+
+model Wallet {
+  id        String  @id @default(cuid())
+  userId    String  @unique
+  balance   Float   @default(0)
+  currency  String  @default("USD")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user         User                @relation(fields: [userId], references: [id])
+  transactions WalletTransaction[]
+}
+
+model WalletTransaction {
+  id        String              @id @default(cuid())
+  walletId  String
+  invoiceId String?
+  amount    Float
+  type      String
+  status    String              @default("PENDING")
+  method    PaymentMethodEnum?
+  reference String?
+  createdAt DateTime            @default(now())
+
+  wallet Wallet @relation(fields: [walletId], references: [id])
+}
+
+model PaymentApproval {
+  id              String              @id @default(cuid())
+  invoiceId       String              @unique
+  requestedById   String?
+  reviewedById    String?
+  status          PaymentRequestStatus @default(PENDING)
+  reason          String?
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  paymentMethodId String?
+
+  invoice       Invoice        @relation(fields: [invoiceId], references: [id])
+  requestedBy   User?          @relation("RequestedBy", fields: [requestedById], references: [id])
+  reviewedBy    User?          @relation("ReviewedBy", fields: [reviewedById], references: [id])
+  paymentMethod PaymentMethod? @relation(fields: [paymentMethodId], references: [id])
+}
+
+model EmailLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  email     String
+  subject   String
+  template  String
+  status    String   @default("SENT")
+  createdAt DateTime @default(now())
+}
+
+model Promotion {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  description String?
+  discountPct Float    @default(0)
+  validUntil  DateTime?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model Program {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  category    String
+  description String
+  eligibility Json
+  requirements Json
+  documents   Json
+  governmentFees String
+  serviceFees String
+  processingTime String
+  validity     String
+  renewal      String
+  commonMistakes Json
+  approvalRate String
+  faqs        Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model CryptoWallet {
+  id        String          @id @default(cuid())
+  currency  CryptoCurrency   @unique
+  address   String
+  isActive  Boolean         @default(true)
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+}
+
+model Subscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}

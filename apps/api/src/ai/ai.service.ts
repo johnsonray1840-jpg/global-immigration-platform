@@ -1,0 +1,139 @@
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { HfInference } from '@huggingface/inference';
+import type { Response } from 'express';
+
+@Injectable()
+export class AiService {
+  private hf: HfInference | null = null;
+
+  constructor(private prisma: PrismaService) {
+    if (process.env.HF_API_KEY) {
+      this.hf = new HfInference(process.env.HF_API_KEY);
+    }
+  }
+
+  async chat(message: string, history: Array<{ role: 'user' | 'assistant'; content: string }> = [], language = 'en') {
+    const context = await this.retrieveContext(message);
+    const languageInstruction = {
+      en: 'Respond in English.',
+      fr: 'Répondez en français.',
+      es: 'Responda en español.',
+      de: 'Antworten Sie auf Deutsch.',
+      zh: '用中文回答。',
+      ar: 'أجب باللغة العربية.',
+    }[language] || 'Respond in English.';
+
+    const systemPrompt = `You are the premium AI Immigration Assistant for Global Immigration Platform, a government-approved consultancy.
+You help users understand visa types, permanent residence, citizenship, required documents, processing times, fees, and eligibility.
+Always be polite, precise, and transparent. Never give legal advice; recommend booking a consultation for complex cases.
+${languageInstruction}
+Use the following context to answer:
+
+${context}
+
+If the answer is not in the context, say you need more information and suggest a consultation.`;
+
+    const messages = [
+      { role: 'system', content: systemPrompt },
+      ...history.slice(-5),
+      { role: 'user', content: message },
+    ];
+
+    try {
+      if (this.hf) {
+        const response = await this.hf.textGeneration({
+          model: 'mistralai/Mistral-7B-Instruct-v0.2',
+          inputs: messages.map(m => `${m.role}: ${m.content}`).join('\n'),
+          parameters: { max_new_tokens: 300, temperature: 0.7 },
+        });
+        const generated = response.generated_text || '';
+        return { reply: generated.split('assistant:').pop()?.trim() || generated.trim(), contextUsed: !!context };
+      }
+    } catch (error) {
+      console.warn('Hugging Face error, using local fallback:', error?.message || error);
+    }
+
+    return { reply: this.localFallback(message), contextUsed: !!context };
+  }
+
+  async streamChat(message: string, history: Array<{ role: 'user' | 'assistant'; content: string }>, language: string, res: Response) {
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+    res.flushHeaders();
+
+    const full = await this.chat(message, history, language);
+    const words = full.reply.split(' ');
+
+    for (const word of words) {
+      res.write(`data: ${JSON.stringify({ word })}\n\n`);
+      await new Promise((resolve) => setTimeout(resolve, 50));
+    }
+    res.write('data: [DONE]\n\n');
+    res.end();
+  }
+
+  private async retrieveContext(query: string): Promise<string> {
+    const keyword = query?.trim()?.toLowerCase()?.split(/\s+/)?.[0] || '';
+    if (!keyword) return '';
+
+    const [faqs, countries, programs, visaRules] = await Promise.all([
+      this.prisma.faq.findMany({
+        where: {
+          OR: [
+            { question: { contains: keyword, mode: 'insensitive' } },
+            { answer: { contains: keyword, mode: 'insensitive' } },
+          ],
+        },
+        take: 5,
+      }),
+      this.prisma.country.findMany({
+        where: {
+          OR: [
+            { name: { contains: keyword, mode: 'insensitive' } },
+            { code: { contains: keyword, mode: 'insensitive' } },
+          ],
+        },
+        take: 3,
+      }),
+      this.prisma.program.findMany({
+        where: {
+          OR: [
+            { title: { contains: keyword, mode: 'insensitive' } },
+            { description: { contains: keyword, mode: 'insensitive' } },
+          ],
+        },
+        take: 3,
+      }),
+      this.prisma.countryVisaRule.findMany({
+        where: {
+          OR: [
+            { visaType: { name: { contains: keyword, mode: 'insensitive' } } },
+          ],
+        },
+        include: { country: true, visaType: true },
+        take: 3,
+      }),
+    ]);
+
+    let context = '';
+    if (faqs.length) context += 'Relevant FAQs:\n' + faqs.map(f => `Q: ${f.question}\nA: ${f.answer}`).join('\n\n') + '\n\n';
+    if (countries.length) context += 'Countries:\n' + countries.map(c => `${c.name} (${c.code})`).join(', ') + '\n\n';
+    if (programs.length) context += 'Programs:\n' + programs.map(p => `${p.title}: ${p.description}`).join('\n') + '\n\n';
+    if (visaRules.length) context += 'Visa Rules:\n' + visaRules.map(v => `${v.country.name} - ${v.visaType.name}: Fee ${v.governmentFee} ${v.feeCurrency}, Processing ${v.processingTimeMin}-${v.processingTimeMax} days`).join('\n') + '\n';
+
+    return context.trim();
+  }
+
+  private localFallback(message: string): string {
+    const lower = message.toLowerCase();
+    if (lower.includes('visa') || lower.includes('permanent')) {
+      return 'There are many visa types, including tourist, work, study, and permanent residence. I can help you compare them. Could you specify your destination country and purpose?';
+    }
+    if (lower.includes('documents')) {
+      return 'Required documents usually include a valid passport, photos, proof of funds, and supporting letters. For a precise checklist, please use the eligibility checker or book a consultation.';
+    }
+    return 'I am currently in offline mode. Please configure the Hugging Face API key for full AI capabilities, or contact our support team.';
+  }
+}

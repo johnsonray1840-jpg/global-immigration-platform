@@ -1,0 +1,60 @@
+export interface GlobeCountry {
+  name: string;
+  code: string;
+  lat: number;
+  lng: number;
+  timezone: string;
+  capital: string;
+}
+
+export const globeCountries: GlobeCountry[] = [
+  { name: 'United States', code: 'US', lat: 39.8283, lng: -98.5795, timezone: 'America/New_York', capital: 'Washington, D.C.' },
+  { name: 'Canada', code: 'CA', lat: 56.1304, lng: -106.3468, timezone: 'America/Toronto', capital: 'Ottawa' },
+  { name: 'United Kingdom', code: 'GB', lat: 55.3781, lng: -3.4360, timezone: 'Europe/London', capital: 'London' },
+  { name: 'Australia', code: 'AU', lat: -25.2744, lng: 133.7751, timezone: 'Australia/Sydney', capital: 'Canberra' },
+  { name: 'New Zealand', code: 'NZ', lat: -40.9006, lng: 174.8860, timezone: 'Pacific/Auckland', capital: 'Wellington' },
+  { name: 'Germany', code: 'DE', lat: 51.1657, lng: 10.4515, timezone: 'Europe/Berlin', capital: 'Berlin' },
+  { name: 'France', code: 'FR', lat: 46.2276, lng: 2.2137, timezone: 'Europe/Paris', capital: 'Paris' },
+  { name: 'Italy', code: 'IT', lat: 41.8719, lng: 12.5674, timezone: 'Europe/Rome', capital: 'Rome' },
+  { name: 'Spain', code: 'ES', lat: 40.4637, lng: -3.7492, timezone: 'Europe/Madrid', capital: 'Madrid' },
+  { name: 'Portugal', code: 'PT', lat: 39.3999, lng: -8.2245, timezone: 'Europe/Lisbon', capital: 'Lisbon' },
+  { name: 'Netherlands', code: 'NL', lat: 52.1326, lng: 5.2913, timezone: 'Europe/Amsterdam', capital: 'Amsterdam' },
+  { name: 'Ireland', code: 'IE', lat: 53.4129, lng: -8.2439, timezone: 'Europe/Dublin', capital: 'Dublin' },
+  { name: 'Switzerland', code: 'CH', lat: 46.8182, lng: 8.2275, timezone: 'Europe/Zurich', capital: 'Bern' },
+  { name: 'Sweden', code: 'SE', lat: 60.1282, lng: 18.6435, timezone: 'Europe/Stockholm', capital: 'Stockholm' },
+  { name: 'Norway', code: 'NO', lat: 60.4720, lng: 8.4689, timezone: 'Europe/Oslo', capital: 'Oslo' },
+  { name: 'Denmark', code: 'DK', lat: 56.2639, lng: 9.5018, timezone: 'Europe/Copenhagen', capital: 'Copenhagen' },
+  { name: 'Finland', code: 'FI', lat: 61.9241, lng: 25.7482, timezone: 'Europe/Helsinki', capital: 'Helsinki' },
+  { name: 'Belgium', code: 'BE', lat: 50.5039, lng: 4.4699, timezone: 'Europe/Brussels', capital: 'Brussels' },
+  { name: 'Austria', code: 'AT', lat: 47.5162, lng: 14.5501, timezone: 'Europe/Vienna', capital: 'Vienna' },
+  { name: 'Poland', code: 'PL', lat: 51.9194, lng: 19.1451, timezone: 'Europe/Warsaw', capital: 'Warsaw' },
+  { name: 'Czech Republic', code: 'CZ', lat: 49.8175, lng: 15.4730, timezone: 'Europe/Prague', capital: 'Prague' },
+  { name: 'Singapore', code: 'SG', lat: 1.3521, lng: 103.8198, timezone: 'Asia/Singapore', capital: 'Singapore' },
+  { name: 'Japan', code: 'JP', lat: 36.2048, lng: 138.2529, timezone: 'Asia/Tokyo', capital: 'Tokyo' },
+  { name: 'South Korea', code: 'KR', lat: 35.9078, lng: 127.7669, timezone: 'Asia/Seoul', capital: 'Seoul' },
+  { name: 'UAE', code: 'AE', lat: 23.4241, lng: 53.8478, timezone: 'Asia/Dubai', capital: 'Abu Dhabi' },
+  { name: 'Qatar', code: 'QA', lat: 25.3548, lng: 51.1839, timezone: 'Asia/Qatar', capital: 'Doha' },
+  { name: 'Saudi Arabia', code: 'SA', lat: 23.8859, lng: 45.0792, timezone: 'Asia/Riyadh', capital: 'Riyadh' },
+  { name: 'Malaysia', code: 'MY', lat: 4.2105, lng: 101.9758, timezone: 'Asia/Kuala_Lumpur', capital: 'Kuala Lumpur' },
+  { name: 'Thailand', code: 'TH', lat: 15.8700, lng: 100.9925, timezone: 'Asia/Bangkok', capital: 'Bangkok' },
+  { name: 'Turkey', code: 'TR', lat: 38.9637, lng: 35.2433, timezone: 'Europe/Istanbul', capital: 'Ankara' },
+  { name: 'Greece', code: 'GR', lat: 39.0742, lng: 21.8243, timezone: 'Europe/Athens', capital: 'Athens' },
+  { name: 'Malta', code: 'MT', lat: 35.9375, lng: 14.3754, timezone: 'Europe/Malta', capital: 'Valletta' },
+  { name: 'Cyprus', code: 'CY', lat: 35.1264, lng: 33.4299, timezone: 'Asia/Nicosia', capital: 'Nicosia' },
+  { name: 'Luxembourg', code: 'LU', lat: 49.8153, lng: 6.1296, timezone: 'Europe/Luxembourg', capital: 'Luxembourg' },
+  { name: 'Brazil', code: 'BR', lat: -14.2350, lng: -51.9253, timezone: 'America/Sao_Paulo', capital: 'Brasília' },
+  { name: 'Argentina', code: 'AR', lat: -38.4161, lng: -63.6167, timezone: 'America/Argentina/Buenos_Aires', capital: 'Buenos Aires' },
+  { name: 'Chile', code: 'CL', lat: -35.6751, lng: -71.5430, timezone: 'America/Santiago', capital: 'Santiago' },
+  { name: 'Mexico', code: 'MX', lat: 23.6345, lng: -102.5528, timezone: 'America/Mexico_City', capital: 'Mexico City' },
+  { name: 'South Africa', code: 'ZA', lat: -30.5595, lng: 22.9375, timezone: 'Africa/Johannesburg', capital: 'Pretoria' },
+  { name: 'Rwanda', code: 'RW', lat: -1.9403, lng: 29.8739, timezone: 'Africa/Kigali', capital: 'Kigali' },
+  { name: 'Mauritius', code: 'MU', lat: -20.3484, lng: 57.5522, timezone: 'Indian/Mauritius', capital: 'Port Louis' },
+  { name: 'Estonia', code: 'EE', lat: 58.5953, lng: 25.0136, timezone: 'Europe/Tallinn', capital: 'Tallinn' },
+  { name: 'Latvia', code: 'LV', lat: 56.8796, lng: 24.6032, timezone: 'Europe/Riga', capital: 'Riga' },
+  { name: 'Lithuania', code: 'LT', lat: 55.1694, lng: 23.8813, timezone: 'Europe/Vilnius', capital: 'Vilnius' },
+  { name: 'Hungary', code: 'HU', lat: 47.1625, lng: 19.5033, timezone: 'Europe/Budapest', capital: 'Budapest' },
+  { name: 'Croatia', code: 'HR', lat: 45.1, lng: 15.2, timezone: 'Europe/Zagreb', capital: 'Zagreb' },
+  { name: 'Slovenia', code: 'SI', lat: 46.1512, lng: 14.9955, timezone: 'Europe/Ljubljana', capital: 'Ljubljana' },
+  { name: 'Slovakia', code: 'SK', lat: 48.6690, lng: 19.6990, timezone: 'Europe/Bratislava', capital: 'Bratislava' },
+  { name: 'Iceland', code: 'IS', lat: 64.9631, lng: -19.0208, timezone: 'Atlantic/Reykjavik', capital: 'Reykjavík' },
+];
