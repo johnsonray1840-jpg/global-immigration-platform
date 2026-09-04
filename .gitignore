@@ -1,7 +1,44 @@
+```
+# Dependencies
 node_modules/
-dist/
-.next/
+
+# Environment
 .env
+.env.local
+.env.*
+
+# Build artifacts
+dist/
+build/
+*.js.map
+*.ts.map
+
+# Logs
 *.log
-.turbo/
+
+# Coverage
 coverage/
+htmlcov/
+.coverage
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg-info/
+.eggs/
+```

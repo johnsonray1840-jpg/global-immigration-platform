@@ -96,7 +96,7 @@ export default function PremiumHero() {
         >
           <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-md">
             <ShieldCheck className="h-4 w-4 text-[#C9A96E]" />
-            GLOBAL IMMIGRATION & MOBILITY
+            {t('hero.badge')}
           </span>
         </motion.div>
 
@@ -106,7 +106,7 @@ export default function PremiumHero() {
           transition={{ duration: 0.7, delay: 0.1 }}
           className="font-display text-4xl md:text-6xl font-semibold leading-tight text-white hero-text-shadow"
         >
-          Your Journey Beyond Borders.
+          {t('hero.journeyTitle')}
         </motion.h1>
 
         <motion.p
@@ -115,7 +115,7 @@ export default function PremiumHero() {
           transition={{ duration: 0.7, delay: 0.2 }}
           className="mt-6 text-lg md:text-xl text-white/90 max-w-2xl"
         >
-          Expert immigration pathways for individuals, families, students, investors and professionals seeking opportunities around the world.
+          {t('hero.journeySubtitle')}
         </motion.p>
 
         <motion.div
@@ -126,13 +126,13 @@ export default function PremiumHero() {
         >
           <Link href="/programs">
             <Button className="bg-[#C9A96E] text-[#111827] hover:bg-[#b8955c] px-8 py-3 text-base font-semibold rounded-md">
-              Explore Immigration Options
+              {t('hero.exploreOptions')}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
           <Link href="/eligibility">
             <Button variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-3 text-base rounded-md">
-              Check Your Eligibility
+              {t('hero.checkEligibility')}
             </Button>
           </Link>
         </motion.div>
@@ -143,25 +143,25 @@ export default function PremiumHero() {
             <p className="font-display text-3xl font-semibold">
               <AnimatedCounter end={50} suffix="+" />
             </p>
-            <p className="mt-1 text-sm text-white/80">Countries</p>
+            <p className="mt-1 text-sm text-white/80">{t('stats.countries')}</p>
           </div>
           <div className="text-center text-white">
             <p className="font-display text-3xl font-semibold">
               <AnimatedCounter end={15000} suffix="+" />
             </p>
-            <p className="mt-1 text-sm text-white/80">Cases</p>
+            <p className="mt-1 text-sm text-white/80">{t('stats.cases')}</p>
           </div>
           <div className="text-center text-white">
             <p className="font-display text-3xl font-semibold">
               <AnimatedCounter end={98} suffix="%" />
             </p>
-            <p className="mt-1 text-sm text-white/80">Approval</p>
+            <p className="mt-1 text-sm text-white/80">{t('stats.approval')}</p>
           </div>
           <div className="text-center text-white">
             <p className="font-display text-3xl font-semibold">
               <AnimatedCounter end={50} suffix="+" />
             </p>
-            <p className="mt-1 text-sm text-white/80">Years</p>
+            <p className="mt-1 text-sm text-white/80">{t('stats.years')}</p>
           </div>
         </div>
       </div>

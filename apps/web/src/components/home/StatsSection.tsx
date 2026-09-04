@@ -3,21 +3,24 @@
 import { motion } from 'framer-motion';
 import AnimatedCounter from '@/components/shared/AnimatedCounter';
 import { ShieldCheck, Users, TrendingUp, Globe2 } from 'lucide-react';
-
-const stats = [
-  { icon: Globe2, end: 50, suffix: '+', label: 'Countries Served' },
-  { icon: Users, end: 15000, suffix: '+', label: 'Successful Cases' },
-  { icon: TrendingUp, end: 98, suffix: '%', label: 'Approval Rate' },
-  { icon: ShieldCheck, end: 50, suffix: '+', label: 'Years Experience' },
-];
+import { useLanguage } from '@/i18n/LanguageContext';
 
 export default function StatsSection() {
+  const { t } = useLanguage();
+  
+  const stats = [
+    { icon: Globe2, end: 50, suffix: '+', labelKey: 'stats.countries' },
+    { icon: Users, end: 15000, suffix: '+', labelKey: 'stats.cases' },
+    { icon: TrendingUp, end: 98, suffix: '%', labelKey: 'stats.approval' },
+    { icon: ShieldCheck, end: 50, suffix: '+', labelKey: 'stats.years' },
+  ];
+
   return (
     <section className="bg-[#0B5D66] py-16">
       <div className="container-premium grid grid-cols-2 gap-8 md:grid-cols-4">
         {stats.map((stat, i) => (
           <motion.div
-            key={stat.label}
+            key={stat.labelKey}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -30,7 +33,7 @@ export default function StatsSection() {
             <p className="mt-4 font-display text-3xl font-semibold text-white md:text-4xl">
               <AnimatedCounter end={stat.end} suffix={stat.suffix} />
             </p>
-            <p className="mt-1 text-sm text-white/80">{stat.label}</p>
+            <p className="mt-1 text-sm text-white/80">{t(stat.labelKey)}</p>
           </motion.div>
         ))}
       </div>

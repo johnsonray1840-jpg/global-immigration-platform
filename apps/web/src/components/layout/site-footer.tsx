@@ -5,8 +5,10 @@ import Link from 'next/link';
 import api from '@/lib/api-client';
 import { toast } from 'sonner';
 import { Mail, Phone, MapPin, CheckCircle2 } from 'lucide-react';
+import { useLanguage } from '@/i18n/LanguageContext';
 
 export default function SiteFooter() {
+  const { t } = useLanguage();
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
@@ -39,13 +41,13 @@ export default function SiteFooter() {
 
         {/* Quick Links */}
         <div>
-          <h4 className="font-display text-lg font-semibold text-white">Quick Links</h4>
+          <h4 className="font-display text-lg font-semibold text-white">{t('nav.programs')}</h4>
           <ul className="mt-4 space-y-3 text-sm">
-            <li><Link href="/countries" className="text-white/70 transition-colors hover:text-primary">Countries</Link></li>
-            <li><Link href="/programs" className="text-white/70 transition-colors hover:text-primary">Programs</Link></li>
-            <li><Link href="/packages" className="text-white/70 transition-colors hover:text-primary">Packages</Link></li>
-            <li><Link href="/scholarships" className="text-white/70 transition-colors hover:text-primary">Scholarships</Link></li>
-            <li><Link href="/faq" className="text-white/70 transition-colors hover:text-primary">FAQ</Link></li>
+            <li><Link href="/countries" className="text-white/70 transition-colors hover:text-primary">{t('nav.countries')}</Link></li>
+            <li><Link href="/programs" className="text-white/70 transition-colors hover:text-primary">{t('nav.programs')}</Link></li>
+            <li><Link href="/packages" className="text-white/70 transition-colors hover:text-primary">{t('nav.packages')}</Link></li>
+            <li><Link href="/scholarships" className="text-white/70 transition-colors hover:text-primary">{t('nav.scholarships')}</Link></li>
+            <li><Link href="/faq" className="text-white/70 transition-colors hover:text-primary">{t('nav.faq')}</Link></li>
           </ul>
         </div>
 
@@ -53,10 +55,10 @@ export default function SiteFooter() {
         <div>
           <h4 className="font-display text-lg font-semibold text-white">Legal</h4>
           <ul className="mt-4 space-y-3 text-sm">
-            <li><Link href="/legal/privacy" className="text-white/70 transition-colors hover:text-primary">Privacy Policy</Link></li>
-            <li><Link href="/legal/terms" className="text-white/70 transition-colors hover:text-primary">Terms of Service</Link></li>
-            <li><Link href="/legal/cookies" className="text-white/70 transition-colors hover:text-primary">Cookie Policy</Link></li>
-            <li><Link href="/legal/disclaimer" className="text-white/70 transition-colors hover:text-primary">Immigration Disclaimer</Link></li>
+            <li><Link href="/legal/privacy" className="text-white/70 transition-colors hover:text-primary">{t('footer.privacy')}</Link></li>
+            <li><Link href="/legal/terms" className="text-white/70 transition-colors hover:text-primary">{t('footer.terms')}</Link></li>
+            <li><Link href="/legal/cookies" className="text-white/70 transition-colors hover:text-primary">{t('footer.cookies')}</Link></li>
+            <li><Link href="/legal/disclaimer" className="text-white/70 transition-colors hover:text-primary">{t('footer.disclaimer')}</Link></li>
           </ul>
         </div>
 
@@ -92,11 +94,11 @@ export default function SiteFooter() {
 
       <div className="border-t border-white/10 py-6">
         <div className="container-premium flex flex-col items-center justify-between gap-4 text-xs text-white/50 sm:flex-row">
-          <p>© {new Date().getFullYear()} Global Immigration Services. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Global Immigration Services. {t('footer.rights')}</p>
           <div className="flex gap-4">
-  <Link href="/sitemap" className="hover:text-primary">Sitemap</Link>
-  <Link href="/accessibility" className="hover:text-primary">Accessibility</Link>
-</div>
+            <Link href="/sitemap" className="hover:text-primary">Sitemap</Link>
+            <Link href="/accessibility" className="hover:text-primary">{t('accessibility.title')}</Link>
+          </div>
         </div>
       </div>
     </footer>
