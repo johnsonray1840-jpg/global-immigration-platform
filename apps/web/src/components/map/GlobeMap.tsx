@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import Globe from 'react-globe.gl';
+import { isWebGLAvailable } from '@/lib/webgl';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 
@@ -30,9 +31,7 @@ export default function GlobeMap({ className = '' }: { className?: string }) {
 
   // Check WebGL support
   useEffect(() => {
-    const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-    setWebglSupported(!!gl);
+    setWebglSupported(isWebGLAvailable());
   }, []);
 
   // Observe container size, with fallback

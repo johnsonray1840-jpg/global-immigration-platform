@@ -1,0 +1,31 @@
+# Version control
+**/.git
+**/.gitignore
+
+# Dependencies
+**/node_modules
+
+# Build outputs & caches
+**/dist
+**/.next
+**/out
+**/build
+**/.turbo
+**/coverage
+**/*.tsbuildinfo
+
+# Environment variables
+**/.env
+**/.env*.local
+**/.env.production
+**/.env.staging
+
+# OS & Editor
+**/.DS_Store
+**/.continue
+**/.idea
+**/.vscode
+
+# Logs & temp
+**/*.log
+**/uploads
