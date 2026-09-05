@@ -27,10 +27,10 @@ const programs = [
 
 const programSlugs: Record<string, string> = {
   'Permanent Residence': 'permanent-residence',
-  'Citizenship by Investment': 'citizenship-investment',
+  'Citizenship by Investment': 'citizenship-by-investment',
   'Family Sponsorship': 'family-sponsorship',
-  'Express Entry': 'express-entry',
-  'Student Visa': 'student-visa',
+  'Express Entry': 'skilled-worker',
+  'Student Visa': 'student-immigration',
   'Work Permit': 'work-permit',
 };
 
@@ -68,12 +68,12 @@ export default function ProgramsSection() {
                   {program.description}
                 </p>
                 <div className="mt-6 flex items-center justify-between border-t border-gray-100 pt-4">
-                <Link
-  href={`/programs/${programSlugs[program.title] || program.title.toLowerCase().replace(/\s+/g, '-')}`}
-  className="..."
->
-  Learn More <ArrowRight className="..." />
-</Link>
+                  <Link
+                    href={`/programs/${programSlugs[program.title] || program.title.toLowerCase().replace(/\s+/g, '-')}`}
+                    className="inline-flex items-center text-sm font-medium text-[#0B5D66] hover:text-[#0A4E56]"
+                  >
+                    Learn More <ArrowRight className="ml-1 h-4 w-4" />
+                  </Link>
                 </div>
               </div>
             </motion.div>

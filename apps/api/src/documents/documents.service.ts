@@ -275,3 +275,65 @@ export class DocumentsService {
     return updatedDoc;
   }
 }
+  async getAllDocumentsForReview() {
+    return this.prisma.document.findMany({
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            profile: {
+              select: {
+                firstName: true,
+                lastName: true,
+              },
+            },
+          },
+        },
+        case: {
+          select: {
+            id: true,
+            status: true,
+            destinationCountry: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: { uploadedAt: 'desc' },
+    });
+  }
+
+  async getDocumentById(documentId: string) {
+    return this.prisma.document.findUnique({
+      where: { id: documentId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            profile: {
+              select: {
+                firstName: true,
+                lastName: true,
+              },
+            },
+          },
+        },
+        case: {
+          select: {
+            id: true,
+            status: true,
+            destinationCountry: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+}
