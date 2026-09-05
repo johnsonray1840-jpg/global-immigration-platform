@@ -22,6 +22,7 @@ import { ReferralsModule } from './referrals/referrals.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { RedisModule } from './redis/redis.module';
 import { InvestmentsModule } from './investments/investments.module';
+import { ScholarshipsModule } from './scholarships/scholarships.module';
 
 
 
@@ -51,6 +52,7 @@ import { InvestmentsModule } from './investments/investments.module';
     ReferralsModule,
     RedisModule,
     InvestmentsModule,
+    ScholarshipsModule,
   ],
 })
 export class AppModule {}
