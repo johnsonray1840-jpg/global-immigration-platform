@@ -250,10 +250,10 @@ export class InvestmentsService {
     }
 
     // Validate status transition
-    const validStatuses = [InvestmentStatus.APPROVED, InvestmentStatus.REJECTED, InvestmentStatus.COMPLETED];
-    if (!validStatuses.includes(status)) {
-      throw new ForbiddenException('Invalid review status. Must be APPROVED, REJECTED, or COMPLETED');
-    }
+const validStatuses: InvestmentStatus[] = [InvestmentStatus.APPROVED, InvestmentStatus.REJECTED, InvestmentStatus.COMPLETED];
+if (!validStatuses.includes(status)) {
+  throw new ForbiddenException('Invalid review status. Must be APPROVED, REJECTED, or COMPLETED');
+}
 
     const updateData: any = {
       status,
