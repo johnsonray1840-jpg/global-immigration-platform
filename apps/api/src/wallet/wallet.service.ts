@@ -1,13 +1,9 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { PaymentsService } from '../payments/payments.service';
 
 @Injectable()
 export class WalletService {
-  constructor(
-    private prisma: PrismaService,
-    private paymentsService: PaymentsService,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
   async getWallet(userId: string) {
     return this.prisma.wallet.upsert({
@@ -31,7 +27,7 @@ export class WalletService {
     paymentMethodType: string,
     promoCode?: string,
   ) {
-    if (amount <= 0) throw new BadRequestException('Amount must be positive');
+    if (!amount || amount <= 0) throw new BadRequestException('Amount must be positive');
 
     let finalAmount = amount;
     let discount = 0;
@@ -49,15 +45,17 @@ export class WalletService {
       }
     }
 
-    // Get actual payment method ID from type
-    const method = await this.prisma.paymentMethod.findFirst({
+    // Find payment method by type; fallback to first active crypto method
+    let method = await this.prisma.paymentMethod.findFirst({
       where: { type: paymentMethodType as any, isActive: true },
     });
     if (!method) {
-      throw new BadRequestException('Payment method not available');
+      method = await this.prisma.paymentMethod.findFirst({
+        where: { type: 'CRYPTO', isActive: true },
+      });
     }
+    if (!method) throw new BadRequestException('No payment method available');
 
-    // Create invoice
     const invoice = await this.prisma.invoice.create({
       data: {
         userId,
@@ -71,7 +69,6 @@ export class WalletService {
       },
     });
 
-    // Idempotent approval creation
     const existingApproval = await this.prisma.paymentApproval.findUnique({
       where: { invoiceId: invoice.id },
     });
@@ -96,8 +93,6 @@ export class WalletService {
         },
       });
     }
-
-    // Do NOT send email here; email is sent after user confirms payment in PaymentModal
 
     return { invoice, approval };
   }

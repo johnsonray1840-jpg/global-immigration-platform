@@ -4,7 +4,7 @@ import { WalletController } from './wallet.controller';
 import { PaymentsModule } from '../payments/payments.module';
 
 @Module({
-  imports: [PaymentsModule],   // <-- add this
+  imports: [PaymentsModule],   
   controllers: [WalletController],
   providers: [WalletService],
   exports: [WalletService],
