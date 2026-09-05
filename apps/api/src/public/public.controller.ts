@@ -37,6 +37,20 @@ export class PublicController {
     return data;
   }
 
+  @Get('admin-packages')
+  async getAdminPackages() {
+    const cacheKey = 'admin-packages';
+    const cached = await this.redis.get(cacheKey);
+    if (cached) return JSON.parse(cached);
+
+    const data = await this.prisma.adminServicePackage.findMany({
+      where: { isActive: true },
+      orderBy: { createdAt: 'desc' },
+    });
+    await this.redis.set(cacheKey, data, 300);
+    return data;
+  }
+
   @Get('packages/:id')
 async getPackage(@Param('id') id: string) {
   const cacheKey = `package:${id}`;
@@ -49,6 +63,20 @@ async getPackage(@Param('id') id: string) {
   if (data) await this.redis.set(cacheKey, data, 300);
   return data;
 }
+
+  @Get('admin-scholarships')
+  async getAdminScholarships() {
+    const cacheKey = 'admin-scholarships';
+    const cached = await this.redis.get(cacheKey);
+    if (cached) return JSON.parse(cached);
+
+    const data = await this.prisma.adminScholarship.findMany({
+      where: { isActive: true },
+      orderBy: { deadline: 'asc' },
+    });
+    await this.redis.set(cacheKey, data, 300);
+    return data;
+  }
 
   @Get('scholarships')
   async getScholarships(

@@ -479,6 +479,20 @@ model ServicePackage {
   invoices Invoice[]
 }
 
+model AdminServicePackage {
+  id          String   @id @default(cuid())
+  name        String
+  type        String   // e.g., 'Holiday', 'Tourist', 'Honeymoon', 'Investment'
+  description String
+  price       Float
+  duration    String   // e.g., "14 Days"
+  features    String[] // Array of features
+  imageUrl    String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 model Scholarship {
   id              String   @id @default(cuid())
   universityId    String
@@ -506,6 +520,19 @@ model University {
 
   country      Country       @relation(fields: [countryId], references: [id])
   scholarships Scholarship[]
+}
+
+model AdminScholarship {
+  id          String   @id @default(cuid())
+  title       String
+  country     String
+  university  String
+  description String
+  deadline    DateTime
+  amount      Float
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Faq {
