@@ -9,143 +9,162 @@ type TranslationDictionary = {
   [key: string]: string;
 };
 
+// Complete English translations as the base
+const enTranslations: TranslationDictionary = {
+  // Navigation
+  'nav.home': 'Home',
+  'nav.countries': 'Countries',
+  'nav.programs': 'Programs',
+  'nav.eligibility': 'Eligibility',
+  'nav.packages': 'Packages',
+  'nav.about': 'About',
+  'nav.faq': 'FAQ',
+  'nav.signin': 'Sign In',
+  'nav.getstarted': 'Get Started',
+  'nav.contact': 'Contact',
+  'nav.dashboard': 'Dashboard',
+  'nav.settings': 'Settings',
+  'nav.logout': 'Logout',
+  
+  // Hero Section
+  'hero.badge': 'Government-Approved Immigration Services',
+  'hero.title': 'Your Gateway to Global Freedom',
+  'hero.subtitle': 'Expert guidance for visas, permanent residence, citizenship, and investment immigration.',
+  'hero.from': 'From',
+  'hero.to': 'To',
+  'hero.cta.primary': 'Start Your Journey',
+  'hero.cta.secondary': 'Check Eligibility',
+  
+  // Stats Section
+  'stats.countries': 'Countries Served',
+  'stats.cases': 'Successful Cases',
+  'stats.approval': 'Approval Rate',
+  'stats.years': 'Years Experience',
+  'stats.satisfaction': 'Client Satisfaction',
+  'stats.compliance': 'Compliance Rate',
+  
+  // Countries Section
+  'countries.title': 'Explore Top Destinations',
+  'countries.subtitle': 'Discover premium immigration pathways to the world\'s most sought-after countries',
+  'countries.viewAll': 'View All Countries',
+  'countries.processingTime': 'Processing Time',
+  'countries.approvalRate': 'Approval Rate',
+  'countries.explorePathways': 'Explore Pathways',
+  'countries.popularPrograms': 'Popular Programs',
+  'countries.globalCoverage': 'Global Coverage',
+  'countries.directory': 'Country Directory',
+  'countries.description': 'Explore immigration pathways for over 50 countries.',
+  'countries.searchPlaceholder': 'Search countries...',
+  'countries.allContinents': 'All Continents',
+  'countries.noResults': 'No countries found.',
+  'countries.viewDetails': 'View Details',
+  'countries.safety': 'Safety',
+  'countries.education': 'Education',
+  'countries.living': 'Living',
+  'countries.rank': 'Rank',
+  
+  // Packages Section
+  'packages.title': 'Premium Service Packages',
+  'packages.subtitle': 'Choose the perfect immigration package tailored to your needs',
+  'packages.holiday': 'Holiday & Tourist',
+  'packages.tourist': 'Tourist Visa',
+  'packages.honeymoon': 'Honeymoon Special',
+  'packages.student': 'Student Visa',
+  'packages.work': 'Work Permit',
+  'packages.investor': 'Investor Visa',
+  'packages.family': 'Family Sponsorship',
+  'packages.startup': 'Startup Visa',
+  'packages.cta': 'View Package Details',
+  'packages.learnMore': 'Learn More',
+  'packages.includes': 'Includes',
+  'packages.price': 'Starting from',
+  
+  // Programs Section
+  'programs.title': 'Immigration Programs',
+  'programs.subtitle': 'Comprehensive solutions for every immigration goal',
+  'programs.permanentResidence': 'Permanent Residence',
+  'programs.citizenship': 'Citizenship by Investment',
+  'programs.familySponsorship': 'Family Sponsorship',
+  'programs.skilledWorker': 'Skilled Worker',
+  'programs.student': 'Student Visa',
+  'programs.investor': 'Investor Program',
+  'programs.entrepreneur': 'Entrepreneur Visa',
+  'programs.digitalNomad': 'Digital Nomad',
+  'programs.retirement': 'Retirement Visa',
+  
+  // Success Stories
+  'stories.title': 'Success Stories',
+  'stories.subtitle': 'Real stories from real clients who achieved their dreams',
+  'stories.viewAll': 'View All Stories',
+  
+  // FAQ Section
+  'faq.title': 'Frequently Asked Questions',
+  'faq.subtitle': 'Find answers to common questions about our services',
+  'faq.cta': 'View All FAQs',
+  
+  // Offices Section
+  'offices.title': 'Our Global Offices',
+  'offices.subtitle': 'Visit us at any of our worldwide locations',
+  'offices.visitUs': 'Visit Us',
+  
+  // Partners Section
+  'partners.title': 'Trusted Partners',
+  'partners.subtitle': 'We collaborate with leading organizations worldwide',
+  
+  // CTA Section
+  'cta.title': 'Ready to Start Your Journey?',
+  'cta.subtitle': 'Book a free consultation with our immigration experts today',
+  'cta.primary': 'Book Free Consultation',
+  'cta.secondary': 'Contact Us',
+  
+  // About Page
+  'about.title': 'About Us',
+  'about.subtitle': 'Your Trusted Partner in Global Immigration',
+  'about.mission': 'Our Mission',
+  'about.vision': 'Our Vision',
+  'about.values': 'Our Values',
+  'about.team': 'Our Team',
+  'about.history': 'Our History',
+  'about.description': 'We are a premier immigration consultancy firm dedicated to helping individuals and families achieve their dreams of living, working, and investing abroad. With years of experience and a team of certified immigration professionals, we provide comprehensive support throughout your entire immigration journey.',
+  
+  // Legal Pages
+  'legal.terms': 'Terms of Service',
+  'legal.privacy': 'Privacy Policy',
+  'legal.disclaimer': 'Disclaimer',
+  'legal.cookies': 'Cookie Policy',
+  'legal.lastUpdated': 'Last Updated',
+  
+  // Common
+  'common.loading': 'Loading...',
+  'common.error': 'An error occurred',
+  'common.success': 'Success',
+  'common.submit': 'Submit',
+  'common.cancel': 'Cancel',
+  'common.save': 'Save',
+  'common.delete': 'Delete',
+  'common.edit': 'Edit',
+  'common.view': 'View',
+  'common.search': 'Search',
+  'common.filter': 'Filter',
+  'common.sort': 'Sort',
+  'common.next': 'Next',
+  'common.previous': 'Previous',
+  'common.close': 'Close',
+  'common.back': 'Back',
+  'common.continue': 'Continue',
+  'common.confirm': 'Confirm',
+  'common.required': 'Required',
+  'common.optional': 'Optional',
+};
+
+// Helper to create translations with fallback to English
+const createTranslations = (lang: Language, partial: TranslationDictionary): TranslationDictionary => {
+  return { ...enTranslations, ...partial };
+};
+
 export const translations: Record<Language, TranslationDictionary> = {
-  en: {
-    // Navigation
-    'nav.home': 'Home',
-    'nav.countries': 'Countries',
-    'nav.programs': 'Programs',
-    'nav.eligibility': 'Eligibility',
-    'nav.packages': 'Packages',
-    'nav.about': 'About',
-    'nav.faq': 'FAQ',
-    'nav.signin': 'Sign In',
-    'nav.getstarted': 'Get Started',
-    'nav.contact': 'Contact',
-    'nav.dashboard': 'Dashboard',
-    'nav.settings': 'Settings',
-    'nav.logout': 'Logout',
-    
-    // Hero Section
-    'hero.badge': 'Government-Approved Immigration Services',
-    'hero.title': 'Your Gateway to Global Freedom',
-    'hero.subtitle': 'Expert guidance for visas, permanent residence, citizenship, and investment immigration.',
-    'hero.from': 'From',
-    'hero.to': 'To',
-    'hero.cta.primary': 'Start Your Journey',
-    'hero.cta.secondary': 'Check Eligibility',
-    
-    // Stats Section
-    'stats.countries': 'Countries Served',
-    'stats.cases': 'Successful Cases',
-    'stats.approval': 'Approval Rate',
-    'stats.years': 'Years Experience',
-    'stats.satisfaction': 'Client Satisfaction',
-    'stats.compliance': 'Compliance Rate',
-    
-    // Countries Section
-    'countries.title': 'Explore Top Destinations',
-    'countries.subtitle': 'Discover premium immigration pathways to the world\'s most sought-after countries',
-    'countries.viewAll': 'View All Countries',
-    'countries.processingTime': 'Processing Time',
-    'countries.approvalRate': 'Approval Rate',
-    'countries.explorePathways': 'Explore Pathways',
-    'countries.popularPrograms': 'Popular Programs',
-    
-    // Packages Section
-    'packages.title': 'Premium Service Packages',
-    'packages.subtitle': 'Choose the perfect immigration package tailored to your needs',
-    'packages.holiday': 'Holiday & Tourist',
-    'packages.tourist': 'Tourist Visa',
-    'packages.honeymoon': 'Honeymoon Special',
-    'packages.student': 'Student Visa',
-    'packages.work': 'Work Permit',
-    'packages.investor': 'Investor Visa',
-    'packages.family': 'Family Sponsorship',
-    'packages.startup': 'Startup Visa',
-    'packages.cta': 'View Package Details',
-    'packages.learnMore': 'Learn More',
-    'packages.includes': 'Includes',
-    'packages.price': 'Starting from',
-    
-    // Programs Section
-    'programs.title': 'Immigration Programs',
-    'programs.subtitle': 'Comprehensive solutions for every immigration goal',
-    'programs.permanentResidence': 'Permanent Residence',
-    'programs.citizenship': 'Citizenship by Investment',
-    'programs.familySponsorship': 'Family Sponsorship',
-    'programs.skilledWorker': 'Skilled Worker',
-    'programs.student': 'Student Visa',
-    'programs.investor': 'Investor Program',
-    'programs.entrepreneur': 'Entrepreneur Visa',
-    'programs.digitalNomad': 'Digital Nomad',
-    'programs.retirement': 'Retirement Visa',
-    
-    // Success Stories
-    'stories.title': 'Success Stories',
-    'stories.subtitle': 'Real stories from real clients who achieved their dreams',
-    'stories.viewAll': 'View All Stories',
-    
-    // FAQ Section
-    'faq.title': 'Frequently Asked Questions',
-    'faq.subtitle': 'Find answers to common questions about our services',
-    'faq.cta': 'View All FAQs',
-    
-    // Offices Section
-    'offices.title': 'Our Global Offices',
-    'offices.subtitle': 'Visit us at any of our worldwide locations',
-    'offices.visitUs': 'Visit Us',
-    
-    // Partners Section
-    'partners.title': 'Trusted Partners',
-    'partners.subtitle': 'We collaborate with leading organizations worldwide',
-    
-    // CTA Section
-    'cta.title': 'Ready to Start Your Journey?',
-    'cta.subtitle': 'Book a free consultation with our immigration experts today',
-    'cta.primary': 'Book Free Consultation',
-    'cta.secondary': 'Contact Us',
-    
-    // About Page
-    'about.title': 'About Us',
-    'about.subtitle': 'Your Trusted Partner in Global Immigration',
-    'about.mission': 'Our Mission',
-    'about.vision': 'Our Vision',
-    'about.values': 'Our Values',
-    'about.team': 'Our Team',
-    'about.history': 'Our History',
-    'about.description': 'We are a premier immigration consultancy firm dedicated to helping individuals and families achieve their dreams of living, working, and investing abroad. With years of experience and a team of certified immigration professionals, we provide comprehensive support throughout your entire immigration journey.',
-    
-    // Legal Pages
-    'legal.terms': 'Terms of Service',
-    'legal.privacy': 'Privacy Policy',
-    'legal.disclaimer': 'Disclaimer',
-    'legal.cookies': 'Cookie Policy',
-    'legal.lastUpdated': 'Last Updated',
-    
-    // Common
-    'common.loading': 'Loading...',
-    'common.error': 'An error occurred',
-    'common.success': 'Success',
-    'common.submit': 'Submit',
-    'common.cancel': 'Cancel',
-    'common.save': 'Save',
-    'common.delete': 'Delete',
-    'common.edit': 'Edit',
-    'common.view': 'View',
-    'common.search': 'Search',
-    'common.filter': 'Filter',
-    'common.sort': 'Sort',
-    'common.next': 'Next',
-    'common.previous': 'Previous',
-    'common.close': 'Close',
-    'common.back': 'Back',
-    'common.continue': 'Continue',
-    'common.confirm': 'Confirm',
-    'common.required': 'Required',
-    'common.optional': 'Optional',
-  },
-  fr: {
+  en: enTranslations,
+  fr: createTranslations('fr', {
     'nav.home': 'Accueil',
     'nav.countries': 'Pays',
     'nav.programs': 'Programmes',
@@ -168,8 +187,15 @@ export const translations: Record<Language, TranslationDictionary> = {
     'packages.holiday': 'Vacances et tourisme',
     'packages.tourist': 'Visa touristique',
     'packages.honeymoon': 'Spécial lune de miel',
-  },
-  es: {
+    'programs.title': 'Programmes d\'immigration',
+    'programs.subtitle': 'Des solutions complètes pour chaque objectif d\'immigration',
+    'faq.title': 'Questions fréquemment posées',
+    'faq.subtitle': 'Trouvez des réponses aux questions courantes sur nos services',
+    'cta.title': 'Prêt à commencer votre voyage?',
+    'cta.subtitle': 'Réservez une consultation gratuite avec nos experts en immigration',
+    'cta.primary': 'Réserver une consultation gratuite',
+  }),
+  es: createTranslations('es', {
     'nav.home': 'Inicio',
     'nav.countries': 'Países',
     'nav.programs': 'Programas',
@@ -192,8 +218,15 @@ export const translations: Record<Language, TranslationDictionary> = {
     'packages.holiday': 'Vacaciones y turismo',
     'packages.tourist': 'Visa de turista',
     'packages.honeymoon': 'Especial luna de miel',
-  },
-  de: {
+    'programs.title': 'Programas de inmigración',
+    'programs.subtitle': 'Soluciones integrales para cada objetivo de inmigración',
+    'faq.title': 'Preguntas frecuentes',
+    'faq.subtitle': 'Encuentre respuestas a preguntas comunes sobre nuestros servicios',
+    'cta.title': '¿Listo para comenzar su viaje?',
+    'cta.subtitle': 'Reserve una consulta gratuita con nuestros expertos en inmigración',
+    'cta.primary': 'Reservar consulta gratuita',
+  }),
+  de: createTranslations('de', {
     'nav.home': 'Startseite',
     'nav.countries': 'Länder',
     'nav.programs': 'Programme',
@@ -210,8 +243,16 @@ export const translations: Record<Language, TranslationDictionary> = {
     'stats.cases': 'Erfolgreiche Fälle',
     'stats.approval': 'Genehmigungsrate',
     'stats.years': 'Jahre Erfahrung',
-  },
-  zh: {
+    'countries.title': 'Entdecken Sie die besten Reiseziele',
+    'countries.subtitle': 'Entdecken Sie Premium-Einwanderungswege in die begehrtesten Länder der Welt',
+    'packages.title': 'Premium-Servicepakete',
+    'programs.title': 'Einwanderungsprogramme',
+    'programs.subtitle': 'Umfassende Lösungen für jedes Einwanderungsziel',
+    'faq.title': 'Häufig gestellte Fragen',
+    'cta.title': 'Bereit, Ihre Reise zu beginnen?',
+    'cta.primary': 'Kostenlose Beratung buchen',
+  }),
+  zh: createTranslations('zh', {
     'nav.home': '首页',
     'nav.countries': '国家',
     'nav.programs': '项目',
@@ -228,8 +269,16 @@ export const translations: Record<Language, TranslationDictionary> = {
     'stats.cases': '成功案例',
     'stats.approval': '批准率',
     'stats.years': '年经验',
-  },
-  ar: {
+    'countries.title': '探索顶级目的地',
+    'countries.subtitle': '发现前往世界上最受欢迎国家的优质移民途径',
+    'packages.title': '优质服务套餐',
+    'programs.title': '移民项目',
+    'programs.subtitle': '为每个移民目标提供全面的解决方案',
+    'faq.title': '常见问题解答',
+    'cta.title': '准备好开始您的旅程了吗？',
+    'cta.primary': '预订免费咨询',
+  }),
+  ar: createTranslations('ar', {
     'nav.home': 'الرئيسية',
     'nav.countries': 'الدول',
     'nav.programs': 'البرامج',
@@ -246,8 +295,15 @@ export const translations: Record<Language, TranslationDictionary> = {
     'stats.cases': 'الحالات الناجحة',
     'stats.approval': 'معدل الموافقة',
     'stats.years': 'سنوات الخبرة',
-  },
-  pt: {
+    'countries.title': 'استكشف أفضل الوجهات',
+    'countries.subtitle': 'اكتشف طرق الهجرة المتميزة إلى أكثر الدول المرغوبة في العالم',
+    'packages.title': 'باقات الخدمة المتميزة',
+    'programs.title': 'برامج الهجرة',
+    'faq.title': 'الأسئلة الشائعة',
+    'cta.title': 'هل أنت مستعد لبدء رحلتك؟',
+    'cta.primary': 'احجز استشارة مجانية',
+  }),
+  pt: createTranslations('pt', {
     'nav.home': 'Início',
     'nav.countries': 'Países',
     'nav.programs': 'Programas',
@@ -264,8 +320,15 @@ export const translations: Record<Language, TranslationDictionary> = {
     'stats.cases': 'Casos Bem-Sucedidos',
     'stats.approval': 'Taxa de Aprovação',
     'stats.years': 'Anos de Experiência',
-  },
-  ru: {
+    'countries.title': 'Explore os Melhores Destinos',
+    'countries.subtitle': 'Descubra vias de imigração premium para os países mais procurados do mundo',
+    'packages.title': 'Pacotes de Serviço Premium',
+    'programs.title': 'Programas de Imigração',
+    'faq.title': 'Perguntas Frequentes',
+    'cta.title': 'Pronto para começar sua jornada?',
+    'cta.primary': 'Agendar consulta gratuita',
+  }),
+  ru: createTranslations('ru', {
     'nav.home': 'Главная',
     'nav.countries': 'Страны',
     'nav.programs': 'Программы',
@@ -282,8 +345,14 @@ export const translations: Record<Language, TranslationDictionary> = {
     'stats.cases': 'Успешных дел',
     'stats.approval': 'Уровень одобрения',
     'stats.years': 'Лет опыта',
-  },
-  ja: {
+    'countries.title': 'Исследуйте лучшие направления',
+    'packages.title': 'Пакеты премиум-услуг',
+    'programs.title': 'Иммиграционные программы',
+    'faq.title': 'Часто задаваемые вопросы',
+    'cta.title': 'Готовы начать свое путешествие?',
+    'cta.primary': 'Записаться на бесплатную консультацию',
+  }),
+  ja: createTranslations('ja', {
     'nav.home': 'ホーム',
     'nav.countries': '国',
     'nav.programs': 'プログラム',
@@ -300,8 +369,14 @@ export const translations: Record<Language, TranslationDictionary> = {
     'stats.cases': '成功事例',
     'stats.approval': '承認率',
     'stats.years': '年の経験',
-  },
-  ko: {
+    'countries.title': 'トップデスティネーションを探索',
+    'packages.title': 'プレミアムサービスパッケージ',
+    'programs.title': '移民プログラム',
+    'faq.title': 'よくある質問',
+    'cta.title': '旅を始める準備はできましたか？',
+    'cta.primary': '無料相談を予約',
+  }),
+  ko: createTranslations('ko', {
     'nav.home': '홈',
     'nav.countries': '국가',
     'nav.programs': '프로그램',
@@ -318,8 +393,14 @@ export const translations: Record<Language, TranslationDictionary> = {
     'stats.cases': '성공 사례',
     'stats.approval': '승인율',
     'stats.years': '년 경험',
-  },
-  it: {
+    'countries.title': '최고의 목적지 탐색',
+    'packages.title': '프리미엄 서비스 패키지',
+    'programs.title': '이민 프로그램',
+    'faq.title': '자주 묻는 질문',
+    'cta.title': '여행을 시작할 준비가 되셨나요?',
+    'cta.primary': '무료 상담 예약',
+  }),
+  it: createTranslations('it', {
     'nav.home': 'Home',
     'nav.countries': 'Paesi',
     'nav.programs': 'Programmi',
@@ -336,8 +417,14 @@ export const translations: Record<Language, TranslationDictionary> = {
     'stats.cases': 'Casi di successo',
     'stats.approval': 'Tasso di approvazione',
     'stats.years': 'Anni di esperienza',
-  },
-  nl: {
+    'countries.title': 'Esplora le migliori destinazioni',
+    'packages.title': 'Pacchetti di servizio premium',
+    'programs.title': 'Programmi di immigrazione',
+    'faq.title': 'Domande frequenti',
+    'cta.title': 'Pronto a iniziare il tuo viaggio?',
+    'cta.primary': 'Prenota consulenza gratuita',
+  }),
+  nl: createTranslations('nl', {
     'nav.home': 'Home',
     'nav.countries': 'Landen',
     'nav.programs': 'Programma\'s',
@@ -354,8 +441,14 @@ export const translations: Record<Language, TranslationDictionary> = {
     'stats.cases': 'Succesvolle zaken',
     'stats.approval': 'Goedkeuringspercentage',
     'stats.years': 'Jaren ervaring',
-  },
-  pl: {
+    'countries.title': 'Ontdek de beste bestemmingen',
+    'packages.title': 'Premium servicepakketten',
+    'programs.title': 'Immigratieprogramma\'s',
+    'faq.title': 'Veelgestelde vragen',
+    'cta.title': 'Klaar om uw reis te beginnen?',
+    'cta.primary': 'Boek gratis consult',
+  }),
+  pl: createTranslations('pl', {
     'nav.home': 'Strona główna',
     'nav.countries': 'Kraje',
     'nav.programs': 'Programy',
@@ -372,8 +465,14 @@ export const translations: Record<Language, TranslationDictionary> = {
     'stats.cases': 'Pomyślne sprawy',
     'stats.approval': 'Wskaźnik zatwierdzeń',
     'stats.years': 'Lat doświadczenia',
-  },
-  tr: {
+    'countries.title': 'Odkryj najlepsze destynacje',
+    'packages.title': 'Pakiety usług premium',
+    'programs.title': 'Programy imigracyjne',
+    'faq.title': 'Często zadawane pytania',
+    'cta.title': 'Gotowy, aby rozpocząć podróż?',
+    'cta.primary': 'Zarezerwuj bezpłatną konsultację',
+  }),
+  tr: createTranslations('tr', {
     'nav.home': 'Ana Sayfa',
     'nav.countries': 'Ülkeler',
     'nav.programs': 'Programlar',
@@ -390,8 +489,14 @@ export const translations: Record<Language, TranslationDictionary> = {
     'stats.cases': 'Başarılı Vakalar',
     'stats.approval': 'Onay Oranı',
     'stats.years': 'Yıllık Deneyim',
-  },
-  vi: {
+    'countries.title': 'En İyi Varış Noktalarını Keşfedin',
+    'packages.title': 'Premium Hizmet Paketleri',
+    'programs.title': 'Göçmenlik Programları',
+    'faq.title': 'Sıkça Sorulan Sorular',
+    'cta.title': 'Yolculuğunuza Başlamaya Hazır mısınız?',
+    'cta.primary': 'Ücretsiz Danışmanlık Alın',
+  }),
+  vi: createTranslations('vi', {
     'nav.home': 'Trang chủ',
     'nav.countries': 'Quốc gia',
     'nav.programs': 'Chương trình',
@@ -408,8 +513,14 @@ export const translations: Record<Language, TranslationDictionary> = {
     'stats.cases': 'Trường hợp thành công',
     'stats.approval': 'Tỷ lệ phê duyệt',
     'stats.years': 'Năm kinh nghiệm',
-  },
-  th: {
+    'countries.title': 'Khám phá các điểm đến hàng đầu',
+    'packages.title': 'Gói dịch vụ cao cấp',
+    'programs.title': 'Chương trình di trú',
+    'faq.title': 'Câu hỏi thường gặp',
+    'cta.title': 'Sẵn sàng bắt đầu hành trình của bạn?',
+    'cta.primary': 'Đặt tư vấn miễn phí',
+  }),
+  th: createTranslations('th', {
     'nav.home': 'หน้าแรก',
     'nav.countries': 'ประเทศ',
     'nav.programs': 'โปรแกรม',
@@ -426,8 +537,14 @@ export const translations: Record<Language, TranslationDictionary> = {
     'stats.cases': 'กรณีที่ประสบความสำเร็จ',
     'stats.approval': 'อัตราการอนุมัติ',
     'stats.years': 'ปีแห่งประสบการณ์',
-  },
-  hi: {
+    'countries.title': 'สำรวจจุดหมายปลายทางยอดนิยม',
+    'packages.title': 'แพ็กเกจบริการพรีเมียม',
+    'programs.title': 'โครงการตรวจคนเข้าเมือง',
+    'faq.title': 'คำถามที่พบบ่อย',
+    'cta.title': 'พร้อมที่จะเริ่มต้นการเดินทางของคุณหรือยัง?',
+    'cta.primary': 'จองการปรึกษาฟรี',
+  }),
+  hi: createTranslations('hi', {
     'nav.home': 'होम',
     'nav.countries': 'देश',
     'nav.programs': 'कार्यक्रम',
@@ -444,8 +561,14 @@ export const translations: Record<Language, TranslationDictionary> = {
     'stats.cases': 'सफल मामले',
     'stats.approval': 'अनुमोदन दर',
     'stats.years': 'वर्षों का अनुभव',
-  },
-  id: {
+    'countries.title': 'शीर्ष गंतव्यों का अन्वेषण करें',
+    'packages.title': 'प्रीमियम सेवा पैकेज',
+    'programs.title': 'आप्रवासन कार्यक्रम',
+    'faq.title': 'सामान्य प्रश्न',
+    'cta.title': 'क्या आप अपनी यात्रा शुरू करने के लिए तैयार हैं?',
+    'cta.primary': 'निःशुल्क परामर्श बुक करें',
+  }),
+  id: createTranslations('id', {
     'nav.home': 'Beranda',
     'nav.countries': 'Negara',
     'nav.programs': 'Program',
@@ -462,8 +585,14 @@ export const translations: Record<Language, TranslationDictionary> = {
     'stats.cases': 'Kasus Sukses',
     'stats.approval': 'Tingkat Persetujuan',
     'stats.years': 'Tahun Pengalaman',
-  },
-  ms: {
+    'countries.title': 'Jelajahi Destinasi Teratas',
+    'packages.title': 'Paket Layanan Premium',
+    'programs.title': 'Program Imigrasi',
+    'faq.title': 'Pertanyaan Umum',
+    'cta.title': 'Siap untuk memulai perjalanan Anda?',
+    'cta.primary': 'Pesan konsultasi gratis',
+  }),
+  ms: createTranslations('ms', {
     'nav.home': 'Utama',
     'nav.countries': 'Negara',
     'nav.programs': 'Program',
@@ -480,8 +609,14 @@ export const translations: Record<Language, TranslationDictionary> = {
     'stats.cases': 'Kes Berjaya',
     'stats.approval': 'Kadar Kelulusan',
     'stats.years': 'Tahun Pengalaman',
-  },
-  fil: {
+    'countries.title': 'Terokai Destinasi Teratas',
+    'packages.title': 'Pakej Perkhidmatan Premium',
+    'programs.title': 'Program Imigresen',
+    'faq.title': 'Soalan Lazim',
+    'cta.title': 'Sedia untuk memulakan perjalanan anda?',
+    'cta.primary': 'Tempah konsultasi percuma',
+  }),
+  fil: createTranslations('fil', {
     'nav.home': 'Home',
     'nav.countries': 'Mga Bansa',
     'nav.programs': 'Mga Programa',
@@ -498,8 +633,14 @@ export const translations: Record<Language, TranslationDictionary> = {
     'stats.cases': 'Mga Matagumpay na Kaso',
     'stats.approval': 'Rate ng Pag-apruba',
     'stats.years': 'Taon ng Karanasan',
-  },
-  sw: {
+    'countries.title': 'Galugarin ang Top Destinations',
+    'packages.title': 'Mga Premium Service Package',
+    'programs.title': 'Mga Programa sa Imigrasyon',
+    'faq.title': 'Mga Madalas Itanong',
+    'cta.title': 'Handa na bang simulan ang iyong paglalakbay?',
+    'cta.primary': 'Mag-book ng libreng konsultasyon',
+  }),
+  sw: createTranslations('sw', {
     'nav.home': 'Nyumbani',
     'nav.countries': 'Nchi',
     'nav.programs': 'Programu',
@@ -516,8 +657,14 @@ export const translations: Record<Language, TranslationDictionary> = {
     'stats.cases': 'Kesi Zilizofanikiwa',
     'stats.approval': 'Kiwango cha Idhini',
     'stats.years': 'Miaka ya Uzoefu',
-  },
-  am: {
+    'countries.title': 'Chunguza Maeneo Bora',
+    'packages.title': 'Vifurushi vya Huduma za Premium',
+    'programs.title': 'Programu za Uhamiaji',
+    'faq.title': 'Maswali Yanayouluzwa Mar kwa Mara',
+    'cta.title': 'Uko tayari kuanza safari yako?',
+    'cta.primary': 'Weka nafasi ya ushauri bila malipo',
+  }),
+  am: createTranslations('am', {
     'nav.home': 'መነሻ',
     'nav.countries': 'አገሮች',
     'nav.programs': 'ፕሮግራሞች',
@@ -534,12 +681,18 @@ export const translations: Record<Language, TranslationDictionary> = {
     'stats.cases': 'ተሳክተው የተጠናቀቁ ጉዳዮች',
     'stats.approval': 'የመፅደቅ መጠን',
     'stats.years': 'የሙያ ልምድ',
-  },
-  ha: {
+    'countries.title': 'ተሰጥተው ያሉ ምርጥ ቦታዎች',
+    'packages.title': 'ፕሪሚየም አገልግሎት ፓኬጆች',
+    'programs.title': 'የኢሚግሬሽን ፕሮግራሞች',
+    'faq.title': 'ተደጋጋሚ ጥያቄዎች',
+    'cta.title': 'ጉዞዎን ለመጀመር ዝግጁ ነዎት?',
+    'cta.primary': 'ነፃ ምክር ይያዙ',
+  }),
+  ha: createTranslations('ha', {
     'nav.home': 'Gida',
     'nav.countries': 'Ƙasashe',
     'nav.programs': 'Shirye-shirye',
-    'nav.eligibility': ' cancanci',
+    'nav.eligibility': 'cancanci',
     'nav.packages': 'Fakitin',
     'nav.about': 'Game da Mu',
     'nav.faq': 'Tambayoyi',
@@ -552,7 +705,13 @@ export const translations: Record<Language, TranslationDictionary> = {
     'stats.cases': 'Lamarin da ya yi nasara',
     'stats.approval': 'Yawan amincewa',
     'stats.years': 'Shekarun gogewa',
-  },
+    'countries.title': 'Bincika Manyan Wurare',
+    'packages.title': 'Fakitin Ayyuka na Premium',
+    'programs.title': 'Shirye-shiryen Ƙaura',
+    'faq.title': 'Tambayoyin da ake Yawan Yi',
+    'cta.title': 'Shin kana shirye don fara tafiya?',
+    'cta.primary': 'Kaɗi shawarwarin kyauta',
+  }),
   yo: {
     'nav.home': 'Ile',
     'nav.countries': 'Awọn orilẹ-ede',
