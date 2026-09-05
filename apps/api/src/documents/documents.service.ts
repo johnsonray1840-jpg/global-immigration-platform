@@ -55,7 +55,7 @@ export class DocumentsService {
         name: file.originalname,
         type: type || 'other',
         fileUrl,
-        status: 'UPLOADED',
+        status: 'PENDING_REVIEW',
       },
     });
 
@@ -118,7 +118,7 @@ export class DocumentsService {
         name,
         type,
         fileUrl: key,
-        status: 'UPLOADED',
+        status: 'PENDING_REVIEW',
       },
     });
 
@@ -168,5 +168,110 @@ export class DocumentsService {
       documentName: docType,
       isProvided: providedTypes.includes(docType),
     }));
+  }
+
+  async getCaseDocumentsAdmin(caseId: string) {
+    return this.prisma.document.findMany({
+      where: { caseId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            profile: {
+              select: {
+                firstName: true,
+                lastName: true,
+              },
+            },
+          },
+        },
+        verifier: {
+          select: {
+            id: true,
+            user: {
+              select: {
+                email: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: { uploadedAt: 'desc' },
+    });
+  }
+
+  async reviewDocument(
+    documentId: string,
+    status: string,
+    reviewerId: string,
+    reason?: string,
+  ) {
+    const validStatuses = ['VERIFIED', 'REJECTED'];
+    if (!validStatuses.includes(status)) {
+      throw new BadRequestException('Invalid status. Must be VERIFIED or REJECTED');
+    }
+
+    const document = await this.prisma.document.findUnique({
+      where: { id: documentId },
+      include: { case: true },
+    });
+
+    if (!document) {
+      throw new NotFoundException('Document not found');
+    }
+
+    const updatedDoc = await this.prisma.document.update({
+      where: { id: documentId },
+      data: {
+        status: status as 'VERIFIED' | 'REJECTED',
+        verifiedById: reviewerId,
+        updatedAt: new Date(),
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    // Emit real-time event to the user
+    this.eventsGateway.emitToUser(document.userId, 'document-reviewed', {
+      documentId: document.id,
+      status,
+      reason,
+    });
+
+    // Create notification for the user
+    const notificationMessage = status === 'VERIFIED'
+      ? `Your document "${document.name}" has been verified successfully.`
+      : `Your document "${document.name}" was rejected. Reason: ${reason || 'Please review requirements and resubmit.'}`;
+
+    await this.notificationsService.createNotification(
+      document.userId,
+      status === 'VERIFIED' ? 'Document Verified' : 'Document Rejected',
+      notificationMessage,
+      { documentId: document.id, status, reason },
+    );
+
+    // If all documents are verified, update case status
+    if (status === 'VERIFIED') {
+      const caseDocs = await this.prisma.document.findMany({
+        where: { caseId: document.caseId },
+      });
+      const allVerified = caseDocs.every(d => d.status === 'VERIFIED');
+      
+      if (allVerified) {
+        await this.prisma.case.update({
+          where: { id: document.caseId },
+          data: { status: 'DOCUMENTS_VERIFIED' },
+        });
+      }
+    }
+
+    return updatedDoc;
   }
 }

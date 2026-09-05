@@ -58,6 +58,7 @@ enum CaseStatus {
 
 enum DocumentStatus {
   UPLOADED
+  PENDING_REVIEW
   VERIFIED
   REJECTED
   EXPIRED

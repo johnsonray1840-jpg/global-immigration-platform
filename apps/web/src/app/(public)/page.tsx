@@ -1,6 +1,7 @@
 import PremiumHero from '@/components/hero/PremiumHero';
 import StatsSection from '@/components/home/StatsSection';
 import MapSection from '@/components/home/MapSection';
+import CountriesSection from '@/components/home/CountriesSection';
 import ProgramsSection from '@/components/home/ProgramsSection';
 import PackagesSection from '@/components/home/PackagesSection';
 import SuccessStoriesSection from '@/components/home/SuccessStoriesSection';
@@ -15,6 +16,7 @@ export default function HomePage() {
       <PremiumHero />
       <StatsSection />
       <MapSection />
+      <CountriesSection />
       <ProgramsSection />
       <PackagesSection />
       <SuccessStoriesSection />
