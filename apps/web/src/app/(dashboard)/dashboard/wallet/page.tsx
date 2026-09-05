@@ -79,7 +79,7 @@ export default function WalletPage() {
 
     setDepositing(true);
     try {
-      const res = await api.post('/wallet/deposit', { amount, paymentMethodId: 'CRYPTO' });
+      const res = await api.post('/wallet/deposit', { amount,  paymentMethodType: 'CRYPTO', });
       setInvoiceId(res.data.invoice.id);
       setModalAmount(amount);
       setDepositAmount('');

@@ -20,10 +20,15 @@ export class WalletController {
 
   @UseGuards(JwtAuthGuard)
   @Post('deposit')
-  async deposit(
-    @Req() req,
-    @Body() body: { amount: number; paymentMethodId: string },
-  ) {
-    return this.walletService.requestDeposit(req.user.id, body.amount, body.paymentMethodId);
+  async deposit(@Req() req, @Body() body: any) {
+    const amount = Number(body.amount);
+    const paymentMethodType = body.paymentMethodType || 'CRYPTO';
+    const promoCode = body.promoCode;
+    return this.walletService.requestDeposit(
+      req.user.id,
+      amount,
+      paymentMethodType,
+      promoCode,
+    );
   }
 }
