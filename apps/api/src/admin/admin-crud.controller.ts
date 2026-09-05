@@ -39,6 +39,8 @@ export class AdminCrudController {
     'invoice',
     'payment',
     'servicePackage',
+    'adminServicePackage',
+    'adminScholarship',
     'scholarship',
     'university',
     'faq',
@@ -65,6 +67,8 @@ export class AdminCrudController {
     'program',
     'cryptoWallet',
     'subscriber',
+    'investmentProgram',
+    'investment',
   ];
 
   constructor(
