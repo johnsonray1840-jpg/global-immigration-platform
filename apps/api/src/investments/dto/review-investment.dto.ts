@@ -2,13 +2,13 @@ import { IsString, IsEnum, IsOptional } from 'class-validator';
 import { InvestmentStatus } from '@prisma/client';
 
 export class ReviewInvestmentDto {
-  @IsEnum(InvestmentStatus)
+  @IsEnum([InvestmentStatus.APPROVED, InvestmentStatus.REJECTED, InvestmentStatus.COMPLETED])
   status: InvestmentStatus;
-
+  
   @IsString()
   @IsOptional()
   rejectionReason?: string;
-
+  
   @IsString()
   @IsOptional()
   notes?: string;
