@@ -249,11 +249,19 @@ export class InvestmentsService {
       throw new NotFoundException('Investment not found');
     }
 
-    // Validate status transition
-const validStatuses: InvestmentStatus[] = [InvestmentStatus.APPROVED, InvestmentStatus.REJECTED, InvestmentStatus.COMPLETED];
-if (!validStatuses.includes(status)) {
-  throw new ForbiddenException('Invalid review status. Must be APPROVED, REJECTED, or COMPLETED');
-}
+    // Validate status transition - Admin review workflow (all InvestmentStatus enum values)
+    const validStatuses = [
+      InvestmentStatus.PENDING,
+      InvestmentStatus.SUBMITTED,
+      InvestmentStatus.UNDER_REVIEW,
+      InvestmentStatus.APPROVED,
+      InvestmentStatus.REJECTED,
+      InvestmentStatus.COMPLETED,
+      InvestmentStatus.WITHDRAWN
+    ];
+    if (!validStatuses.includes(status)) {
+      throw new ForbiddenException('Invalid review status.');
+    }
 
     const updateData: any = {
       status,
