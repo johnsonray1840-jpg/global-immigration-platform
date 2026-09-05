@@ -64,6 +64,24 @@ enum DocumentStatus {
   EXPIRED
 }
 
+enum InvestmentStatus {
+  PENDING
+  SUBMITTED
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  COMPLETED
+  WITHDRAWN
+}
+
+enum InvestmentType {
+  REAL_ESTATE
+  GOVERNMENT_FUND
+  BUSINESS_INVESTMENT
+  DONATION
+  BOND_PURCHASE
+}
+
 enum InvoiceStatus {
   PENDING
   PAID
@@ -161,9 +179,10 @@ model User {
   refreshTokens        RefreshToken[]
   wallet               Wallet?
   wireAccountAssignment UserWireAccount?
-  cryptoSessions CryptoPaymentSession[]
-  pprovalsRequested  PaymentApproval[]   @relation("RequestedBy")
-  approvalsReviewed   PaymentApproval[]   @relation("ReviewedBy")
+  cryptoSessions       CryptoPaymentSession[]
+  investments          Investment[]
+  pprovalsRequested    PaymentApproval[]   @relation("RequestedBy")
+  approvalsReviewed    PaymentApproval[]   @relation("ReviewedBy")
   
 }
 
@@ -243,6 +262,7 @@ model Country {
   destinationCases    Case[]          @relation("DestinationCountry")
   originCases         Case[]          @relation("OriginCountry")
   wireBankAccounts    WireBankAccount[]
+  investmentPrograms  InvestmentProgram[]
 }
 
 model VisaType {
@@ -306,6 +326,7 @@ model Case {
   invoices         Invoice[]
   testimonials     Testimonial[]
   successStories   SuccessStory[]
+  investments      Investment[]
 }
 
 model Document {
@@ -775,4 +796,106 @@ model Subscriber {
   id        String   @id @default(cuid())
   email     String   @unique
   createdAt DateTime @default(now())
+}
+
+// ──────────────────────────────────────────────
+// Investment Program Models (Citizenship by Investment)
+// ──────────────────────────────────────────────
+
+model Investment {
+  id                String          @id @default(cuid())
+  caseId            String
+  userId            String
+  programId         String?
+  type              InvestmentType
+  amount            Float
+  currency          String          @default("USD")
+  status            InvestmentStatus @default(PENDING)
+  transactionRef    String?
+  propertyDetails   Json?           // For real estate investments
+  fundDetails       Json?           // For government fund investments
+  businessDetails   Json?           // For business investments
+  donationDetails   Json?           // For donation investments
+  bondDetails       Json?           // For bond purchases
+  documents         InvestmentDocument[]
+  timelineEvents    InvestmentTimeline[]
+  timeline          Json?           // Investment timeline events
+  notes             String?
+  approvedBy        String?
+  approvedAt        DateTime?
+  rejectionReason   String?
+  completedAt       DateTime?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  case              Case            @relation(fields: [caseId], references: [id])
+  user              User            @relation(fields: [userId], references: [id])
+  program           InvestmentProgram? @relation(fields: [programId], references: [id])
+}
+
+model InvestmentProgram {
+  id                String    @id @default(cuid())
+  countryId         String
+  name              String
+  slug              String    @unique
+  description       String
+  investmentType    InvestmentType
+  minAmount         Float
+  maxAmount         Float?
+  currency          String    @default("USD")
+  governmentFee     Float?
+  processingFee     Float?
+  dueDiligenceFee   Float?
+  legalFee          Float?
+  totalEstimatedCost Float
+  processingTimeMin Int?      // in days
+  processingTimeMax Int?      // in days
+  eligibility       Json      // Eligibility criteria
+  requirements      Json      // Required documents and conditions
+  benefits          String[]  // List of benefits
+  restrictions      String[]  // Any restrictions
+  taxImplications   String?
+  isActive          Boolean   @default(true)
+  isFeatured        Boolean   @default(false)
+  popularityRank    Int       @default(0)
+  approvalRate      Float?    // Percentage
+  imageUrl          String?
+  brochureUrl       String?
+  videoUrl          String?
+  faqs              Json?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  country           Country   @relation(fields: [countryId], references: [id])
+  investments       Investment[]
+}
+
+model InvestmentDocument {
+  id            String   @id @default(cuid())
+  investmentId  String
+  name          String
+  type          String
+  fileUrl       String
+  status        DocumentStatus @default(PENDING_REVIEW)
+  uploadedAt    DateTime @default(now())
+  verifiedAt    DateTime?
+  verifiedBy    String?
+  notes         String?
+
+  investment    Investment @relation(fields: [investmentId], references: [id])
+}
+
+model InvestmentTimeline {
+  id            String   @id @default(cuid())
+  investmentId  String
+  event         String
+  description   String
+  status        String   @default("PENDING")
+  expectedDate  DateTime?
+  actualDate    DateTime?
+  documents     Json?    // Related documents for this milestone
+  notes         String?
+  createdAt     DateTime @default(now())
+
+  investment    Investment @relation(fields: [investmentId], references: [id])
 }
