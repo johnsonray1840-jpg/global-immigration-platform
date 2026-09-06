@@ -274,7 +274,7 @@ export class DocumentsService {
 
     return updatedDoc;
   }
-}
+
   async getAllDocumentsForReview() {
     return this.prisma.document.findMany({
       include: {
