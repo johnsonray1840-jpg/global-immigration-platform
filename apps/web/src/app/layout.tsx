@@ -7,6 +7,8 @@ import { LanguageProvider } from "@/i18n/LanguageContext";
 import type { Metadata, Viewport } from "next";
 
 
+import dynamic from "next/dynamic";
+
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const dmSerif = DM_Serif_Display({
   weight: "400",
@@ -14,6 +16,9 @@ const dmSerif = DM_Serif_Display({
   variable: "--font-dm-serif",
 });
 
+const AIChatWidget = dynamic(() => import("@/components/ai/AIChatWidget"), {
+  ssr: false,
+});
 
 export const metadata: Metadata = {
   title: 'Global Immigration & Visa Platform',
@@ -97,7 +102,10 @@ export default function RootLayout({
 
         <ThemeProvider>
           <LanguageProvider>
-            <SocketProvider>{children}</SocketProvider>
+            <SocketProvider>
+              {children}
+              <AIChatWidget />
+            </SocketProvider>
           </LanguageProvider>
         </ThemeProvider>
       </body>

@@ -22,9 +22,6 @@ import { Button } from '@/components/ui/button';
 import NotificationsBell from '@/components/notifications/NotificationsBell';
 import ThemeToggle from '@/components/layout/theme-toggle';
 import { cn } from '@/lib/utils';
-import dynamic from 'next/dynamic';
-
-const AIChatWidget = dynamic(() => import('@/components/ai/AIChatWidget'), { ssr: false });
 
 const nav = [
   { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -186,8 +183,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </header>
         <main className="p-4 md:p-6">{children}</main>
       </div>
-
-      <AIChatWidget />
     </div>
   );
 }
