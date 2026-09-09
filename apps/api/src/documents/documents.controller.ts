@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Param, Body, UseGuards, Req, UploadedFile, UseInterceptors, Patch } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Patch,
+  Param,
+  Body,
+  UseGuards,
+  Req,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
@@ -10,8 +21,41 @@ import type { Express } from 'express';
 export class DocumentsController {
   constructor(private documentsService: DocumentsService) {}
 
-  // Existing upload-url, confirm, get, checklist endpoints...
+  // Presigned upload URL (existing)
+  @UseGuards(JwtAuthGuard)
+  @Post('upload-url')
+  async getUploadUrl(
+    @Req() req,
+    @Param('caseId') caseId: string,
+    @Body() body: { name: string; type: string; contentType: string },
+  ) {
+    return this.documentsService.createUploadUrl(
+      req.user.id,
+      caseId,
+      body.name,
+      body.type,
+      body.contentType,
+    );
+  }
 
+  // Confirm presigned upload (existing)
+  @UseGuards(JwtAuthGuard)
+  @Post('confirm')
+  async confirmUpload(
+    @Req() req,
+    @Param('caseId') caseId: string,
+    @Body() body: { key: string; name: string; type: string },
+  ) {
+    return this.documentsService.confirmUpload(
+      req.user.id,
+      caseId,
+      body.key,
+      body.name,
+      body.type,
+    );
+  }
+
+  // Direct upload fallback (existing)
   @UseGuards(JwtAuthGuard)
   @Post('upload')
   @UseInterceptors(FileInterceptor('file', { limits: { fileSize: 25 * 1024 * 1024 } }))
@@ -24,13 +68,21 @@ export class DocumentsController {
     return this.documentsService.directUpload(req.user.id, caseId, file, type);
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('SUPER_ADMIN', 'ADMIN', 'COMPLIANCE', 'DOCUMENT_VERIFIER')
+  // Get documents for a case (client – own case only, admin – all)
+  @UseGuards(JwtAuthGuard)
   @Get()
-  async getAllDocumentsForCase(@Param('caseId') caseId: string) {
-    return this.documentsService.getCaseDocumentsAdmin(caseId);
+  async getDocuments(@Req() req, @Param('caseId') caseId: string) {
+    return this.documentsService.getCaseDocuments(req.user.id, caseId);
   }
 
+  // Get document checklist for a case (client – own case only, admin – all)
+  @UseGuards(JwtAuthGuard)
+  @Get('checklist')
+  async getChecklist(@Req() req, @Param('caseId') caseId: string) {
+    return this.documentsService.getChecklist(caseId, req.user.id);
+  }
+
+  // Admin/Consultant: review a document (approve/reject)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('SUPER_ADMIN', 'ADMIN', 'COMPLIANCE', 'DOCUMENT_VERIFIER')
   @Patch(':id/review')
@@ -45,5 +97,13 @@ export class DocumentsController {
       req.user.id,
       body.reason,
     );
+  }
+
+  // Admin: get all documents for a case (explicit admin endpoint)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('SUPER_ADMIN', 'ADMIN', 'COMPLIANCE', 'DOCUMENT_VERIFIER')
+  @Get('admin')
+  async getAllDocumentsForCase(@Param('caseId') caseId: string) {
+    return this.documentsService.getCaseDocumentsAdmin(caseId);
   }
 }

@@ -38,6 +38,51 @@ export class ConsultantService {
     return { assignedCases, pendingDocuments, upcomingAppointments };
   }
 
+  async reviewDocument(
+    userId: string,
+    documentId: string,
+    status: string,
+    notes?: string,
+  ) {
+    const consultantId = await this.getConsultantProfileId(userId);
+    const doc = await this.prisma.document.findUnique({
+      where: { id: documentId },
+      include: { case: true },
+    });
+    if (!doc) throw new NotFoundException('Document not found');
+  
+    const newStatus = status === 'APPROVED' ? 'VERIFIED' : 'REJECTED';
+    const updated = await this.prisma.document.update({
+      where: { id: documentId },
+      data: {
+        status: newStatus as any,
+        reviewNotes: notes || null,
+        reviewedById: consultantId,
+      },
+    });
+  
+    // If all required documents are verified, update case status
+    const caseData = await this.prisma.case.findUnique({
+      where: { id: doc.caseId },
+      include: { visaRule: true, documents: true },
+    });
+    if (caseData && caseData.visaRule) {
+      const requiredDocs = (caseData.visaRule.requiredDocs as string[]) || [];
+      const verifiedDocs = caseData.documents
+        .filter(d => d.status === 'VERIFIED')
+        .map(d => d.type);
+      const allVerified = requiredDocs.every(rd => verifiedDocs.includes(rd));
+      if (allVerified) {
+        await this.prisma.case.update({
+          where: { id: doc.caseId },
+          data: { status: 'DOCUMENTS_VERIFIED' },
+        });
+      }
+    }
+  
+    return updated;
+  }
+
   async getAssignedCases(userId: string) {
     const consultantId = await this.getConsultantProfileId(userId);
     return this.prisma.case.findMany({

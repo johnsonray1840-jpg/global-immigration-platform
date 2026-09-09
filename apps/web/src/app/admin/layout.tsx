@@ -20,6 +20,8 @@ import {
   Coins,
   ScrollText,
   CheckSquare,
+  GraduationCap,
+  Briefcase,
 } from 'lucide-react';
 import ThemeToggle from '@/components/layout/theme-toggle';
 import { cn } from '@/lib/utils';
@@ -30,6 +32,8 @@ const nav = [
   { label: 'Users & Roles', href: '/admin/users', icon: Users },
   { label: 'Countries', href: '/admin/countries', icon: Globe2 },
   { label: 'Visa Rules', href: '/admin/visa-rules', icon: FileText },
+  { label: 'Cases', href: '/admin/cases', icon: Briefcase },               
+  { label: 'Scholarships', href: '/admin/scholarships', icon: GraduationCap },
   { label: 'Payment Methods', href: '/admin/payments', icon: Wallet },
   { label: 'Wire Accounts', href: '/admin/wire-accounts', icon: Landmark },
   { label: 'Crypto Wallets', href: '/admin/crypto-wallets', icon: Coins },

@@ -231,6 +231,228 @@ async function main() {
     }
   }
 
+  // 3. Seed Universities & Scholarships
+  console.log('🎓 Seeding universities and global scholarships...');
+  const scholarshipData = [
+    {
+      countryCode: 'US',
+      uniName: 'Harvard University & Top US Institutions',
+      ranking: 1,
+      tuitionRange: '$54,000 - $62,000 / year',
+      website: 'https://www.harvard.edu',
+      name: 'Fulbright Foreign Student Program',
+      description: 'Prestigious fellowship enabling graduate students, young professionals, and artists to study and conduct research in the United States. Covers full tuition, airfare, monthly living stipend, and health insurance.',
+      fundingAmount: 50000,
+      deadline: new Date('2026-10-31T23:59:59.000Z'),
+      link: 'https://foreign.fulbrightonline.org/',
+      eligibilityJson: {
+        degreeLevel: ["Master's", "PhD"],
+        academicRequirement: 'Bachelor degree with minimum 3.0 GPA or equivalent',
+        languageTest: 'TOEFL iBT 90+ or IELTS 7.0+',
+        benefits: ['Full Tuition Coverage', 'Monthly Living Stipend', 'Round-trip Airfare', 'J-1 Visa Sponsorship', 'Comprehensive Health Insurance'],
+        coverageType: 'Full Scholarship',
+      },
+    },
+    {
+      countryCode: 'GB',
+      uniName: 'University of Oxford / Cambridge / Imperial',
+      ranking: 2,
+      tuitionRange: '£28,000 - £44,000 / year',
+      website: 'https://www.ox.ac.uk',
+      name: 'Chevening Scholarships UK',
+      description: "The UK government's global scholarship programme funded by the FCDO. Offers full financial support to study for any eligible one-year master's degree at any UK university.",
+      fundingAmount: 45000,
+      deadline: new Date('2026-11-05T23:59:59.000Z'),
+      link: 'https://www.chevening.org/',
+      eligibilityJson: {
+        degreeLevel: ["Master's (One-year taught)"],
+        academicRequirement: 'Undergraduate degree equivalent to UK upper second-class 2:1 honours',
+        workExperience: 'Minimum 2 years (2,800 hours) of work experience',
+        benefits: ['Full University Tuition Fees', 'Monthly Living Allowance', 'Economy Return Flights to the UK', 'Visa Application Fee & Travel Grant'],
+        coverageType: 'Fully Funded',
+      },
+    },
+    {
+      countryCode: 'DE',
+      uniName: 'Technical University of Munich & Partner Institutions',
+      ranking: 28,
+      tuitionRange: 'Free tuition / Semester fee only',
+      website: 'https://www.tum.de',
+      name: 'DAAD Helmut-Schmidt-Programme',
+      description: 'Supports future leaders from international partner countries aiming to promote democracy and social governance. Covers full tuition, €934 monthly stipend, German courses, and health insurance.',
+      fundingAmount: 32000,
+      deadline: new Date('2026-07-31T23:59:59.000Z'),
+      link: 'https://www.daad.de/',
+      eligibilityJson: {
+        degreeLevel: ["Master's (Public Policy & Good Governance)"],
+        academicRequirement: 'First university degree with above-average grades',
+        benefits: ['Full Tuition Exemption', 'Monthly Scholarship Rate of €934', 'Health Insurance in Germany', 'Travel Allowance', 'Study & Research Subsidy'],
+        coverageType: 'Fully Funded',
+      },
+    },
+    {
+      countryCode: 'AU',
+      uniName: 'University of Melbourne & Group of Eight',
+      ranking: 13,
+      tuitionRange: '$38,000 - $52,000 AUD / year',
+      website: 'https://www.unimelb.edu.au',
+      name: 'Australia Awards Scholarships',
+      description: 'Prestigious long-term awards administered by the Australian Department of Foreign Affairs and Trade for full-time undergraduate or postgraduate study at participating Australian universities.',
+      fundingAmount: 60000,
+      deadline: new Date('2026-08-30T23:59:59.000Z'),
+      link: 'https://www.dfat.gov.au/people-to-people/australia-awards',
+      eligibilityJson: {
+        degreeLevel: ["Bachelor's", "Master's", "PhD"],
+        academicRequirement: 'Tertiary qualification matching Australian university entry standards',
+        benefits: ['Full Tuition Fees', 'Return Economy Air Travel', 'Establishment Allowance ($5,000 AUD)', 'Contribution to Living Expenses (CLE)', 'Overseas Student Health Cover (OSHC)'],
+        coverageType: 'Full Scholarship',
+      },
+    },
+    {
+      countryCode: 'CA',
+      uniName: 'University of Toronto & McGill University',
+      ranking: 21,
+      tuitionRange: '$40,000 - $60,000 CAD / year',
+      website: 'https://www.utoronto.ca',
+      name: 'Vanier Canada Graduate Scholarships',
+      description: 'Attracts and retains world-class doctoral students by supporting students who demonstrate both leadership skills and a high standard of scholarly achievement in graduate studies.',
+      fundingAmount: 50000,
+      deadline: new Date('2026-11-01T23:59:59.000Z'),
+      link: 'https://vanier.gc.ca/',
+      eligibilityJson: {
+        degreeLevel: ['PhD / Doctoral Studies'],
+        academicRequirement: 'First-class average in graduate studies',
+        benefits: ['$50,000 CAD per year for 3 years ($150,000 Total)', 'Institutional Research Grants', 'Work permit and PR Pathway support'],
+        coverageType: 'High-Value Grant ($150,000)',
+      },
+    },
+    {
+      countryCode: 'FR',
+      uniName: 'Sorbonne University & École Polytechnique',
+      ranking: 45,
+      tuitionRange: '€2,770 - €3,770 / year (Standard Public Rate)',
+      website: 'https://www.sorbonne-universite.fr',
+      name: 'Eiffel Excellence Scholarship Program',
+      description: 'Developed by the French Ministry for Europe and Foreign Affairs to enable French higher education institutions to attract elite foreign students for master’s and PhD programs.',
+      fundingAmount: 38000,
+      deadline: new Date('2026-10-15T23:59:59.000Z'),
+      link: 'https://www.campusfrance.org/en/eiffel-scholarship-program-excellence',
+      eligibilityJson: {
+        degreeLevel: ["Master's", "PhD"],
+        benefits: ['Monthly Allowance of €1,181 to €1,800', 'International Return Airfare', 'National Health Insurance', 'Housing Assistance Grants'],
+        coverageType: 'Fully Funded',
+      },
+    },
+    {
+      countryCode: 'CH',
+      uniName: 'ETH Zurich & EPFL Switzerland',
+      ranking: 7,
+      tuitionRange: 'CHF 1,460 / year (Subsidized)',
+      website: 'https://ethz.ch',
+      name: 'Swiss Government Excellence Scholarships',
+      description: 'Offered by the Swiss Confederation to foreign researchers who have completed a master’s degree or PhD and foreign artists holding a bachelor’s degree.',
+      fundingAmount: 42000,
+      deadline: new Date('2026-11-30T23:59:59.000Z'),
+      link: 'https://www.sbfi.admin.ch/scholarships_eng',
+      eligibilityJson: {
+        degreeLevel: ['Research Fellowship', 'PhD', 'Postdoctoral'],
+        benefits: ['Monthly Stipend of CHF 1,920 to CHF 3,500', 'Mandatory Swiss Health Insurance', 'Flight Allowance', 'Housing Allowance'],
+        coverageType: 'Fully Funded Fellowship',
+      },
+    },
+    {
+      countryCode: 'JP',
+      uniName: 'University of Tokyo & Kyoto University',
+      ranking: 23,
+      tuitionRange: '535,800 JPY / year (Waived for Scholars)',
+      website: 'https://www.u-tokyo.ac.jp',
+      name: 'MEXT Japanese Government Scholarship',
+      description: 'Fully funded scholarship awarded by Japan’s Ministry of Education, Culture, Sports, Science and Technology (MEXT) for undergraduate, master’s, and PhD international students.',
+      fundingAmount: 35000,
+      deadline: new Date('2026-09-15T23:59:59.000Z'),
+      link: 'https://www.studyinjapan.go.jp/en/planning/scholarship/mext-scholarships/',
+      eligibilityJson: {
+        degreeLevel: ["Undergraduate", "Master's", "PhD"],
+        benefits: ['100% Full Tuition Exemption', 'Monthly Stipend of 143,000 to 145,000 JPY', 'Round-trip International Airfare', 'Japanese Language Training'],
+        coverageType: 'Full Government Scholarship',
+      },
+    },
+    {
+      countryCode: 'SG',
+      uniName: 'National University of Singapore (NUS) & NTU',
+      ranking: 8,
+      tuitionRange: 'SGD 38,000 - SGD 50,000 / year (Fully Funded)',
+      website: 'https://nus.edu.sg',
+      name: 'Singapore International Graduate Award (SINGA)',
+      description: 'A collaboration between A*STAR, NTU, NUS, and SUTD. Receive PhD training in Singapore in English at premier research institutes and world top-ranked universities.',
+      fundingAmount: 40000,
+      deadline: new Date('2026-12-01T23:59:59.000Z'),
+      link: 'https://www.a-star.edu.sg/Scholarships/for-graduate-studies/singapore-international-graduate-award-singa',
+      eligibilityJson: {
+        degreeLevel: ['PhD in Biomedical / Physical Sciences & Engineering'],
+        benefits: ['Full Tuition Fee Coverage for 4 Years', 'Monthly Stipend of SGD 2,700 - 3,200', 'Airfare Grant of up to SGD 1,500', 'Settling-in Allowance of SGD 1,000'],
+        coverageType: 'Full 4-Year PhD Fellowship',
+      },
+    },
+    {
+      countryCode: 'IE',
+      uniName: 'Trinity College Dublin & University College Dublin',
+      ranking: 81,
+      tuitionRange: '€18,000 - €26,000 / year',
+      website: 'https://www.tcd.ie',
+      name: 'Government of Ireland International Education Scholarship',
+      description: 'Awarded by the Higher Education Authority (HEA) to high-calibre students from non-EEA countries for one year of full-time master’s or doctoral studies in Ireland.',
+      fundingAmount: 30000,
+      deadline: new Date('2026-08-15T23:59:59.000Z'),
+      link: 'https://hea.ie/funding-governance-performance/funding/student-finance/government-of-ireland-international-education-scholarships/',
+      eligibilityJson: {
+        degreeLevel: ["Master's (1-Year)", "PhD (Final Year)"],
+        benefits: ['Full Tuition Fee Waiver at Host Irish Institution', '€10,000 Direct Living Stipend for One Study Year', 'Fast-track Graduate Work Visa (Stamp 1G)'],
+        coverageType: 'Full Fee Waiver + €10k Stipend',
+      },
+    },
+  ];
+
+  for (const item of scholarshipData) {
+    const country = await prisma.country.findUnique({ where: { code: item.countryCode } });
+    if (!country) continue;
+
+    // Create or find university
+    let uni = await prisma.university.findFirst({
+      where: { countryId: country.id, name: item.uniName },
+    });
+    if (!uni) {
+      uni = await prisma.university.create({
+        data: {
+          countryId: country.id,
+          name: item.uniName,
+          ranking: item.ranking,
+          tuitionRange: item.tuitionRange,
+          website: item.website,
+        },
+      });
+    }
+
+    // Create or find scholarship
+    const existingSch = await prisma.scholarship.findFirst({
+      where: { countryId: country.id, name: item.name },
+    });
+    if (!existingSch) {
+      await prisma.scholarship.create({
+        data: {
+          countryId: country.id,
+          universityId: uni.id,
+          name: item.name,
+          description: item.description,
+          fundingAmount: item.fundingAmount,
+          deadline: item.deadline,
+          link: item.link,
+          eligibilityJson: item.eligibilityJson,
+        },
+      });
+    }
+  }
+
   console.log('✅ Seeding completed.');
 }
 

@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import api from '@/lib/api-client';
@@ -136,9 +137,12 @@ export default function PackagesPage() {
                         <span className="font-display text-2xl font-semibold text-[#111827]">
                           ${pkg.serviceFee?.toLocaleString()}
                         </span>
-                        <Button variant="ghost" className="text-[#0B5D66] hover:text-[#0A4E56]">
-                          Get Started <ArrowRight className="ml-2 h-4 w-4" />
-                        </Button>
+                        <Link
+                          href={`/packages/${pkg.id || pkg.name?.toLowerCase().replace(/\s+/g, '-')}`}
+                          className="inline-flex items-center text-sm font-medium text-[#0B5D66] hover:text-[#0A4E56]"
+                        >
+                          Learn More <ArrowRight className="ml-1 h-4 w-4" />
+                        </Link>
                       </div>
                     </div>
                   </div>

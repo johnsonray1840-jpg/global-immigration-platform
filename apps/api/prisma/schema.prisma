@@ -225,9 +225,9 @@ model ConsultantProfile {
   office            Office?         @relation(fields: [officeId], references: [id])
   cases             Case[]
   messages          Message[]
-  documentsVerified Document[]
-  appointments      Appointment[]
+  documentsVerified Document[] @relation("DocumentVerifier")
   documentsReviewed Document[] @relation("DocumentReviewer")
+  appointments      Appointment[]
 }
 
 model RefreshToken {
@@ -350,8 +350,8 @@ model Document {
 
   case      Case            @relation(fields: [caseId], references: [id])
   user      User            @relation(fields: [userId], references: [id])
-  verifier  ConsultantProfile? @relation(fields: [verifiedById], references: [id])
-  reviewer  ConsultantProfile? @relation("DocumentReviewer", fields: [reviewedById], references: [id])
+  verifier  ConsultantProfile? @relation("DocumentVerifier", fields: [verifiedById], references: [id])
+reviewer  ConsultantProfile? @relation("DocumentReviewer", fields: [reviewedById], references: [id])
 }
 
 model ChecklistItem {

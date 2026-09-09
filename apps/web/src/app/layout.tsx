@@ -16,9 +16,12 @@ const dmSerif = DM_Serif_Display({
 
 
 export const metadata: Metadata = {
-  // ... your metadata (unchanged)
+  title: 'Global Immigration & Visa Platform',
+  description: 'AI-Powered Global Immigration, Visa Processing, and Citizenship by Investment Platform',
+  other: {
+    google: 'notranslate',
+  },
 };
-
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -26,14 +29,13 @@ export const viewport: Viewport = {
   themeColor: "#0B5D66",
 };
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
+    <html lang="en" className="notranslate" suppressHydrationWarning data-scroll-behavior="smooth">
       <body
         className={`${inter.variable} ${dmSerif.variable} font-body antialiased`}
         suppressHydrationWarning

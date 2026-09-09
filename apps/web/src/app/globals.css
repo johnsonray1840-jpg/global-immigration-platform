@@ -174,3 +174,8 @@ body {
 .animate-float {
   animation: float 3s ease-in-out infinite;
 }
+
+/* ===== Translation and Clean Styling ===== */
+.notranslate {
+  translate: no;
+}

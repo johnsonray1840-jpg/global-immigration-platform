@@ -35,12 +35,10 @@ export class DocumentsService {
 
     if (!file) throw new BadRequestException('No file uploaded');
 
-    // Store file locally (or use S3 if configured)
     let fileUrl: string;
     try {
       fileUrl = await this.storage.uploadLocal(file);
     } catch (storageError) {
-      // fallback to direct path
       const uploadDir = path.join(process.cwd(), 'uploads');
       await fs.mkdir(uploadDir, { recursive: true });
       const fileName = `${Date.now()}-${file.originalname}`;
@@ -59,7 +57,6 @@ export class DocumentsService {
       },
     });
 
-    // OCR (optional, fail silently)
     try {
       const ocrResult = await this.ocrService.extractText(fileUrl);
       if (ocrResult.text) {
@@ -143,20 +140,24 @@ export class DocumentsService {
   }
 
   async getCaseDocuments(userId: string, caseId: string) {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    const canViewAll = ['SUPER_ADMIN', 'ADMIN', 'CONSULTANT', 'COMPLIANCE', 'DOCUMENT_VERIFIER'].includes(user?.role || '');
+    const where = canViewAll ? { caseId } : { caseId, userId };
     return this.prisma.document.findMany({
-      where: { caseId, userId },
+      where,
       orderBy: { uploadedAt: 'desc' },
     });
   }
 
   async getChecklist(caseId: string, userId: string) {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    const canViewAll = ['SUPER_ADMIN', 'ADMIN', 'CONSULTANT', 'COMPLIANCE', 'DOCUMENT_VERIFIER'].includes(user?.role || '');
+    const caseWhere = canViewAll ? { id: caseId } : { id: caseId, userId };
     const caseData = await this.prisma.case.findFirst({
-      where: { id: caseId, userId },
+      where: caseWhere,
       include: { visaRule: true },
     });
-    if (!caseData || !caseData.visaRule) {
-      throw new NotFoundException('Case or visa rule not found');
-    }
+    if (!caseData || !caseData.visaRule) throw new NotFoundException('Case or visa rule not found');
 
     const requiredDocs = (caseData.visaRule.requiredDocs as string[]) || [];
     const existingDocs = await this.prisma.document.findMany({
@@ -186,7 +187,7 @@ export class DocumentsService {
             },
           },
         },
-        verifier: {
+        reviewer: {
           select: {
             id: true,
             user: {
@@ -221,11 +222,19 @@ export class DocumentsService {
       throw new NotFoundException('Document not found');
     }
 
+    // Lookup consultant profile if the reviewer is a consultant
+    const consultant = await this.prisma.consultantProfile.findUnique({
+      where: { userId: reviewerId },
+    });
+
     const updatedDoc = await this.prisma.document.update({
       where: { id: documentId },
       data: {
         status: status as 'VERIFIED' | 'REJECTED',
-        verifiedById: reviewerId,
+        reviewedById: consultant?.id || null,
+        verifiedById: status === 'VERIFIED' ? consultant?.id || null : null,
+        reviewStatus: status,
+        reviewNotes: reason || null,
         updatedAt: new Date(),
       },
       include: {
@@ -235,17 +244,16 @@ export class DocumentsService {
             email: true,
           },
         },
+        case: true,
       },
     });
 
-    // Emit real-time event to the user
     this.eventsGateway.emitToUser(document.userId, 'document-reviewed', {
       documentId: document.id,
       status,
       reason,
     });
 
-    // Create notification for the user
     const notificationMessage = status === 'VERIFIED'
       ? `Your document "${document.name}" has been verified successfully.`
       : `Your document "${document.name}" was rejected. Reason: ${reason || 'Please review requirements and resubmit.'}`;
@@ -257,12 +265,11 @@ export class DocumentsService {
       { documentId: document.id, status, reason },
     );
 
-    // If all documents are verified, update case status
     if (status === 'VERIFIED') {
       const caseDocs = await this.prisma.document.findMany({
         where: { caseId: document.caseId },
       });
-      const allVerified = caseDocs.every(d => d.status === 'VERIFIED');
+      const allVerified = caseDocs.length > 0 && caseDocs.every(d => d.status === 'VERIFIED');
       
       if (allVerified) {
         await this.prisma.case.update({
@@ -270,13 +277,24 @@ export class DocumentsService {
           data: { status: 'DOCUMENTS_VERIFIED' },
         });
       }
+    } else if (status === 'REJECTED') {
+      await this.prisma.case.update({
+        where: { id: document.caseId },
+        data: { status: 'DOCUMENTS_PENDING' },
+      });
     }
 
     return updatedDoc;
   }
 
-  async getAllDocumentsForReview() {
+  async getAllDocumentsForReview(statusFilter?: string) {
+    const where: any = {};
+    if (statusFilter && statusFilter !== 'all') {
+      where.status = statusFilter;
+    }
+
     return this.prisma.document.findMany({
+      where,
       include: {
         user: {
           select: {
@@ -295,6 +313,11 @@ export class DocumentsService {
             id: true,
             status: true,
             destinationCountry: {
+              select: {
+                name: true,
+              },
+            },
+            originCountry: {
               select: {
                 name: true,
               },

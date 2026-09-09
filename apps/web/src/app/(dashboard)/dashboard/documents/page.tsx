@@ -109,10 +109,23 @@ export default function DocumentsPage() {
 
       {/* Upload Area */}
       {selectedCase && (
-        <div className="rounded-2xl border border-dashed border-border bg-muted/50 p-6 transition-colors hover:border-primary/50">
-          <DocumentUploader caseId={selectedCase} />
-        </div>
-      )}
+  <div className="rounded-2xl border border-dashed border-border bg-muted/50 p-6 transition-colors hover:border-primary/50">
+    <DocumentUploader
+      caseId={selectedCase}
+      onUploadSuccess={() => {
+        if (selectedCase) {
+          setLoadingDocs(true);
+          api.get(`/cases/${selectedCase}/documents`)
+            .then((res) => {
+              setDocuments(res.data);
+              setLoadingDocs(false);
+            })
+            .catch(() => setLoadingDocs(false));
+        }
+      }}
+    />
+  </div>
+)}
 
       {/* Document List */}
       <div>

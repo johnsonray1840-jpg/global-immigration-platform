@@ -9,6 +9,7 @@ import { OcrService } from './ocr.service';
 @Module({
   imports: [NotificationsModule],
   controllers: [DocumentsController],
-  providers: [DocumentsService, StorageService, OcrService,],
+  providers: [DocumentsService, StorageService, OcrService],
+  exports: [DocumentsService],
 })
 export class DocumentsModule {}

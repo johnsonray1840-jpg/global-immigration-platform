@@ -14,18 +14,102 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
-export const revalidate = 3600;
+const fallbackPackages: Record<string, {
+  id: string;
+  name: string;
+  category: string;
+  description: string;
+  includes: string[];
+  serviceFee: number;
+  currency?: string;
+  processingTime?: string;
+  eligibleCountries?: string;
+}> = {
+  'family-relocation': {
+    id: 'family-relocation',
+    name: 'Family Relocation',
+    category: 'Family',
+    description: 'Comprehensive family immigration support to ensure smooth relocation, dependent visas, and seamless resettlement for your entire family.',
+    includes: [
+      'Comprehensive Eligibility Assessment for all family members',
+      'Spousal & Dependent Visa Application Processing',
+      'Certified Document Translation & Legal Preparation',
+      'Housing, Healthcare & Settlement Assistance',
+      'School & University Enrollment Support for Children',
+    ],
+    serviceFee: 2500,
+    currency: 'USD',
+    processingTime: '3-6 months',
+    eligibleCountries: 'Canada, Australia, UK, New Zealand, Germany, USA',
+  },
+  'student-success': {
+    id: 'student-success',
+    name: 'Student Success',
+    category: 'Education',
+    description: 'End-to-end guidance for international students from university matching and admissions to visa approval and pre-departure preparation.',
+    includes: [
+      'Personalized University & Degree Program Matching',
+      'Scholarship & Financial Aid Guidance',
+      'Admission Application & SOP Review',
+      'Student Visa Filing & Embassy Interview Coaching',
+      'Accommodation Search & Pre-Departure Briefing',
+    ],
+    serviceFee: 1200,
+    currency: 'USD',
+    processingTime: '1-3 months',
+    eligibleCountries: 'USA, UK, Canada, Australia, Germany, Ireland, France',
+  },
+  'skilled-worker': {
+    id: 'skilled-worker',
+    name: 'Skilled Worker',
+    category: 'Work',
+    description: 'Dedicated pathway assistance for skilled professionals aiming for work permits, points-based entry, and fast-tracked permanent residency.',
+    includes: [
+      'Job Matching & Employer Sponsorship Support',
+      'Work Permit & Express Entry Visa Application',
+      'Credential Evaluation & Educational Assessment (ECA)',
+      'Points Assessment & Optimization Strategy',
+      'Resume Localization & Interview Preparation',
+    ],
+    serviceFee: 3000,
+    currency: 'USD',
+    processingTime: '4-8 months',
+    eligibleCountries: 'Canada, Australia, Germany, UK, New Zealand, UAE',
+  },
+};
 
 async function getPackage(id: string) {
+  const normalizedId = id.toLowerCase().trim();
+
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/packages/${id}`, {
       next: { revalidate: 3600 },
     });
-    if (!res.ok) return null;
-    return res.json();
+    if (res.ok) {
+      const text = await res.text();
+      if (text && text.trim().length > 0) {
+        try {
+          const data = JSON.parse(text);
+          if (data && data.name) return data;
+        } catch {
+          // continue to fallback
+        }
+      }
+    }
   } catch {
-    return null;
+    // network or connection error, continue to fallback
   }
+
+  if (fallbackPackages[normalizedId]) {
+    return fallbackPackages[normalizedId];
+  }
+
+  const foundBySlug = Object.values(fallbackPackages).find(
+    (p) => p.name.toLowerCase().replace(/\s+/g, '-') === normalizedId || p.id === normalizedId
+  );
+  if (foundBySlug) return foundBySlug;
+
+  return null;
 }
 
 // Temporary job lists for popular work-related packages
@@ -136,17 +220,17 @@ export default async function PackageDetailPage({ params }: { params: Promise<{ 
           <div className="rounded-xl border border-gray-200 bg-white p-6">
             <Clock className="h-6 w-6 text-[#0B5D66]" />
             <h3 className="mt-2 font-display text-lg font-semibold text-[#111827]">Processing Time</h3>
-            <p className="text-sm text-gray-600">Typically 3-6 months depending on destination and case complexity.</p>
+            <p className="text-sm text-gray-600">{pkg.processingTime || 'Typically 3-6 months depending on destination and case complexity.'}</p>
           </div>
           <div className="rounded-xl border border-gray-200 bg-white p-6">
             <Globe2 className="h-6 w-6 text-[#0B5D66]" />
             <h3 className="mt-2 font-display text-lg font-semibold text-[#111827]">Eligible Countries</h3>
-            <p className="text-sm text-gray-600">Most major destinations: Canada, UK, Australia, Germany, etc.</p>
+            <p className="text-sm text-gray-600">{pkg.eligibleCountries || 'Most major destinations: Canada, UK, Australia, Germany, USA, etc.'}</p>
           </div>
           <div className="rounded-xl border border-gray-200 bg-white p-6">
             <Banknote className="h-6 w-6 text-[#0B5D66]" />
             <h3 className="mt-2 font-display text-lg font-semibold text-[#111827]">Service Fee</h3>
-            <p className="text-sm text-gray-600">${pkg.serviceFee?.toLocaleString()} (government fees separate)</p>
+            <p className="text-sm text-gray-600">${pkg.serviceFee?.toLocaleString()} {pkg.currency || 'USD'} (government fees separate)</p>
           </div>
         </div>
 

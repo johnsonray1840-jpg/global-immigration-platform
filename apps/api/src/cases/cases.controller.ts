@@ -26,6 +26,12 @@ export class CasesController {
   }
 
   @UseGuards(JwtAuthGuard)
+@Post(':id/submit-review')
+submitForReview(@Req() req, @Param('id') id: string) {
+  return this.casesService.submitForReview(req.user.id, id);
+}
+
+  @UseGuards(JwtAuthGuard)
   @Patch(':id/status')
   updateStatus(@Req() req, @Param('id') id: string, @Body() body: { status: string }) {
     return this.casesService.updateStatus(req.user.id, id, body.status);

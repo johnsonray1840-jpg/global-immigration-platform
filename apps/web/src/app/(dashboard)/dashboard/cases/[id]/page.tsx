@@ -3,12 +3,13 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import api from '@/lib/api-client';
-import { GlassCard } from '@/components/shared/glass-card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
+import { toast } from 'sonner';
+import DocumentUploader from '@/components/documents/DocumentUploader';
 import {
   ArrowLeft,
   FileText,
@@ -18,6 +19,8 @@ import {
   CheckCircle2,
   Circle,
   Globe2,
+  AlertCircle,
+  Send,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -53,21 +56,49 @@ export default function CaseDetailPage() {
   const [caseData, setCaseData] = useState<any>(null);
   const [documents, setDocuments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [showUpload, setShowUpload] = useState(false);
 
-  useEffect(() => {
-    if (id) {
-      Promise.all([
+  const fetchCaseData = async () => {
+    if (!id) return;
+    try {
+      const [caseRes, docsRes] = await Promise.all([
         api.get(`/cases/${id}`),
         api.get(`/cases/${id}/documents`),
-      ])
-        .then(([caseRes, docsRes]) => {
-          setCaseData(caseRes.data);
-          setDocuments(docsRes.data);
-          setLoading(false);
-        })
-        .catch(() => setLoading(false));
+      ]);
+      setCaseData(caseRes.data);
+      setDocuments(docsRes.data);
+      setLoading(false);
+    } catch (error) {
+      toast.error('Failed to load case details');
+      setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    fetchCaseData();
   }, [id]);
+
+  const handleSubmitForReview = async () => {
+    if (!caseData) return;
+    setSubmitting(true);
+    try {
+      await api.post(`/cases/${caseData.id}/submit-review`);
+      toast.success('Case submitted for review');
+      fetchCaseData();
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Submission failed');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleUploadSuccess = () => {
+    // Refresh documents after upload
+    api.get(`/cases/${id}/documents`)
+      .then((res) => setDocuments(res.data))
+      .catch(() => {});
+  };
 
   if (loading) {
     return (
@@ -78,7 +109,6 @@ export default function CaseDetailPage() {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <Skeleton className="h-20 rounded-xl" />
           <Skeleton className="h-20 rounded-xl" />
-          <Skeleton className="h-20 rounded-xl" />
         </div>
       </div>
     );
@@ -87,7 +117,7 @@ export default function CaseDetailPage() {
   if (!caseData) {
     return (
       <div className="py-16 text-center">
-        <p className="text-lg text-muted-foreground">Case not found.</p>
+        <p className="text-lg text-gray-500">Case not found.</p>
         <Button variant="outline" className="mt-4" onClick={() => router.back()}>
           <ArrowLeft className="mr-2 h-4 w-4" /> Go Back
         </Button>
@@ -96,6 +126,9 @@ export default function CaseDetailPage() {
   }
 
   const currentStatusIndex = statusFlow.indexOf(caseData.status);
+  const canSubmit =
+    caseData.status === 'PROFILE_CREATED' ||
+    caseData.status === 'DOCUMENTS_PENDING';
 
   return (
     <div className="space-y-8">
@@ -103,13 +136,13 @@ export default function CaseDetailPage() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <Link href="/dashboard/cases">
-            <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
+            <Button variant="ghost" size="icon" className="text-gray-500 hover:text-[#0B5D66]">
               <ArrowLeft className="h-5 w-5" />
             </Button>
           </Link>
           <div>
-            <h2 className="font-display text-3xl font-semibold text-foreground">Case Details</h2>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <h2 className="font-display text-3xl font-semibold text-[#111827]">Case Details</h2>
+            <p className="mt-1 text-sm text-gray-500">
               Created {new Date(caseData.createdAt).toLocaleDateString()}
             </p>
           </div>
@@ -120,93 +153,94 @@ export default function CaseDetailPage() {
       </div>
 
       {/* Overview Card */}
-      <GlassCard className="p-6 md:p-8">
+      <div className="rounded-xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           <div>
-            <p className="text-sm text-muted-foreground">From</p>
-            <p className="mt-1 flex items-center gap-2 font-medium text-foreground">
-              <Globe2 className="h-4 w-4 text-primary" />
+            <p className="text-sm text-gray-500">From</p>
+            <p className="mt-1 flex items-center gap-2 font-medium text-[#111827]">
+              <Globe2 className="h-4 w-4 text-[#0B5D66]" />
               {caseData.originCountry?.name || 'Origin'}
             </p>
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">To</p>
-            <p className="mt-1 flex items-center gap-2 font-medium text-foreground">
-              <Globe2 className="h-4 w-4 text-primary" />
+            <p className="text-sm text-gray-500">To</p>
+            <p className="mt-1 flex items-center gap-2 font-medium text-[#111827]">
+              <Globe2 className="h-4 w-4 text-[#0B5D66]" />
               {caseData.destinationCountry?.name || 'Destination'}
             </p>
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">Visa Type</p>
-            <p className="mt-1 font-medium text-foreground">
+            <p className="text-sm text-gray-500">Visa Type</p>
+            <p className="mt-1 font-medium text-[#111827]">
               {caseData.visaRule?.visaType?.name || 'Not specified'}
             </p>
           </div>
         </div>
 
-        {/* Cost Estimates */}
-        {(caseData.estimatedProcessingDays || caseData.totalCostEstimate) && (
-          <div className="mt-6 grid grid-cols-2 gap-4 border-t border-border pt-6 md:grid-cols-4">
-            {caseData.estimatedProcessingDays && (
-              <div className="flex items-center gap-2">
-                <Clock className="h-5 w-5 text-primary" />
-                <div>
-                  <p className="text-xs text-muted-foreground">Est. Processing</p>
-                  <p className="font-medium text-foreground">{caseData.estimatedProcessingDays} days</p>
-                </div>
-              </div>
-            )}
-            {caseData.governmentFeeEstimate && (
-              <div className="flex items-center gap-2">
-                <FileText className="h-5 w-5 text-primary" />
-                <div>
-                  <p className="text-xs text-muted-foreground">Gov. Fee</p>
-                  <p className="font-medium text-foreground">${caseData.governmentFeeEstimate}</p>
-                </div>
-              </div>
-            )}
-            {caseData.serviceFeeEstimate && (
-              <div className="flex items-center gap-2">
-                <FileText className="h-5 w-5 text-primary" />
-                <div>
-                  <p className="text-xs text-muted-foreground">Service Fee</p>
-                  <p className="font-medium text-foreground">${caseData.serviceFeeEstimate}</p>
-                </div>
-              </div>
-            )}
-            {caseData.totalCostEstimate && (
-              <div className="flex items-center gap-2">
-                <FileText className="h-5 w-5 text-primary" />
-                <div>
-                  <p className="text-xs text-muted-foreground">Total</p>
-                  <p className="font-medium text-foreground">${caseData.totalCostEstimate}</p>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-      </GlassCard>
+        {/* Action buttons */}
+        <div className="mt-6 flex flex-wrap justify-end gap-3 border-t border-gray-100 pt-4">
+          <Button
+            variant="outline"
+            className="text-[#0B5D66]"
+            onClick={() => setShowUpload(!showUpload)}
+          >
+            <Upload className="mr-2 h-4 w-4" />
+            {showUpload ? 'Close Upload' : 'Upload Document'}
+          </Button>
+          {canSubmit && (
+            <Button
+              onClick={handleSubmitForReview}
+              disabled={submitting}
+              className="bg-[#0B5D66] text-white hover:bg-[#0A4E56]"
+            >
+              {submitting ? (
+                <>
+                  <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                  Submitting...
+                </>
+              ) : (
+                <>
+                  <Send className="mr-2 h-4 w-4" />
+                  Submit for Review
+                </>
+              )}
+            </Button>
+          )}
+        </div>
+      </div>
+
+      {/* Upload Area */}
+      {showUpload && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+          className="overflow-hidden"
+        >
+          <DocumentUploader
+            caseId={caseData.id}
+            onUploadSuccess={handleUploadSuccess}
+          />
+        </motion.div>
+      )}
 
       {/* Status Timeline */}
       <div>
-        <h3 className="font-display text-2xl font-semibold text-foreground">Progress</h3>
+        <h3 className="font-display text-2xl font-semibold text-[#111827]">Progress</h3>
         <div className="mt-6 flex flex-wrap gap-2">
           {statusFlow.map((status, idx) => {
             const isCompleted = idx < currentStatusIndex;
             const isCurrent = idx === currentStatusIndex;
-            const isRejected = caseData.status === 'REJECTED' && idx === statusFlow.length - 1;
             return (
               <div
                 key={status}
                 className={cn(
                   'flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium',
                   isCompleted
-                    ? 'border-primary/50 bg-primary/10 text-primary'
+                    ? 'border-[#0B5D66]/50 bg-[#0B5D66]/10 text-[#0B5D66]'
                     : isCurrent
-                    ? 'border-primary bg-primary text-white'
-                    : isRejected
-                    ? 'border-red-200 bg-red-100 text-red-700'
-                    : 'border-border bg-card text-muted-foreground'
+                    ? 'border-[#0B5D66] bg-[#0B5D66] text-white'
+                    : 'border-gray-200 bg-white text-gray-500'
                 )}
               >
                 {isCompleted ? (
@@ -221,39 +255,53 @@ export default function CaseDetailPage() {
         </div>
       </div>
 
-      {/* Documents */}
+      {/* Documents List */}
       <div>
-        <div className="flex items-center justify-between">
-          <h3 className="font-display text-2xl font-semibold text-foreground">Documents</h3>
-          <Button variant="outline" className="text-foreground">
-            <Upload className="mr-2 h-4 w-4" /> Upload
-          </Button>
-        </div>
-
+        <h3 className="font-display text-2xl font-semibold text-[#111827]">Documents</h3>
         {documents.length === 0 ? (
-          <div className="mt-6 rounded-2xl border border-dashed border-border p-12 text-center">
-            <FileText className="mx-auto h-12 w-12 text-muted-foreground" />
-            <p className="mt-4 text-muted-foreground">No documents uploaded yet.</p>
+          <div className="mt-6 rounded-2xl border border-dashed border-gray-300 p-12 text-center">
+            <FileText className="mx-auto h-12 w-12 text-gray-400" />
+            <p className="mt-4 text-gray-500">No documents uploaded yet.</p>
           </div>
         ) : (
           <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
             {documents.map((doc) => (
-              <GlassCard key={doc.id} className="flex items-center justify-between p-4">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
-                    <FileText className="h-5 w-5 text-primary" />
+              <div
+                key={doc.id}
+                className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#0B5D66]/10">
+                    <FileText className="h-5 w-5 text-[#0B5D66]" />
                   </div>
-                  <div>
-                    <p className="font-medium text-foreground">{doc.name}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {doc.type} • {doc.status}
+                  <div className="flex-1">
+                    <p className="font-medium text-[#111827]">{doc.name}</p>
+                    <p className="text-sm text-gray-500">
+                      {doc.type} • Uploaded {new Date(doc.uploadedAt).toLocaleDateString()}
                     </p>
+                    {doc.reviewNotes && (
+                      <p className="mt-1 flex items-start gap-1 text-xs text-red-500">
+                        <AlertCircle className="mt-0.5 h-3 w-3 shrink-0" />
+                        {doc.reviewNotes}
+                      </p>
+                    )}
+                  </div>
+                  <div className="flex flex-col items-end gap-1">
+                    <Badge
+                      className={cn(
+                        'border',
+                        doc.status === 'VERIFIED'
+                          ? 'bg-green-100 text-green-700 border-green-200'
+                          : doc.status === 'REJECTED'
+                          ? 'bg-red-100 text-red-700 border-red-200'
+                          : 'bg-yellow-100 text-yellow-700 border-yellow-200'
+                      )}
+                    >
+                      {doc.status}
+                    </Badge>
                   </div>
                 </div>
-                {doc.status === 'VERIFIED' && (
-                  <CheckCircle2 className="h-5 w-5 text-green-500" />
-                )}
-              </GlassCard>
+              </div>
             ))}
           </div>
         )}

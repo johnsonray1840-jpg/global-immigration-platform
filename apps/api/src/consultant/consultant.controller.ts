@@ -44,4 +44,15 @@ export class ConsultantController {
   verifyDocument(@Req() req, @Param('id') id: string, @Body() body: { verified: boolean }) {
     return this.consultantService.verifyDocument(req.user.id, id, body.verified);
   }
+
+  @Patch('documents/:id/review')
+  @Roles('SUPER_ADMIN', 'ADMIN', 'CONSULTANT')   // <-- updated roles
+  async reviewDocument(
+    @Param('id') id: string,
+    @Body() body: { status: string; notes?: string },
+    @Req() req,
+  ) {
+    return this.consultantService.reviewDocument(req.user.id, id, body.status, body.notes);
+  }
+
 }

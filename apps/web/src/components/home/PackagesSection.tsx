@@ -48,20 +48,42 @@ export default function PackagesSection() {
   const [loading, setLoading] = useState(true);
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
 
+  const fallbackPackages = [
+    {
+      id: 'family-relocation',
+      name: 'Family Relocation',
+      includes: ['Eligibility Assessment', 'Dependent Applications', 'Document Preparation'],
+      serviceFee: 2500,
+    },
+    {
+      id: 'student-success',
+      name: 'Student Success',
+      includes: ['University Matching', 'Scholarship Search', 'Admission Assistance'],
+      serviceFee: 1200,
+    },
+    {
+      id: 'skilled-worker',
+      name: 'Skilled Worker',
+      includes: ['Job Matching', 'Work Permit Application', 'Document Review'],
+      serviceFee: 3000,
+    },
+  ];
+
   useEffect(() => {
     api.get('/packages')
       .then((res) => {
-        setPackages(res.data);
+        if (Array.isArray(res.data) && res.data.length > 0) {
+          setPackages(res.data);
+        } else {
+          setPackages(fallbackPackages);
+        }
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(() => {
+        setPackages(fallbackPackages);
+        setLoading(false);
+      });
   }, []);
-
-  const fallbackPackages = [
-    { id: 'family-relocation', name: 'Family Relocation', includes: ['Eligibility Assessment', 'Dependent Applications', 'Document Preparation'], serviceFee: 2500 },
-    { id: 'student-success', name: 'Student Success', includes: ['University Matching', 'Scholarship Search', 'Admission Assistance'], serviceFee: 1200 },
-    { id: 'skilled-worker', name: 'Skilled Worker', includes: ['Job Matching', 'Work Permit Application', 'Document Review'], serviceFee: 3000 },
-  ];
 
   const displayPackages = packages.length > 0 ? packages : fallbackPackages;
 

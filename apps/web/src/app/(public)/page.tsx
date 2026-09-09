@@ -3,6 +3,7 @@ import StatsSection from '@/components/home/StatsSection';
 import MapSection from '@/components/home/MapSection';
 import CountriesSection from '@/components/home/CountriesSection';
 import ProgramsSection from '@/components/home/ProgramsSection';
+import ScholarshipsSection from '@/components/home/ScholarshipsSection';
 import PackagesSection from '@/components/home/PackagesSection';
 import SuccessStoriesSection from '@/components/home/SuccessStoriesSection';
 import FAQSection from '@/components/home/FAQSection';
@@ -18,6 +19,7 @@ export default function HomePage() {
       <MapSection />
       <CountriesSection />
       <ProgramsSection />
+      <ScholarshipsSection />
       <PackagesSection />
       <SuccessStoriesSection />
       <FAQSection />

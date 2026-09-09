@@ -18,7 +18,9 @@ async function getCountry(code: string) {
       next: { revalidate: 3600 },
     });
     if (!res.ok) return null;
-    return res.json();
+    const text = await res.text();
+    if (!text || text.trim().length === 0) return null;
+    return JSON.parse(text);
   } catch {
     return null;
   }
