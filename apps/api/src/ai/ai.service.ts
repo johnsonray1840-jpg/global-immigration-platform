@@ -223,7 +223,7 @@ Provide a structured, helpful, and thorough response. Use bolding, bullet points
         orderBy: { createdAt: 'desc' },
         skip,
         take: limit,
-        include: { user: { select: { id: true, email: true, profile: { select: { fullName: true } } } } },
+        include: { user: { select: { id: true, email: true, profile: { select: { firstName: true, lastName: true } } } } },
       }),
       this.prisma.aiChatLog.count({ where }),
     ]);
@@ -298,7 +298,7 @@ Provide a structured, helpful, and thorough response. Use bolding, bullet points
     return this.prisma.aiChatLog.findMany({
       where: { sessionId },
       orderBy: { createdAt: 'asc' },
-      include: { user: { select: { id: true, email: true, profile: { select: { fullName: true } } } } },
+      include: { user: { select: { id: true, email: true, profile: { select: { firstName: true, lastName: true } } } } },
     });
   }
 
