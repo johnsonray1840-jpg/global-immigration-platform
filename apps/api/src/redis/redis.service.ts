@@ -7,9 +7,26 @@ export class RedisService implements OnModuleDestroy {
   private client: Redis;
 
   constructor(private configService: ConfigService) {
-    const url = this.configService.get<string>('REDIS_URL') || 'redis://localhost:6379';
-    this.client = new Redis(url);
-    this.client.on('error', (err) => console.error('Redis error:', err.message));
+    let url = this.configService.get<string>('REDIS_URL') || 'redis://localhost:6379';
+    // Clean any accidental CLI command prefixes if pasted
+    if (url.includes('redis-cli')) {
+      const match = url.match(/(rediss?:\/\/[^\s'"]+)/);
+      if (match) url = match[1];
+    }
+    // If connecting to Upstash without rediss://, upgrade to rediss:// for TLS
+    if (url.includes('upstash.io') && url.startsWith('redis://')) {
+      url = url.replace('redis://', 'rediss://');
+    }
+    try {
+      this.client = new Redis(url, {
+        tls: url.startsWith('rediss://') ? { rejectUnauthorized: false } : undefined,
+        maxRetriesPerRequest: 3,
+      });
+      this.client.on('error', (err) => console.error('Redis connection warning:', err.message));
+    } catch (err: any) {
+      console.error('Failed to initialize Redis client:', err.message);
+      this.client = new Redis({ lazyConnect: true });
+    }
   }
 
   async get(key: string): Promise<string | null> {
