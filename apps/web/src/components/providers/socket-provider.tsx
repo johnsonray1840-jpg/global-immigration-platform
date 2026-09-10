@@ -16,7 +16,8 @@ export default function SocketProvider({ children }: { children: React.ReactNode
     const token = getToken();
     if (!token) return;
 
-    const newSocket = io('http://localhost:3001', {
+    const socketUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const newSocket = io(socketUrl, {
       auth: { token },
     });
 
