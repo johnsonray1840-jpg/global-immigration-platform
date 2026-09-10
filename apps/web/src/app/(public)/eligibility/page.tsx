@@ -106,21 +106,22 @@ export default function EligibilityPage() {
   const eligibilityBadge = (label: string) => {
     switch (label) {
       case 'LIKELY_ELIGIBLE':
-        return 'bg-green-100 text-green-700 border-green-200';
+        return 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/30';
       case 'POTENTIALLY_ELIGIBLE':
-        return 'bg-yellow-100 text-yellow-700 border-yellow-200';
+        return 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30';
       default:
-        return 'bg-gray-100 text-gray-700 border-gray-200';
+        return 'bg-muted text-muted-foreground border-border';
     }
   };
 
   return (
-    <div className="bg-[#F8FAFA]">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[#0B5D66] py-16 md:py-20">
+      <section className="relative overflow-hidden bg-gradient-to-r from-deep-navy via-deep-navy/95 to-atlantic py-16 md:py-20 text-white">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(200,169,107,0.15),transparent)]" />
         <div className="container-premium relative z-10 text-center">
-          <motion.span initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white">
-            <FileCheck2 className="h-4 w-4 text-[#C9A96E]" /> Smart Assessment
+          <motion.span initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm border border-white/10">
+            <FileCheck2 className="h-4 w-4 text-accent" /> Smart Assessment
           </motion.span>
           <h1 className="mt-4 font-display text-4xl md:text-5xl font-semibold text-white">Find Your Immigration Pathway</h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-white/80">Answer a few questions and discover the best visa options for your profile.</p>
@@ -139,12 +140,12 @@ export default function EligibilityPage() {
                   return (
                     <div key={s.number} className="flex items-center flex-1 last:flex-none">
                       <div className="flex flex-col items-center">
-                        <div className={cn('flex h-10 w-10 items-center justify-center rounded-full border-2 transition-all', isCompleted ? 'bg-[#0B5D66] border-[#0B5D66] text-white' : isActive ? 'border-[#0B5D66] bg-[#0B5D66]/10 text-[#0B5D66]' : 'border-gray-300 bg-white text-gray-400')}>
+                        <div className={cn('flex h-10 w-10 items-center justify-center rounded-full border-2 transition-all font-medium', isCompleted ? 'bg-primary border-primary text-primary-foreground' : isActive ? 'border-primary bg-primary/10 text-primary' : 'border-border bg-card text-muted-foreground')}>
                           {isCompleted ? <CheckCircle2 className="h-5 w-5" /> : <s.icon className="h-5 w-5" />}
                         </div>
-                        <span className={cn('mt-2 text-xs font-medium', isActive || isCompleted ? 'text-[#0B5D66]' : 'text-gray-400')}>{s.label}</span>
+                        <span className={cn('mt-2 text-xs font-medium', isActive || isCompleted ? 'text-primary' : 'text-muted-foreground')}>{s.label}</span>
                       </div>
-                      {idx < steps.length - 1 && <div className={cn('mx-2 h-0.5 flex-1', step > idx + 1 ? 'bg-[#0B5D66]' : 'bg-gray-200')} />}
+                      {idx < steps.length - 1 && <div className={cn('mx-2 h-0.5 flex-1 transition-colors', step > idx + 1 ? 'bg-primary' : 'bg-border')} />}
                     </div>
                   );
                 })}
@@ -152,52 +153,52 @@ export default function EligibilityPage() {
 
               {/* Step 1 */}
               {step === 1 && (
-                <div className="rounded-xl border border-gray-200 bg-white p-6 md:p-8">
-                  <h3 className="font-display text-2xl font-semibold text-[#111827]">Country Information</h3>
-                  <p className="mt-2 text-sm text-gray-500">Tell us where you're from and where you want to go.</p>
+                <div className="rounded-2xl border border-border bg-card text-card-foreground p-6 md:p-8 shadow-sm">
+                  <h3 className="font-display text-2xl font-semibold text-foreground">Country Information</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">Tell us where you're from and where you want to go.</p>
                   <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div>
-                      <label className="text-sm font-medium text-[#111827]">I am from</label>
-                      <select value={form.originCountryCode} onChange={(e) => updateForm('originCountryCode', e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-[#111827] focus:border-[#0B5D66] focus:ring-2 focus:ring-[#0B5D66]/30" required>
+                      <label className="text-sm font-medium text-foreground">I am from</label>
+                      <select value={form.originCountryCode} onChange={(e) => updateForm('originCountryCode', e.target.value)} className="mt-1 w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground focus:border-primary focus:ring-2 focus:ring-primary/30 min-h-[44px]" required>
                         <option value="">Select country</option>
                         {countries.map((c) => <option key={c.code} value={c.code}>{c.name}</option>)}
                       </select>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-[#111827]">I want to go to</label>
-                      <select value={form.destinationCountryCode} onChange={(e) => updateForm('destinationCountryCode', e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-[#111827] focus:border-[#0B5D66] focus:ring-2 focus:ring-[#0B5D66]/30" required>
+                      <label className="text-sm font-medium text-foreground">I want to go to</label>
+                      <select value={form.destinationCountryCode} onChange={(e) => updateForm('destinationCountryCode', e.target.value)} className="mt-1 w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground focus:border-primary focus:ring-2 focus:ring-primary/30 min-h-[44px]" required>
                         <option value="">Select country</option>
                         {countries.map((c) => <option key={c.code} value={c.code}>{c.name}</option>)}
                       </select>
                     </div>
                   </div>
                   <div className="mt-8 flex justify-end">
-                    <Button onClick={next} className="bg-[#0B5D66] text-white hover:bg-[#0A4E56]">Next <ArrowRight className="ml-2 h-4 w-4" /></Button>
+                    <Button onClick={next} className="btn-gold px-6 py-3 font-semibold shadow-md">Next <ArrowRight className="ml-2 h-4 w-4" /></Button>
                   </div>
                 </div>
               )}
 
               {/* Step 2 */}
               {step === 2 && (
-                <div className="rounded-xl border border-gray-200 bg-white p-6 md:p-8">
-                  <h3 className="font-display text-2xl font-semibold text-[#111827]">Personal Details</h3>
-                  <p className="mt-2 text-sm text-gray-500">Help us understand your background.</p>
+                <div className="rounded-2xl border border-border bg-card text-card-foreground p-6 md:p-8 shadow-sm">
+                  <h3 className="font-display text-2xl font-semibold text-foreground">Personal Details</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">Help us understand your background.</p>
                   <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div>
-                      <label className="text-sm font-medium text-[#111827]">Age</label>
-                      <input type="number" value={form.age} onChange={(e) => updateForm('age', e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-[#111827]" required />
+                      <label className="text-sm font-medium text-foreground">Age</label>
+                      <input type="number" value={form.age} onChange={(e) => updateForm('age', e.target.value)} className="mt-1 w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground focus:border-primary focus:ring-2 focus:ring-primary/30 min-h-[44px]" required />
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-[#111827]">Marital Status</label>
-                      <select value={form.maritalStatus} onChange={(e) => updateForm('maritalStatus', e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-[#111827]">
+                      <label className="text-sm font-medium text-foreground">Marital Status</label>
+                      <select value={form.maritalStatus} onChange={(e) => updateForm('maritalStatus', e.target.value)} className="mt-1 w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground focus:border-primary focus:ring-2 focus:ring-primary/30 min-h-[44px]">
                         <option value="single">Single</option>
                         <option value="married">Married</option>
                         <option value="divorced">Divorced</option>
                       </select>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-[#111827]">Education Level</label>
-                      <select value={form.educationLevel} onChange={(e) => updateForm('educationLevel', e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-[#111827]">
+                      <label className="text-sm font-medium text-foreground">Education Level</label>
+                      <select value={form.educationLevel} onChange={(e) => updateForm('educationLevel', e.target.value)} className="mt-1 w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground focus:border-primary focus:ring-2 focus:ring-primary/30 min-h-[44px]">
                         <option value="high_school">High School</option>
                         <option value="bachelor">Bachelor</option>
                         <option value="master">Master</option>
@@ -205,54 +206,54 @@ export default function EligibilityPage() {
                       </select>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-[#111827]">Occupation</label>
-                      <input value={form.occupation} onChange={(e) => updateForm('occupation', e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-[#111827]" />
+                      <label className="text-sm font-medium text-foreground">Occupation</label>
+                      <input value={form.occupation} onChange={(e) => updateForm('occupation', e.target.value)} placeholder="e.g. Software Engineer" className="mt-1 w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground focus:border-primary focus:ring-2 focus:ring-primary/30 min-h-[44px]" />
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-[#111827]">Work Experience (years)</label>
-                      <input type="number" value={form.workExperienceYears} onChange={(e) => updateForm('workExperienceYears', e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-[#111827]" />
+                      <label className="text-sm font-medium text-foreground">Work Experience (years)</label>
+                      <input type="number" value={form.workExperienceYears} onChange={(e) => updateForm('workExperienceYears', e.target.value)} className="mt-1 w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground focus:border-primary focus:ring-2 focus:ring-primary/30 min-h-[44px]" />
                     </div>
                   </div>
                   <div className="mt-8 flex justify-between">
-                    <Button variant="ghost" onClick={prev} className="text-gray-600"><ArrowLeft className="mr-2 h-4 w-4" /> Back</Button>
-                    <Button onClick={next} className="bg-[#0B5D66] text-white hover:bg-[#0A4E56]">Next <ArrowRight className="ml-2 h-4 w-4" /></Button>
+                    <Button variant="ghost" onClick={prev} className="text-muted-foreground hover:text-foreground"><ArrowLeft className="mr-2 h-4 w-4" /> Back</Button>
+                    <Button onClick={next} className="btn-gold px-6 py-3 font-semibold shadow-md">Next <ArrowRight className="ml-2 h-4 w-4" /></Button>
                   </div>
                 </div>
               )}
 
               {/* Step 3 */}
               {step === 3 && (
-                <div className="rounded-xl border border-gray-200 bg-white p-6 md:p-8">
-                  <h3 className="font-display text-2xl font-semibold text-[#111827]">Financial & Purpose</h3>
-                  <p className="mt-2 text-sm text-gray-500">Final step – your financial profile and migration goal.</p>
+                <div className="rounded-2xl border border-border bg-card text-card-foreground p-6 md:p-8 shadow-sm">
+                  <h3 className="font-display text-2xl font-semibold text-foreground">Financial & Purpose</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">Final step – your financial profile and migration goal.</p>
                   <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div>
-                      <label className="text-sm font-medium text-[#111827]">Annual Income (USD)</label>
-                      <input type="number" value={form.annualIncome} onChange={(e) => updateForm('annualIncome', e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-[#111827]" />
+                      <label className="text-sm font-medium text-foreground">Annual Income (USD)</label>
+                      <input type="number" value={form.annualIncome} onChange={(e) => updateForm('annualIncome', e.target.value)} className="mt-1 w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground focus:border-primary focus:ring-2 focus:ring-primary/30 min-h-[44px]" />
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-[#111827]">Investment Budget (USD)</label>
-                      <input type="number" value={form.investmentBudget} onChange={(e) => updateForm('investmentBudget', e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-[#111827]" />
+                      <label className="text-sm font-medium text-foreground">Investment Budget (USD)</label>
+                      <input type="number" value={form.investmentBudget} onChange={(e) => updateForm('investmentBudget', e.target.value)} className="mt-1 w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground focus:border-primary focus:ring-2 focus:ring-primary/30 min-h-[44px]" />
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-[#111827]">Language Test</label>
-                      <input value={form.languageTest} onChange={(e) => updateForm('languageTest', e.target.value)} placeholder="e.g., IELTS 7.0" className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-[#111827]" />
+                      <label className="text-sm font-medium text-foreground">Language Test</label>
+                      <input value={form.languageTest} onChange={(e) => updateForm('languageTest', e.target.value)} placeholder="e.g., IELTS 7.0" className="mt-1 w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground focus:border-primary focus:ring-2 focus:ring-primary/30 min-h-[44px]" />
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-[#111827]">Purpose</label>
-                      <select value={form.purpose} onChange={(e) => updateForm('purpose', e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-[#111827]">
+                      <label className="text-sm font-medium text-foreground">Purpose</label>
+                      <select value={form.purpose} onChange={(e) => updateForm('purpose', e.target.value)} className="mt-1 w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground focus:border-primary focus:ring-2 focus:ring-primary/30 min-h-[44px]">
                         <option value="">Select purpose</option>
                         {purposes.map((p) => <option key={p} value={p}>{p.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</option>)}
                       </select>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-[#111827]">Family Size</label>
-                      <input type="number" min="1" value={form.familySize} onChange={(e) => updateForm('familySize', e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-[#111827]" />
+                      <label className="text-sm font-medium text-foreground">Family Size</label>
+                      <input type="number" min="1" value={form.familySize} onChange={(e) => updateForm('familySize', e.target.value)} className="mt-1 w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground focus:border-primary focus:ring-2 focus:ring-primary/30 min-h-[44px]" />
                     </div>
                   </div>
                   <div className="mt-8 flex justify-between">
-                    <Button variant="ghost" onClick={prev} className="text-gray-600"><ArrowLeft className="mr-2 h-4 w-4" /> Back</Button>
-                    <Button onClick={handleSubmit} disabled={loading} className="bg-[#0B5D66] text-white hover:bg-[#0A4E56]">
+                    <Button variant="ghost" onClick={prev} className="text-muted-foreground hover:text-foreground"><ArrowLeft className="mr-2 h-4 w-4" /> Back</Button>
+                    <Button onClick={handleSubmit} disabled={loading} className="btn-gold px-8 py-3.5 font-semibold shadow-md">
                       {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Checking...</> : 'Check Eligibility'}
                     </Button>
                   </div>
@@ -263,12 +264,12 @@ export default function EligibilityPage() {
         ) : (
           <div className="space-y-6">
             <div className="text-center">
-              <h3 className="font-display text-3xl font-semibold text-[#111827]">Your Results</h3>
-              <p className="mt-2 text-gray-500">Based on your profile, we found the following pathways.</p>
+              <h3 className="font-display text-3xl font-semibold text-foreground">Your Results</h3>
+              <p className="mt-2 text-muted-foreground">Based on your profile, we found the following pathways.</p>
             </div>
             {result.results.length === 0 ? (
-              <div className="rounded-xl border border-gray-200 bg-white p-8 text-center">
-                <p className="text-gray-500">No visa pathways found. Please consult an advisor for personalized guidance.</p>
+              <div className="rounded-2xl border border-border bg-card text-card-foreground p-8 text-center shadow-sm">
+                <p className="text-muted-foreground">No visa pathways found. Please consult an advisor for personalized guidance.</p>
               </div>
             ) : (
               result.results.map((item: any) => (
@@ -278,40 +279,40 @@ export default function EligibilityPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+                  <div className="rounded-2xl border border-border bg-card text-card-foreground p-6 shadow-sm transition-all hover:border-accent/40 hover:shadow-md">
                     <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-2">
-                          <Star className="h-5 w-5 text-[#C9A96E]" />
-                          <h4 className="font-display text-xl font-semibold text-[#111827]">{item.visaName}</h4>
+                          <Star className="h-5 w-5 text-accent fill-accent/20" />
+                          <h4 className="font-display text-xl font-semibold text-foreground">{item.visaName}</h4>
                         </div>
-                        <p className="mt-2 text-sm text-gray-500">
-                          Government Fee: {item.governmentFee} {item.feeCurrency} • Processing: {item.processingTimeMin}-{item.processingTimeMax} days
+                        <p className="mt-2 text-sm text-muted-foreground">
+                          Government Fee: <span className="font-medium text-foreground">{item.governmentFee} {item.feeCurrency}</span> • Processing: <span className="font-medium text-foreground">{item.processingTimeMin}-{item.processingTimeMax} days</span>
                         </p>
-                        <div className="mt-2 flex items-center gap-2">
-                          <span className={cn('inline-block rounded-full border px-3 py-1 text-xs font-medium', eligibilityBadge(item.eligibilityLabel))}>
+                        <div className="mt-3 flex items-center gap-2">
+                          <span className={cn('inline-block rounded-full border px-3 py-1 text-xs font-semibold', eligibilityBadge(item.eligibilityLabel))}>
                             {item.eligibilityLabel.replace(/_/g, ' ')}
                           </span>
-                          <span className="text-sm font-semibold text-[#111827]">Score: {item.score}%</span>
+                          <span className="text-sm font-semibold text-foreground">Score: {item.score}%</span>
                         </div>
                         {/* Score progress bar */}
-                        <div className="mt-3 h-2 w-full rounded-full bg-gray-100">
+                        <div className="mt-3 h-2 w-full rounded-full bg-muted overflow-hidden">
                           <div
                             className={cn(
-                              'h-full rounded-full',
-                              item.score >= 80 ? 'bg-green-500' : item.score >= 50 ? 'bg-yellow-500' : 'bg-red-500'
+                              'h-full rounded-full transition-all duration-500',
+                              item.score >= 80 ? 'bg-emerald-500' : item.score >= 50 ? 'bg-amber-500' : 'bg-red-500'
                             )}
                             style={{ width: `${item.score}%` }}
                           />
                         </div>
                         {item.reasons?.length > 0 && (
-                          <div className="mt-3">
-                            <p className="text-sm font-medium text-[#111827]">Feedback:</p>
-                            <ul className="mt-1 space-y-1">
+                          <div className="mt-4 rounded-xl bg-muted/60 p-3.5 border border-border">
+                            <p className="text-xs font-semibold text-foreground">Feedback:</p>
+                            <ul className="mt-1.5 space-y-1">
                               {item.reasons.map((reason: string, idx: number) => (
-                                <li key={idx} className="flex items-start gap-2 text-xs text-gray-600">
-                                  <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-red-500" />
-                                  {reason}
+                                <li key={idx} className="flex items-start gap-2 text-xs text-muted-foreground">
+                                  <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-500" />
+                                  <span>{reason}</span>
                                 </li>
                               ))}
                             </ul>
@@ -321,7 +322,7 @@ export default function EligibilityPage() {
                       <Button
                         onClick={() => saveAsCase(item)}
                         disabled={savingCase === item.visaRuleId}
-                        className="bg-[#0B5D66] text-white hover:bg-[#0A4E56]"
+                        className="bg-primary text-primary-foreground hover:bg-primary/90 mt-2 md:mt-0 font-medium"
                       >
                         {savingCase === item.visaRuleId ? 'Saving...' : 'Save as Case'}
                       </Button>
@@ -331,9 +332,9 @@ export default function EligibilityPage() {
               ))
             )}
             <div className="text-center">
-            <Button variant="ghost" onClick={() => { setResult(null); setStep(1); }} className="text-gray-600">
-  <ArrowLeft className="mr-2 h-4 w-4" /> Back to Form
-</Button>
+              <Button variant="ghost" onClick={() => { setResult(null); setStep(1); }} className="text-muted-foreground hover:text-foreground">
+                <ArrowLeft className="mr-2 h-4 w-4" /> Back to Form
+              </Button>
             </div>
           </div>
         )}

@@ -4,7 +4,7 @@ import PageTransition from '@/components/shared/PageTransition';
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300">
       <SiteHeader />
       <main className="flex-1">
         <PageTransition>{children}</PageTransition>

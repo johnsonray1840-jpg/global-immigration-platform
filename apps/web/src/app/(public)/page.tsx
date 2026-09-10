@@ -13,7 +13,7 @@ import CTASection from '@/components/home/CTASection';
 
 export default function HomePage() {
   return (
-    <div className="bg-white dark:bg-charcoal">
+    <div className="bg-background text-foreground transition-colors duration-300">
       <PremiumHero />
       <StatsSection />
       <MapSection />

@@ -77,7 +77,7 @@ const stats = [
 
 export default function CountriesSection() {
   return (
-    <section className="py-20 bg-gradient-to-b from-white to-[#F8FAFA]">
+    <section className="py-20 bg-background text-foreground transition-colors duration-300">
       <div className="container-premium">
         <SectionHeading
           title="Explore Top Destinations"
@@ -94,11 +94,11 @@ export default function CountriesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="flex flex-col items-center p-6 rounded-2xl bg-white shadow-sm border border-gray-100"
+              className="flex flex-col items-center p-6 rounded-2xl bg-card shadow-sm border border-border"
             >
-              <stat.icon className="h-8 w-8 text-[#0B5D66] mb-3" />
-              <div className="text-3xl font-bold text-[#111827]">{stat.value}</div>
-              <div className="text-sm text-gray-600">{stat.label}</div>
+              <stat.icon className="h-8 w-8 text-primary mb-3" />
+              <div className="text-3xl font-bold text-foreground">{stat.value}</div>
+              <div className="text-sm text-muted-foreground">{stat.label}</div>
             </motion.div>
           ))}
         </div>
@@ -113,7 +113,7 @@ export default function CountriesSection() {
               transition={{ delay: index * 0.1 }}
               viewport={{ once: true }}
               whileHover={{ y: -8 }}
-              className="group relative overflow-hidden rounded-2xl bg-white shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300"
+              className="group relative overflow-hidden rounded-2xl bg-card text-card-foreground border border-border hover:border-accent/40 shadow-sm hover:shadow-lg transition-all duration-300"
             >
               {/* Header with Gradient */}
               <div className={`bg-gradient-to-r ${country.color} p-6 text-white`}>
@@ -126,15 +126,15 @@ export default function CountriesSection() {
               </div>
 
               {/* Content */}
-              <div className="p-6">
+              <div className="p-6 bg-card text-card-foreground">
                 {/* Programs */}
                 <div className="mb-4">
-                  <h4 className="text-sm font-semibold text-gray-700 mb-2">Popular Programs</h4>
+                  <h4 className="text-sm font-semibold text-muted-foreground mb-2">Popular Programs</h4>
                   <div className="flex flex-wrap gap-2">
                     {country.programs.map((program) => (
                       <span
                         key={program}
-                        className="px-3 py-1 text-xs rounded-full bg-[#E8EEEE] text-[#0B5D66] font-medium"
+                        className="px-3 py-1 text-xs rounded-full bg-muted text-primary font-medium"
                       >
                         {program}
                       </span>
@@ -143,26 +143,26 @@ export default function CountriesSection() {
                 </div>
 
                 {/* Metrics */}
-                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-100">
+                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-border">
                   <div>
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <TrendingUp className="h-4 w-4" />
                       Processing Time
                     </div>
-                    <div className="mt-1 font-semibold text-[#111827]">{country.processingTime}</div>
+                    <div className="mt-1 font-semibold text-foreground">{country.processingTime}</div>
                   </div>
                   <div>
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Award className="h-4 w-4" />
                       Approval Rate
                     </div>
-                    <div className="mt-1 font-semibold text-[#111827]">{country.approvalRate}</div>
+                    <div className="mt-1 font-semibold text-foreground">{country.approvalRate}</div>
                   </div>
                 </div>
 
                 {/* CTA Button */}
                 <Link href={`/countries/${country.code.toLowerCase()}`}>
-                  <button className="mt-6 w-full py-3 px-4 bg-[#0B5D66] hover:bg-[#0a4c55] text-white rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 group-hover:bg-gradient-to-r group-hover:from-[#0B5D66] group-hover:to-[#C9A96E]">
+                  <button className="mt-6 w-full py-3 px-4 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-accent group-hover:text-white">
                     Explore Pathways
                     <MapPin className="h-4 w-4" />
                   </button>
@@ -175,12 +175,12 @@ export default function CountriesSection() {
         {/* View All CTA */}
         <div className="mt-16 text-center">
           <Link href="/countries">
-            <button className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#0B5D66] to-[#0a4c55] hover:from-[#0a4c55] hover:to-[#0B5D66] text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all">
+            <button className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all">
               <Globe className="h-5 w-5" />
               View All Countries
             </button>
           </Link>
-          <p className="mt-4 text-sm text-gray-600">
+          <p className="mt-4 text-sm text-muted-foreground">
             Explore detailed information about visa requirements, costs, and application processes
           </p>
         </div>

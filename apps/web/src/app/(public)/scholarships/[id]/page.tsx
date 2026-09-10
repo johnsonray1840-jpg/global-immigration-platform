@@ -47,7 +47,7 @@ export default function ScholarshipDetailPage() {
 
   if (loading) {
     return (
-      <div className="py-20 bg-[#F8FAFA] min-h-screen">
+      <div className="py-20 bg-background min-h-screen">
         <div className="container-premium max-w-4xl space-y-6">
           <Skeleton className="h-8 w-64 mx-auto" />
           <Skeleton className="h-4 w-48 mx-auto" />
@@ -64,12 +64,12 @@ export default function ScholarshipDetailPage() {
 
   if (!scholarship) {
     return (
-      <div className="py-24 text-center bg-[#F8FAFA] min-h-screen flex flex-col items-center justify-center">
-        <GraduationCap className="h-16 w-16 text-gray-300 mx-auto" />
-        <p className="mt-4 text-xl font-display font-semibold text-gray-700">Scholarship not found</p>
-        <p className="mt-1 text-sm text-gray-500">The scholarship you are looking for may have expired or been updated.</p>
+      <div className="py-24 text-center bg-background min-h-screen flex flex-col items-center justify-center">
+        <GraduationCap className="h-16 w-16 text-muted-foreground/40 mx-auto" />
+        <p className="mt-4 text-xl font-display font-semibold text-foreground">Scholarship not found</p>
+        <p className="mt-1 text-sm text-muted-foreground">The scholarship you are looking for may have expired or been updated.</p>
         <Link href="/scholarships" className="mt-6">
-          <Button variant="outline" className="border-[#0B5D66] text-[#0B5D66]">
+          <Button variant="outline" className="border-primary text-primary hover:bg-primary/10">
             <ArrowLeft className="mr-2 h-4 w-4" /> Browse All Scholarships
           </Button>
         </Link>
@@ -80,18 +80,18 @@ export default function ScholarshipDetailPage() {
   const eligibility = scholarship.eligibilityJson || {};
 
   return (
-    <div className="bg-[#F8FAFA] min-h-screen pb-24">
+    <div className="min-h-screen bg-background text-foreground pb-24">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[#0B5D66] py-16 md:py-24">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(201,169,110,0.25),transparent)]" />
+      <section className="relative overflow-hidden bg-gradient-to-r from-deep-navy via-deep-navy/95 to-atlantic py-16 md:py-24 text-white">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(200,169,107,0.25),transparent)]" />
         <div className="container-premium relative z-10 text-center">
           <motion.span
             initial={{ opacity: 0, y: -15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white"
+            className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur-sm"
           >
-            <GraduationCap className="h-4 w-4 text-[#C9A96E]" />
+            <GraduationCap className="h-4 w-4 text-accent" />
             {eligibility.coverageType || 'Global Fellowship'}
           </motion.span>
           <motion.h1
@@ -118,12 +118,12 @@ export default function ScholarshipDetailPage() {
           >
             {scholarship.country && (
               <Badge variant="secondary" className="border border-white/20 bg-white/10 text-white font-medium">
-                <Globe2 className="mr-1 h-3.5 w-3.5 text-[#C9A96E]" /> {scholarship.country.name}
+                <Globe2 className="mr-1 h-3.5 w-3.5 text-accent" /> {scholarship.country.name}
               </Badge>
             )}
             {scholarship.university && (
               <Badge variant="secondary" className="border border-white/20 bg-white/10 text-white font-medium">
-                <Building2 className="mr-1 h-3.5 w-3.5 text-[#C9A96E]" /> {scholarship.university.name}
+                <Building2 className="mr-1 h-3.5 w-3.5 text-accent" /> {scholarship.university.name}
               </Badge>
             )}
           </motion.div>
@@ -133,46 +133,46 @@ export default function ScholarshipDetailPage() {
       {/* Main Content */}
       <div className="container-premium max-w-5xl -mt-8 relative z-20">
         <Link href="/scholarships">
-          <Button variant="ghost" className="mb-4 text-gray-600 hover:text-[#0B5D66]">
+          <Button variant="ghost" className="mb-4 text-muted-foreground hover:text-foreground">
             <ArrowLeft className="mr-2 h-4 w-4" /> Back to Scholarships
           </Button>
         </Link>
 
         {/* 3 Metric Cards */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          <div className="rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-sm">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#0B5D66]/10 mx-auto">
-              <Banknote className="h-6 w-6 text-[#0B5D66]" />
+          <div className="rounded-2xl border border-border bg-card text-card-foreground p-6 text-center shadow-sm">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary mx-auto">
+              <Banknote className="h-6 w-6" />
             </div>
-            <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-gray-500">Estimated Value</p>
-            <p className="mt-1 font-display text-3xl font-bold text-[#111827]">
+            <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Estimated Value</p>
+            <p className="mt-1 font-display text-3xl font-bold text-foreground">
               ${scholarship.fundingAmount ? scholarship.fundingAmount.toLocaleString() : 'Full Value'}
             </p>
-            <p className="mt-1 text-xs text-emerald-600 font-medium">{eligibility.coverageType || 'Fully Funded'}</p>
+            <p className="mt-1 text-xs text-emerald-600 dark:text-emerald-400 font-medium">{eligibility.coverageType || 'Fully Funded'}</p>
           </div>
 
-          <div className="rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-sm">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#C9A96E]/20 mx-auto">
-              <CalendarDays className="h-6 w-6 text-[#C9A96E]" />
+          <div className="rounded-2xl border border-border bg-card text-card-foreground p-6 text-center shadow-sm">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent/20 text-accent mx-auto">
+              <CalendarDays className="h-6 w-6" />
             </div>
-            <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-gray-500">Application Deadline</p>
-            <p className="mt-1 font-display text-2xl font-bold text-[#111827]">
+            <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Application Deadline</p>
+            <p className="mt-1 font-display text-2xl font-bold text-foreground">
               {scholarship.deadline
                 ? new Date(scholarship.deadline).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
                 : 'Open Rolling'}
             </p>
-            <p className="mt-1 text-xs text-gray-500 font-medium">Ongoing Academic Intake</p>
+            <p className="mt-1 text-xs text-muted-foreground font-medium">Ongoing Academic Intake</p>
           </div>
 
-          <div className="rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-sm">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#0B5D66]/10 mx-auto">
-              <Award className="h-6 w-6 text-[#0B5D66]" />
+          <div className="rounded-2xl border border-border bg-card text-card-foreground p-6 text-center shadow-sm">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary mx-auto">
+              <Award className="h-6 w-6" />
             </div>
-            <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-gray-500">Degree Levels</p>
-            <p className="mt-1 font-display text-lg font-bold text-[#111827]">
+            <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Degree Levels</p>
+            <p className="mt-1 font-display text-lg font-bold text-foreground">
               {eligibility.degreeLevel ? eligibility.degreeLevel.join(', ') : "Master's & PhD"}
             </p>
-            <p className="mt-1 text-xs text-gray-500 font-medium">{eligibility.fieldsOfStudy || 'All Academic Fields'}</p>
+            <p className="mt-1 text-xs text-muted-foreground font-medium">{eligibility.fieldsOfStudy || 'All Academic Fields'}</p>
           </div>
         </div>
 
@@ -181,9 +181,9 @@ export default function ScholarshipDetailPage() {
           {/* Left 2 Cols: Details, Benefits, Requirements */}
           <div className="space-y-8 lg:col-span-2">
             {/* Covered Benefits */}
-            <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
-              <h3 className="font-display text-xl font-bold text-[#111827] flex items-center gap-2">
-                <CheckCircle2 className="h-5 w-5 text-[#0B5D66]" />
+            <div className="rounded-2xl border border-border bg-card text-card-foreground p-8 shadow-sm">
+              <h3 className="font-display text-xl font-bold text-foreground flex items-center gap-2">
+                <CheckCircle2 className="h-5 w-5 text-primary" />
                 Scholarship Benefits & Coverage
               </h3>
               <div className="mt-6 space-y-3">
@@ -194,52 +194,52 @@ export default function ScholarshipDetailPage() {
                   'Comprehensive Medical and Accident Insurance',
                   'Orientation, Visa Support, and Research Grant',
                 ]).map((benefit: string, idx: number) => (
-                  <div key={idx} className="flex items-start gap-3 rounded-xl bg-gray-50 p-3.5">
-                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-semibold text-xs mt-0.5">
+                  <div key={idx} className="flex items-start gap-3 rounded-xl bg-muted p-3.5 border border-border">
+                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-semibold text-xs mt-0.5">
                       ✓
                     </div>
-                    <p className="text-sm font-medium text-gray-700 leading-snug">{benefit}</p>
+                    <p className="text-sm font-medium text-foreground leading-snug">{benefit}</p>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Eligibility & Qualifications */}
-            <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
-              <h3 className="font-display text-xl font-bold text-[#111827] flex items-center gap-2">
-                <BookOpen className="h-5 w-5 text-[#0B5D66]" />
+            <div className="rounded-2xl border border-border bg-card text-card-foreground p-8 shadow-sm">
+              <h3 className="font-display text-xl font-bold text-foreground flex items-center gap-2">
+                <BookOpen className="h-5 w-5 text-primary" />
                 Eligibility Criteria
               </h3>
               <div className="mt-6 space-y-4">
                 {eligibility.academicRequirement && (
-                  <div className="border-b border-gray-100 pb-3">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">Academic Background</p>
-                    <p className="mt-1 text-sm font-medium text-gray-800">{eligibility.academicRequirement}</p>
+                  <div className="border-b border-border pb-3">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Academic Background</p>
+                    <p className="mt-1 text-sm font-medium text-foreground">{eligibility.academicRequirement}</p>
                   </div>
                 )}
                 {eligibility.languageTest && (
-                  <div className="border-b border-gray-100 pb-3">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">Language Requirement</p>
-                    <p className="mt-1 text-sm font-medium text-gray-800">{eligibility.languageTest}</p>
+                  <div className="border-b border-border pb-3">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Language Requirement</p>
+                    <p className="mt-1 text-sm font-medium text-foreground">{eligibility.languageTest}</p>
                   </div>
                 )}
                 {eligibility.workExperience && (
-                  <div className="border-b border-gray-100 pb-3">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">Work Experience</p>
-                    <p className="mt-1 text-sm font-medium text-gray-800">{eligibility.workExperience}</p>
+                  <div className="border-b border-border pb-3">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Work Experience</p>
+                    <p className="mt-1 text-sm font-medium text-foreground">{eligibility.workExperience}</p>
                   </div>
                 )}
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">Eligible Fields</p>
-                  <p className="mt-1 text-sm font-medium text-gray-800">{eligibility.fieldsOfStudy || 'All Accredited Academic Fields'}</p>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Eligible Fields</p>
+                  <p className="mt-1 text-sm font-medium text-foreground">{eligibility.fieldsOfStudy || 'All Accredited Academic Fields'}</p>
                 </div>
               </div>
             </div>
 
             {/* Required Documents Checklist */}
-            <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
-              <h3 className="font-display text-xl font-bold text-[#111827] flex items-center gap-2">
-                <FileText className="h-5 w-5 text-[#0B5D66]" />
+            <div className="rounded-2xl border border-border bg-card text-card-foreground p-8 shadow-sm">
+              <h3 className="font-display text-xl font-bold text-foreground flex items-center gap-2">
+                <FileText className="h-5 w-5 text-primary" />
                 Required Application Documents
               </h3>
               <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -251,9 +251,9 @@ export default function ScholarshipDetailPage() {
                   'Updated Curriculum Vitae (CV)',
                   'Language Test Score Report',
                 ]).map((doc: string, idx: number) => (
-                  <div key={idx} className="flex items-center gap-2.5 rounded-xl border border-gray-100 bg-white p-3 shadow-xs">
-                    <FileText className="h-4 w-4 text-[#0B5D66] shrink-0" />
-                    <span className="text-xs font-medium text-gray-700">{doc}</span>
+                  <div key={idx} className="flex items-center gap-2.5 rounded-xl border border-border bg-muted/60 p-3">
+                    <FileText className="h-4 w-4 text-primary shrink-0" />
+                    <span className="text-xs font-medium text-foreground">{doc}</span>
                   </div>
                 ))}
               </div>
@@ -264,22 +264,22 @@ export default function ScholarshipDetailPage() {
           <div className="space-y-6">
             {/* University Profile Card */}
             {scholarship.university && (
-              <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-                <h4 className="font-display text-lg font-bold text-[#111827] flex items-center gap-2">
-                  <Building2 className="h-5 w-5 text-[#0B5D66]" />
+              <div className="rounded-2xl border border-border bg-card text-card-foreground p-6 shadow-sm">
+                <h4 className="font-display text-lg font-bold text-foreground flex items-center gap-2">
+                  <Building2 className="h-5 w-5 text-primary" />
                   Host Institution
                 </h4>
-                <p className="mt-3 font-semibold text-gray-800">{scholarship.university.name}</p>
+                <p className="mt-3 font-semibold text-foreground">{scholarship.university.name}</p>
                 {scholarship.country && (
-                  <p className="text-xs text-gray-500 mt-0.5">Location: {scholarship.country.name}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">Location: {scholarship.country.name}</p>
                 )}
                 {scholarship.university.ranking && (
-                  <p className="mt-2 text-xs font-medium text-[#0B5D66]">
+                  <p className="mt-2 text-xs font-medium text-primary">
                     Global Rank: Top #{scholarship.university.ranking}
                   </p>
                 )}
                 {scholarship.university.tuitionRange && (
-                  <p className="mt-1 text-xs text-gray-600">
+                  <p className="mt-1 text-xs text-muted-foreground">
                     Tuition: {scholarship.university.tuitionRange}
                   </p>
                 )}
@@ -288,7 +288,7 @@ export default function ScholarshipDetailPage() {
                     href={scholarship.university.website}
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-4 inline-flex items-center text-xs font-medium text-[#0B5D66] hover:underline"
+                    className="mt-4 inline-flex items-center text-xs font-medium text-primary hover:underline"
                   >
                     Visit University Portal <ExternalLink className="ml-1 h-3.5 w-3.5" />
                   </a>
@@ -297,15 +297,15 @@ export default function ScholarshipDetailPage() {
             )}
 
             {/* Application CTAs */}
-            <div className="rounded-2xl bg-gradient-to-b from-[#0B5D66] to-[#0A4E56] p-6 text-white shadow-lg space-y-4">
-              <h4 className="font-display text-xl font-bold">Ready to Apply?</h4>
+            <div className="rounded-2xl bg-gradient-to-b from-deep-navy to-atlantic p-6 text-white shadow-lg space-y-4">
+              <h4 className="font-display text-xl font-bold text-white">Ready to Apply?</h4>
               <p className="text-xs text-white/80 leading-relaxed">
                 Apply directly through the official scholarship portal or get professional support with admissions and student visas.
               </p>
 
               {scholarship.link && (
                 <a href={scholarship.link} target="_blank" rel="noreferrer" className="block">
-                  <Button className="w-full bg-[#C9A96E] hover:bg-[#B8985D] text-white font-semibold shadow-md">
+                  <Button className="w-full btn-gold shadow-md">
                     <ExternalLink className="mr-2 h-4 w-4" /> Official Application
                   </Button>
                 </a>

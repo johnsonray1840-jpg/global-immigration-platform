@@ -48,18 +48,18 @@ export default function PackagesPage() {
   };
 
   return (
-    <div className="bg-[#F8FAFA]">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[#0B5D66] py-16 md:py-20">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(201,169,110,0.2),transparent)]" />
+      <section className="relative overflow-hidden bg-gradient-to-r from-deep-navy via-deep-navy/95 to-atlantic py-16 md:py-20 text-white">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(200,169,107,0.2),transparent)]" />
         <div className="container-premium relative z-10 text-center">
           <motion.span
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white"
+            className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm border border-white/10"
           >
-            <Package className="h-4 w-4 text-[#C9A96E]" />
+            <Package className="h-4 w-4 text-accent" />
             Premium Services
           </motion.span>
           <motion.h1
@@ -103,7 +103,7 @@ export default function PackagesPage() {
                   transition={{ duration: 0.5, delay: i * 0.1 }}
                   className="group"
                 >
-                  <div className="h-full overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all hover:shadow-xl">
+                  <div className="h-full overflow-hidden rounded-2xl border border-border bg-card text-card-foreground shadow-sm transition-all hover:border-accent/40 hover:shadow-md">
                     <div className="relative h-52 w-full overflow-hidden">
                       {!hasError ? (
                         <img
@@ -114,32 +114,32 @@ export default function PackagesPage() {
                           onError={() => handleImageError(pkg.id || pkg.name)}
                         />
                       ) : (
-                        <div className="h-full w-full bg-gradient-to-br from-[#0B5D66] to-[#0A4E56]" />
+                        <div className="h-full w-full bg-gradient-to-br from-deep-navy to-atlantic" />
                       )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0B5D66]/80 via-transparent to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-deep-navy/80 via-transparent to-transparent" />
                       <div className="absolute left-4 top-4 flex h-12 w-12 items-center justify-center rounded-full bg-white/20 backdrop-blur-lg">
                         <Package className="h-6 w-6 text-white" />
                       </div>
-                      <div className="absolute right-4 top-4 flex items-center gap-1 rounded-full bg-[#C9A96E] px-3 py-1 text-xs font-semibold text-white">
-                        <Star className="h-3 w-3 fill-white" /> Premium
+                      <div className="absolute right-4 top-4 flex items-center gap-1 rounded-full btn-gold px-3 py-1 text-xs font-semibold">
+                        <Star className="h-3 w-3 fill-current" /> Premium
                       </div>
                     </div>
                     <div className="p-6">
-                      <h3 className="font-display text-2xl font-semibold text-[#111827]">{pkg.name}</h3>
+                      <h3 className="font-display text-2xl font-semibold text-foreground group-hover:text-primary transition-colors">{pkg.name}</h3>
                       <ul className="mt-4 space-y-2">
                         {pkg.includes?.map((item: string) => (
-                          <li key={item} className="flex items-start gap-2 text-sm text-gray-600">
-                            <CheckCircle2 className="mt-0.5 h-4 w-4 text-[#0B5D66]" /> {item}
+                          <li key={item} className="flex items-start gap-2 text-sm text-muted-foreground">
+                            <CheckCircle2 className="mt-0.5 h-4 w-4 text-primary shrink-0" /> <span>{item}</span>
                           </li>
                         ))}
                       </ul>
-                      <div className="mt-6 flex items-center justify-between border-t border-gray-100 pt-4">
-                        <span className="font-display text-2xl font-semibold text-[#111827]">
+                      <div className="mt-6 flex items-center justify-between border-t border-border pt-4">
+                        <span className="font-display text-2xl font-semibold text-foreground">
                           ${pkg.serviceFee?.toLocaleString()}
                         </span>
                         <Link
                           href={`/packages/${pkg.id || pkg.name?.toLowerCase().replace(/\s+/g, '-')}`}
-                          className="inline-flex items-center text-sm font-medium text-[#0B5D66] hover:text-[#0A4E56]"
+                          className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors"
                         >
                           Learn More <ArrowRight className="ml-1 h-4 w-4" />
                         </Link>

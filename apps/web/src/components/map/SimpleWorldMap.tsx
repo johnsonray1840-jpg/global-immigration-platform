@@ -54,8 +54,10 @@ export default function SimpleWorldMap({ className = '' }: { className?: string 
               <path
                 key={i}
                 d={path || ''}
-                fill={isHovered ? '#C9A96E' : '#E8EEEE'}   // Gold hover, light ash default
-                stroke="#FFFFFF"
+                fill={isHovered ? '#C8A96B' : 'currentColor'}
+                className={isHovered ? '' : 'text-slate-200 dark:text-slate-800'}
+                stroke="currentColor"
+                strokeOpacity={0.2}
                 strokeWidth="0.5"
                 style={{ cursor: 'pointer', transition: 'fill 0.2s' }}
                 onMouseEnter={(e) => handleMouseEnter(feature, e)}
@@ -67,7 +69,7 @@ export default function SimpleWorldMap({ className = '' }: { className?: string 
       </svg>
       {tooltip && (
         <div
-          className="pointer-events-none fixed z-50 rounded-lg bg-[#0B5D66] px-3 py-1.5 text-sm text-white shadow-lg"
+          className="pointer-events-none fixed z-50 rounded-lg bg-deep-navy px-3 py-1.5 text-sm text-white shadow-lg border border-accent/30"
           style={{ left: tooltip.x + 10, top: tooltip.y + 10 }}
         >
           {tooltip.name}

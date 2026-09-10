@@ -70,13 +70,40 @@ export default function ComparePage() {
   }, [selectedData]);
 
   return (
-    <div className="bg-background py-16 md:py-20">
-      <div className="container-premium">
-        <SectionHeading
-          title="Compare Countries"
-          subtitle="Select up to 3 countries to see side‑by‑side immigration metrics."
-        />
+    <div className="min-h-screen bg-background text-foreground">
+      {/* Hero */}
+      <section className="relative overflow-hidden bg-gradient-to-r from-deep-navy via-deep-navy/95 to-atlantic py-16 md:py-20 text-white">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(200,169,107,0.15),transparent)]" />
+        <div className="container-premium relative z-10 text-center">
+          <motion.span
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm border border-white/10"
+          >
+            <Globe2 className="h-4 w-4 text-accent" />
+            Side-by-Side Comparison
+          </motion.span>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="mt-4 font-display text-4xl md:text-5xl font-semibold tracking-tight text-white"
+          >
+            Compare Countries
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mx-auto mt-4 max-w-2xl text-lg text-white/80"
+          >
+            Select up to 3 countries to evaluate passport strength, safety, healthcare, and cost of living.
+          </motion.p>
+        </div>
+      </section>
 
+      <div className="container-premium py-12 md:py-16">
         {/* Search and Clear */}
         <div className="mx-auto flex max-w-2xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="relative flex-1">
@@ -86,39 +113,39 @@ export default function ComparePage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search countries..."
-              className="w-full rounded-lg border border-input bg-card py-2.5 pl-9 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/30"
+              className="w-full rounded-lg border border-input bg-card py-2.5 pl-9 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/30 min-h-[44px]"
             />
           </div>
           {selectedCodes.length > 0 && (
             <Button
               variant="outline"
               onClick={clearAll}
-              className="shrink-0"
+              className="shrink-0 border-border text-muted-foreground hover:text-foreground h-11"
             >
               <X className="mr-2 h-4 w-4" />
-              Clear All
+              Clear All ({selectedCodes.length})
             </Button>
           )}
         </div>
 
         {/* Country Selection Chips */}
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
+        <div className="mt-8 flex flex-wrap justify-center gap-2.5">
           {filteredCountries.slice(0, 30).map((c) => {
             const isSelected = selectedCodes.includes(c.code);
             return (
               <motion.button
                 key={c.code}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
                 onClick={() => toggle(c.code)}
                 className={cn(
-                  'rounded-full border px-4 py-2 text-sm font-medium transition-colors',
+                  'rounded-full border px-4 py-2 text-sm font-medium transition-all min-h-[40px]',
                   isSelected
-                    ? 'border-primary bg-primary text-primary-foreground'
+                    ? 'border-primary bg-primary text-primary-foreground shadow-sm'
                     : 'border-border bg-card text-foreground hover:border-primary/50 hover:bg-muted'
                 )}
               >
-                {c.name}
+                <span className="mr-1.5">{getFlagEmoji(c.code)}</span> {c.name}
               </motion.button>
             );
           })}
@@ -130,7 +157,7 @@ export default function ComparePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="mt-12 overflow-x-auto"
+            className="mt-12 overflow-x-auto rounded-2xl border border-border bg-card shadow-sm p-6"
           >
             <table className="w-full border-collapse">
               <thead>
@@ -141,8 +168,8 @@ export default function ComparePage() {
                   {selectedData.map((c) => (
                     <th key={c.id} className="border-b border-border p-4 text-left">
                       <div className="flex items-center gap-2">
-                        <span className="text-xl">{getFlagEmoji(c.code)}</span>
-                        <span className="font-display text-lg text-foreground">{c.name}</span>
+                        <span className="text-2xl">{getFlagEmoji(c.code)}</span>
+                        <span className="font-display text-lg font-semibold text-foreground">{c.name}</span>
                       </div>
                     </th>
                   ))}
@@ -150,7 +177,7 @@ export default function ComparePage() {
               </thead>
               <tbody>
                 {Object.entries(metricConfig).map(([metric, config]) => (
-                  <tr key={metric} className="border-b border-border last:border-0">
+                  <tr key={metric} className="border-b border-border last:border-0 hover:bg-muted/40 transition-colors">
                     <td className="p-4">
                       <div className="flex items-center gap-2">
                         <config.icon className="h-4 w-4 text-primary" />
@@ -162,19 +189,19 @@ export default function ComparePage() {
                       const isMax = value === maxValues[metric];
                       return (
                         <td key={c.id} className="p-4">
-                          <div className="flex flex-col gap-1">
+                          <div className="flex flex-col gap-1.5">
                             <span className={cn(
-                              'font-semibold',
+                              'font-semibold text-base',
                               isMax ? 'text-primary' : 'text-foreground'
                             )}>
                               {value ?? '—'}
                             </span>
-                            {typeof value === 'number' && (
-                              <div className="h-1.5 w-full rounded-full bg-muted">
+                            {typeof value === 'number' && maxValues[metric] > 0 && (
+                              <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
                                 <div
                                   className={cn(
-                                    'h-full rounded-full',
-                                    isMax ? 'bg-primary' : 'bg-primary/30'
+                                    'h-full rounded-full transition-all duration-500',
+                                    isMax ? 'bg-primary' : 'bg-primary/40'
                                   )}
                                   style={{ width: `${(value / maxValues[metric]) * 100}%` }}
                                 />
@@ -196,11 +223,11 @@ export default function ComparePage() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="mt-16 text-center"
+            className="mt-16 text-center py-12 rounded-2xl border border-dashed border-border bg-card"
           >
-            <Globe2 className="mx-auto h-16 w-16 text-muted-foreground" />
+            <Globe2 className="mx-auto h-16 w-16 text-muted-foreground/40" />
             <p className="mt-4 text-lg text-muted-foreground">
-              Select at least one country to begin comparison.
+              Select up to 3 countries above to begin comparison.
             </p>
           </motion.div>
         )}

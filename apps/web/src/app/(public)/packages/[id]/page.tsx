@@ -157,21 +157,21 @@ export default async function PackageDetailPage({ params }: { params: Promise<{ 
   const jobs = jobLists[id] || jobLists['skilled-worker'] || [];
 
   return (
-    <div className="bg-[#F8FAFA]">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[#0B5D66] py-16 md:py-24">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(201,169,110,0.2),transparent)]" />
+      <section className="relative overflow-hidden bg-gradient-to-r from-deep-navy via-deep-navy/95 to-atlantic py-16 md:py-24 text-white">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(200,169,107,0.2),transparent)]" />
         <div className="container-premium relative z-10 text-center">
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white">
-            <ShieldCheck className="h-4 w-4 text-[#C9A96E]" />
+          <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm border border-white/10">
+            <ShieldCheck className="h-4 w-4 text-accent" />
             Premium Service Package
           </span>
           <h1 className="mt-4 font-display text-4xl md:text-5xl font-semibold text-white">{pkg.name}</h1>
           <p className="mx-auto mt-4 max-w-3xl text-lg text-white/80">{pkg.description}</p>
-          <div className="mt-6 flex items-center justify-center gap-4">
-            <span className="font-display text-3xl font-bold text-[#C9A96E]">${pkg.serviceFee?.toLocaleString()}</span>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
+            <span className="font-display text-3xl font-bold text-accent">${pkg.serviceFee?.toLocaleString()}</span>
             <Link href="/eligibility">
-              <Button className="bg-[#C9A96E] text-[#111827] hover:bg-[#b8955c]">
+              <Button className="btn-gold px-6 py-3 shadow-md">
                 Check Eligibility <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
@@ -182,15 +182,15 @@ export default async function PackageDetailPage({ params }: { params: Promise<{ 
       {/* Main Content */}
       <div className="container-premium py-12 md:py-16">
         {/* What's Included */}
-        <div className="rounded-xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm">
-          <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-[#111827]">
-            <CheckCircle2 className="h-6 w-6 text-[#0B5D66]" /> What's Included
+        <div className="rounded-xl border border-border bg-card text-card-foreground p-6 md:p-8 shadow-sm">
+          <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-foreground">
+            <CheckCircle2 className="h-6 w-6 text-primary" /> What's Included
           </h2>
           <ul className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2">
             {pkg.includes?.map((item: string) => (
-              <li key={item} className="flex items-start gap-2 text-sm text-gray-600">
-                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-green-600" />
-                {item}
+              <li key={item} className="flex items-start gap-2 text-sm text-muted-foreground">
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success" />
+                <span className="text-foreground">{item}</span>
               </li>
             ))}
           </ul>
@@ -198,17 +198,17 @@ export default async function PackageDetailPage({ params }: { params: Promise<{ 
 
         {/* If work-related, show jobs */}
         {jobs.length > 0 && (
-          <div className="mt-8 rounded-xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm">
-            <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-[#111827]">
-              <Briefcase className="h-6 w-6 text-[#0B5D66]" /> In-Demand Jobs for This Visa
+          <div className="mt-8 rounded-xl border border-border bg-card text-card-foreground p-6 md:p-8 shadow-sm">
+            <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-foreground">
+              <Briefcase className="h-6 w-6 text-primary" /> In-Demand Jobs for This Visa
             </h2>
-            <p className="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-muted-foreground">
               These occupations often qualify for this immigration pathway. Your chances improve if your profession is listed.
             </p>
             <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
               {jobs.map((job) => (
-                <div key={job} className="rounded-lg bg-[#F8FAFA] p-4 text-center">
-                  <p className="text-sm font-medium text-[#111827]">{job}</p>
+                <div key={job} className="rounded-lg bg-muted border border-border p-4 text-center">
+                  <p className="text-sm font-medium text-foreground">{job}</p>
                 </div>
               ))}
             </div>
@@ -217,27 +217,27 @@ export default async function PackageDetailPage({ params }: { params: Promise<{ 
 
         {/* Additional Info */}
         <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
-          <div className="rounded-xl border border-gray-200 bg-white p-6">
-            <Clock className="h-6 w-6 text-[#0B5D66]" />
-            <h3 className="mt-2 font-display text-lg font-semibold text-[#111827]">Processing Time</h3>
-            <p className="text-sm text-gray-600">{pkg.processingTime || 'Typically 3-6 months depending on destination and case complexity.'}</p>
+          <div className="rounded-xl border border-border bg-card text-card-foreground p-6 shadow-sm">
+            <Clock className="h-6 w-6 text-primary" />
+            <h3 className="mt-2 font-display text-lg font-semibold text-foreground">Processing Time</h3>
+            <p className="text-sm text-muted-foreground">{pkg.processingTime || 'Typically 3-6 months depending on destination and case complexity.'}</p>
           </div>
-          <div className="rounded-xl border border-gray-200 bg-white p-6">
-            <Globe2 className="h-6 w-6 text-[#0B5D66]" />
-            <h3 className="mt-2 font-display text-lg font-semibold text-[#111827]">Eligible Countries</h3>
-            <p className="text-sm text-gray-600">{pkg.eligibleCountries || 'Most major destinations: Canada, UK, Australia, Germany, USA, etc.'}</p>
+          <div className="rounded-xl border border-border bg-card text-card-foreground p-6 shadow-sm">
+            <Globe2 className="h-6 w-6 text-primary" />
+            <h3 className="mt-2 font-display text-lg font-semibold text-foreground">Eligible Countries</h3>
+            <p className="text-sm text-muted-foreground">{pkg.eligibleCountries || 'Most major destinations: Canada, UK, Australia, Germany, USA, etc.'}</p>
           </div>
-          <div className="rounded-xl border border-gray-200 bg-white p-6">
-            <Banknote className="h-6 w-6 text-[#0B5D66]" />
-            <h3 className="mt-2 font-display text-lg font-semibold text-[#111827]">Service Fee</h3>
-            <p className="text-sm text-gray-600">${pkg.serviceFee?.toLocaleString()} {pkg.currency || 'USD'} (government fees separate)</p>
+          <div className="rounded-xl border border-border bg-card text-card-foreground p-6 shadow-sm">
+            <Banknote className="h-6 w-6 text-primary" />
+            <h3 className="mt-2 font-display text-lg font-semibold text-foreground">Service Fee</h3>
+            <p className="text-sm text-muted-foreground">${pkg.serviceFee?.toLocaleString()} {pkg.currency || 'USD'} (government fees separate)</p>
           </div>
         </div>
 
         {/* CTA */}
         <div className="mt-12 text-center">
           <Link href="/eligibility">
-            <Button className="bg-[#0B5D66] text-white hover:bg-[#0A4E56] px-8 py-3">
+            <Button className="btn-gold px-8 py-3.5 text-base shadow-md">
               Start Your Assessment <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </Link>

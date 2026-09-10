@@ -92,7 +92,7 @@ export default function PackagesSection() {
   };
 
   return (
-    <section className="bg-white py-20">
+    <section className="bg-background py-20">
       <div className="container-premium">
         <SectionHeading
           title="Premium Service Packages"
@@ -108,6 +108,7 @@ export default function PackagesSection() {
               const PackageIcon = getPackageIcon(pkg);
               const imageUrl = getPackageImage(pkg);
               const hasImageError = imageErrors[pkg.id] || imageErrors[getKey(pkg)];
+              const isHighlighted = i === 1;
 
               return (
                 <motion.div
@@ -118,7 +119,10 @@ export default function PackagesSection() {
                   transition={{ duration: 0.5, delay: i * 0.1 }}
                   className="group relative"
                 >
-                  <div className="relative h-full overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all hover:shadow-xl">
+                  <div className={cn(
+                    "relative h-full overflow-hidden rounded-2xl bg-card text-card-foreground shadow-sm transition-all hover:shadow-xl flex flex-col",
+                    isHighlighted ? "border-accent/60 shadow-lg ring-1 ring-accent/30" : "border border-border"
+                  )}>
                     <div className="relative h-52 w-full overflow-hidden">
                       {!hasImageError ? (
                         <img
@@ -129,35 +133,41 @@ export default function PackagesSection() {
                           onError={() => handleImageError(pkg.id)}
                         />
                       ) : (
-                        <div className="h-full w-full bg-gradient-to-br from-[#0B5D66] to-[#0A4E56]" />
+                        <div className="h-full w-full bg-gradient-to-br from-primary to-primary/90" />
                       )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0B5D66]/80 via-transparent to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent" />
                       <div className="absolute left-4 top-4 flex h-12 w-12 items-center justify-center rounded-full bg-white/20 backdrop-blur-lg">
                         <PackageIcon className="h-6 w-6 text-white" />
                       </div>
-                      <div className="absolute right-4 top-4 flex items-center gap-1 rounded-full bg-[#C9A96E] px-3 py-1 text-xs font-semibold text-white">
-                        <Star className="h-3 w-3 fill-white" /> Premium
-                      </div>
+                      {isHighlighted && (
+                        <div className="absolute right-4 top-4 flex items-center gap-1 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-accent-foreground">
+                          <Star className="h-3 w-3 fill-accent-foreground" /> Premium
+                        </div>
+                      )}
                     </div>
-                    <div className="p-6">
-                      <h3 className="font-display text-2xl font-semibold text-[#111827]">{pkg.name}</h3>
-                      <ul className="mt-4 space-y-2">
+                    <div className="p-6 flex flex-col flex-grow">
+                      <h3 className="font-display text-2xl font-semibold text-foreground">{pkg.name}</h3>
+                      <ul className="mt-4 space-y-2 flex-grow">
                         {pkg.includes?.map((item: string) => (
-                          <li key={item} className="flex items-start gap-2 text-sm text-gray-600">
-                            <CheckCircle2 className="mt-0.5 h-4 w-4 text-[#0B5D66]" /> {item}
+                          <li key={item} className="flex items-start gap-2 text-sm text-muted-foreground">
+                            <CheckCircle2 className="mt-0.5 h-4 w-4 text-primary" /> {item}
                           </li>
                         ))}
                       </ul>
-                      <div className="mt-6 flex items-center justify-between border-t border-gray-100 pt-4">
-                        <span className="font-display text-2xl font-semibold text-[#111827]">
-                          ${pkg.serviceFee?.toLocaleString()}
-                        </span>
+                      <div className="mt-6 border-t border-border pt-4">
+                        <div className="mb-4">
+                          <span className="font-display text-2xl font-semibold text-foreground">
+                            ${pkg.serviceFee?.toLocaleString()}
+                          </span>
+                        </div>
                         <Link
-  href={`/packages/${pkg.id}`}
-  className="inline-flex items-center text-sm font-medium text-[#0B5D66] hover:text-[#0A4E56]"
->
-  Learn More <ArrowRight className="ml-1 h-4 w-4" />
-</Link>
+                          href={`/packages/${pkg.id}`}
+                          className="block w-full"
+                        >
+                          <Button className={cn("w-full", isHighlighted ? "btn-gold" : "bg-primary text-primary-foreground")}>
+                            Learn More <ArrowRight className="ml-2 h-4 w-4" />
+                          </Button>
+                        </Link>
                       </div>
                     </div>
                   </div>

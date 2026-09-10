@@ -22,7 +22,7 @@ const faqs = [
 
 export default function FAQSection() {
   return (
-    <section className="py-20 bg-[#F8FAFA]">
+    <section className="py-20 bg-background">
       <div className="container-premium max-w-3xl">
         <SectionHeading
           title="Frequently Asked Questions"
@@ -40,29 +40,29 @@ export default function FAQSection() {
               <AccordionItem
                 value={`item-${i}`}
                 className={cn(
-                  'group relative overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all hover:shadow-md',
-                  'data-[state=open]:border-[#C9A96E]/50 data-[state=open]:shadow-lg'
+                  'group relative overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all hover:shadow-md',
+                  'data-[state=open]:border-accent/50 data-[state=open]:shadow-lg'
                 )}
               >
-                <span className="absolute left-0 top-0 h-full w-1 bg-transparent transition-colors group-data-[state=open]:bg-[#C9A96E]" />
+                <span className="absolute left-0 top-0 h-full w-1 bg-transparent transition-colors group-data-[state=open]:bg-accent" />
                 <div className="pl-1">
                   <AccordionTrigger className="flex w-full items-center justify-between gap-4 py-4 pr-4 text-left">
                     <div className="flex items-start gap-3">
-                      <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#0B5D66]/10">
-                        <HelpCircle className="h-4 w-4 text-[#0B5D66]" />
+                      <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                        <HelpCircle className="h-4 w-4 text-primary" />
                       </div>
                       <div>
-                        <span className="font-display text-base font-semibold text-[#111827] group-hover:text-[#0B5D66]">
+                        <span className="font-display text-base font-semibold text-foreground group-hover:text-primary">
                           {faq.q}
                         </span>
                         <p className="mt-0.5 text-xs text-gray-500">{faq.category}</p>
                       </div>
                     </div>
-                    <ChevronDown className="h-5 w-5 shrink-0 text-gray-400 transition-transform duration-200 group-data-[state=open]:rotate-180 group-hover:text-[#C9A96E]" />
+                    <ChevronDown className="h-5 w-5 shrink-0 text-gray-400 transition-transform duration-200 group-data-[state=open]:rotate-180 group-hover:text-accent" />
                   </AccordionTrigger>
                 </div>
                 <AccordionContent className="pl-12 pr-4 pb-5">
-                  <div className="rounded-lg bg-gray-50 p-4 text-sm leading-relaxed text-gray-600">
+                  <div className="rounded-lg bg-muted p-4 text-sm leading-relaxed text-muted-foreground">
                     {faq.a}
                   </div>
                 </AccordionContent>

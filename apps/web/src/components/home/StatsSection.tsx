@@ -13,7 +13,7 @@ const stats = [
 
 export default function StatsSection() {
   return (
-    <section className="bg-[#0B5D66] py-16">
+    <section className="bg-gradient-to-r from-[#071A2B] to-[#0A2540] py-16 text-white border-y border-border/20">
       <div className="container-premium grid grid-cols-2 gap-8 md:grid-cols-4">
         {stats.map((stat, i) => (
           <motion.div
@@ -24,8 +24,8 @@ export default function StatsSection() {
             transition={{ duration: 0.5, delay: i * 0.1 }}
             className="text-center"
           >
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#C9A96E]/20">
-              <stat.icon className="h-6 w-6 text-[#C9A96E]" />
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-accent/20">
+              <stat.icon className="h-6 w-6 text-accent" />
             </div>
             <p className="mt-4 font-display text-3xl font-semibold text-white md:text-4xl">
               <AnimatedCounter end={stat.end} suffix={stat.suffix} />

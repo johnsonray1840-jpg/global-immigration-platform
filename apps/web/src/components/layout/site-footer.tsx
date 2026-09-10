@@ -24,14 +24,14 @@ export default function SiteFooter() {
   };
 
   return (
-    <footer className="bg-gradient-to-b from-[#0b1e3a] to-[#0a1a30] text-dark-foreground">
+    <footer className="bg-gradient-to-b from-deep-navy to-[#030B12] text-slate-200 border-t border-border/20">
       <div className="container-premium grid grid-cols-1 gap-12 py-16 md:grid-cols-2 lg:grid-cols-4">
         {/* Brand */}
         <div>
-          <Link href="/" className="font-display text-2xl font-bold text-white">
-            Global<span className="text-primary">Citizens</span> Solution
+          <Link href="/" className="font-display text-2xl font-bold text-white tracking-tight">
+            Global<span className="text-accent">Citizens</span> Solution
           </Link>
-          <p className="mt-4 text-sm leading-relaxed text-white/70">
+          <p className="mt-4 text-sm leading-relaxed text-slate-400">
             Government‑approved immigration and citizenship by investment consultancy with 50+ years of combined expertise.
             Your trusted partner for global mobility.
           </p>
@@ -41,11 +41,11 @@ export default function SiteFooter() {
         <div>
           <h4 className="font-display text-lg font-semibold text-white">Quick Links</h4>
           <ul className="mt-4 space-y-3 text-sm">
-            <li><Link href="/countries" className="text-white/70 transition-colors hover:text-primary">Countries</Link></li>
-            <li><Link href="/programs" className="text-white/70 transition-colors hover:text-primary">Programs</Link></li>
-            <li><Link href="/packages" className="text-white/70 transition-colors hover:text-primary">Packages</Link></li>
-            <li><Link href="/scholarships" className="text-white/70 transition-colors hover:text-primary">Scholarships</Link></li>
-            <li><Link href="/faq" className="text-white/70 transition-colors hover:text-primary">FAQ</Link></li>
+            <li><Link href="/countries" className="text-slate-400 transition-colors hover:text-accent">Countries</Link></li>
+            <li><Link href="/programs" className="text-slate-400 transition-colors hover:text-accent">Programs</Link></li>
+            <li><Link href="/packages" className="text-slate-400 transition-colors hover:text-accent">Packages</Link></li>
+            <li><Link href="/scholarships" className="text-slate-400 transition-colors hover:text-accent">Scholarships</Link></li>
+            <li><Link href="/faq" className="text-slate-400 transition-colors hover:text-accent">FAQ</Link></li>
           </ul>
         </div>
 
@@ -53,17 +53,17 @@ export default function SiteFooter() {
         <div>
           <h4 className="font-display text-lg font-semibold text-white">Legal</h4>
           <ul className="mt-4 space-y-3 text-sm">
-            <li><Link href="/legal/privacy" className="text-white/70 transition-colors hover:text-primary">Privacy Policy</Link></li>
-            <li><Link href="/legal/terms" className="text-white/70 transition-colors hover:text-primary">Terms of Service</Link></li>
-            <li><Link href="/legal/cookies" className="text-white/70 transition-colors hover:text-primary">Cookie Policy</Link></li>
-            <li><Link href="/legal/disclaimer" className="text-white/70 transition-colors hover:text-primary">Immigration Disclaimer</Link></li>
+            <li><Link href="/legal/privacy" className="text-slate-400 transition-colors hover:text-accent">Privacy Policy</Link></li>
+            <li><Link href="/legal/terms" className="text-slate-400 transition-colors hover:text-accent">Terms of Service</Link></li>
+            <li><Link href="/legal/cookies" className="text-slate-400 transition-colors hover:text-accent">Cookie Policy</Link></li>
+            <li><Link href="/legal/disclaimer" className="text-slate-400 transition-colors hover:text-accent">Immigration Disclaimer</Link></li>
           </ul>
         </div>
 
         {/* Newsletter & Contact */}
         <div>
           <h4 className="font-display text-lg font-semibold text-white">Stay Updated</h4>
-          <p className="mt-4 text-sm text-white/70">Get immigration updates and policy changes.</p>
+          <p className="mt-4 text-sm text-slate-400">Get immigration updates and policy changes.</p>
           <form onSubmit={subscribe} className="mt-4">
             <div className="flex">
               <input
@@ -71,32 +71,32 @@ export default function SiteFooter() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Your email"
-                className="w-full rounded-l-md border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder-white/50 outline-none transition-colors focus:border-primary"
+                className="w-full rounded-l-md border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder-slate-400 outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
                 required
               />
               <button
                 type="submit"
-                className="flex items-center rounded-r-md bg-primary px-4 py-3 text-sm font-medium text-white transition-colors hover:bg-primary/90"
+                className="flex items-center rounded-r-md bg-accent text-deep-navy font-semibold px-4 py-3 text-sm transition-colors hover:bg-gold-light"
               >
                 {subscribed ? <CheckCircle2 className="h-4 w-4" /> : 'Subscribe'}
               </button>
             </div>
           </form>
-          <div className="mt-6 space-y-2 text-sm text-white/70">
-            <p className="flex items-center gap-2"><Mail className="h-4 w-4" /> support@globalcitizenssolution.com</p>
-            <p className="flex items-center gap-2"><Phone className="h-4 w-4" /> +1 (555) 123-4567</p>
-            <p className="flex items-center gap-2"><MapPin className="h-4 w-4" /> New York, London, Doha, Dubai</p>
+          <div className="mt-6 space-y-2 text-sm text-slate-400">
+            <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-accent" /> support@ctcorporationbusiness.com</p>
+            <p className="flex items-center gap-2"><Phone className="h-4 w-4 text-accent" /> +1 (555) 123-4567</p>
+            <p className="flex items-center gap-2"><MapPin className="h-4 w-4 text-accent" /> New York, London, Doha, Dubai</p>
           </div>
         </div>
       </div>
 
       <div className="border-t border-white/10 py-6">
-        <div className="container-premium flex flex-col items-center justify-between gap-4 text-xs text-white/50 sm:flex-row">
+        <div className="container-premium flex flex-col items-center justify-between gap-4 text-xs text-slate-400 sm:flex-row">
           <p>© {new Date().getFullYear()} Global Citizens Solution. All rights reserved.</p>
           <div className="flex gap-4">
-  <Link href="/sitemap" className="hover:text-primary">Sitemap</Link>
-  <Link href="/accessibility" className="hover:text-primary">Accessibility</Link>
-</div>
+            <Link href="/sitemap" className="hover:text-accent transition-colors">Sitemap</Link>
+            <Link href="/accessibility" className="hover:text-accent transition-colors">Accessibility</Link>
+          </div>
         </div>
       </div>
     </footer>

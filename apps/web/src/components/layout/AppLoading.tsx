@@ -2,12 +2,19 @@
 
 export default function AppLoading() {
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0B5D66]">
+    <div
+      role="status"
+      aria-live="polite"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-deep-navy"
+    >
       <div className="text-center">
-        <h1 className="font-display text-4xl md:text-6xl font-bold text-white animate-pulse drop-shadow-[0_0_15px_rgba(201,169,110,0.8)]">
-          Global<span className="text-[#C9A96E]">Immigration</span>
+        <h1 className="font-display text-4xl md:text-6xl font-bold text-white tracking-tight animate-pulse drop-shadow-[0_0_20px_rgba(200,169,107,0.6)]">
+          Global<span className="text-accent">Citizens</span> Solution
         </h1>
-        <p className="mt-4 text-white/80">Preparing your journey...</p>
+        <p className="mt-4 text-slate-300 font-medium text-sm md:text-base">
+          Preparing your global journey...
+        </p>
+        <span className="sr-only">Loading application...</span>
       </div>
     </div>
   );

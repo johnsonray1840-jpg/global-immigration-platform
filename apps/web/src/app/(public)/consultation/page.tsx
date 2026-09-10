@@ -82,15 +82,42 @@ export default function ConsultationPage() {
   };
 
   return (
-    <div className="bg-background min-h-screen py-16 md:py-20">
-      <div className="container-premium">
-        <SectionHeading
-          title="Book a Consultation"
-          subtitle="Speak with a licensed immigration advisor at a time that suits you."
-        />
+    <div className="min-h-screen bg-background text-foreground">
+      {/* Hero */}
+      <section className="relative overflow-hidden bg-gradient-to-r from-deep-navy via-deep-navy/95 to-atlantic py-16 md:py-20 text-white">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(200,169,107,0.15),transparent)]" />
+        <div className="container-premium relative z-10 text-center">
+          <motion.span
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm border border-white/10"
+          >
+            <CalendarDays className="h-4 w-4 text-accent" />
+            1-on-1 Consultation
+          </motion.span>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="mt-4 font-display text-4xl md:text-5xl font-semibold tracking-tight text-white"
+          >
+            Book a Consultation
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mx-auto mt-4 max-w-2xl text-lg text-white/80"
+          >
+            Speak with a licensed immigration advisor at a time that suits your schedule.
+          </motion.p>
+        </div>
+      </section>
 
+      <div className="container-premium py-12 md:py-16">
         <div className="mx-auto max-w-4xl">
-          <GlassCard className="p-6 md:p-8">
+          <div className="rounded-2xl border border-border bg-card text-card-foreground p-6 md:p-8 shadow-sm">
             <form onSubmit={handleSubmit} className="space-y-8">
               {/* Step 1: Choose Consultant */}
               <div>
@@ -107,15 +134,15 @@ export default function ConsultationPage() {
                         type="button"
                         onClick={() => setSelectedConsultant(consultant.id)}
                         className={cn(
-                          'rounded-xl border p-4 text-left transition-all duration-200',
+                          'rounded-xl border p-4 text-left transition-all duration-200 min-h-[64px]',
                           isSelected
-                            ? 'border-primary bg-primary/10 shadow-md'
+                            ? 'border-primary bg-primary/10 ring-2 ring-primary shadow-md'
                             : 'border-border bg-card hover:border-primary/50 hover:bg-muted'
                         )}
                       >
                         <div className="flex items-center gap-3">
-                          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
-                            <User className="h-5 w-5 text-primary" />
+                          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary shrink-0">
+                            <User className="h-5 w-5" />
                           </div>
                           <div>
                             <p className="font-medium text-foreground">
@@ -130,7 +157,7 @@ export default function ConsultationPage() {
                           <motion.div
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
-                            className="mt-2 flex items-center text-sm text-primary"
+                            className="mt-2 flex items-center text-sm font-medium text-primary"
                           >
                             <Check className="mr-1 h-4 w-4" /> Selected
                           </motion.div>
@@ -152,7 +179,7 @@ export default function ConsultationPage() {
                   value={date}
                   min={new Date().toISOString().split('T')[0]}
                   onChange={(e) => setDate(e.target.value)}
-                  className="mt-4 w-full rounded-lg border border-input bg-card px-4 py-3 text-foreground outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/30"
+                  className="mt-4 w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/30 min-h-[44px]"
                   required
                 />
               </div>
@@ -175,7 +202,7 @@ export default function ConsultationPage() {
                         <Loader2 className="h-6 w-6 animate-spin text-primary" />
                       </div>
                     ) : slots.length > 0 ? (
-                      <div className="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5">
+                      <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 md:grid-cols-5">
                         {slots.map((slot) => {
                           const isSelected = selectedSlot === slot.start;
                           return (
@@ -184,7 +211,7 @@ export default function ConsultationPage() {
                               type="button"
                               onClick={() => setSelectedSlot(slot.start)}
                               className={cn(
-                                'rounded-lg border px-3 py-2 text-sm font-medium transition-all',
+                                'rounded-lg border px-3 py-2.5 text-sm font-medium transition-all min-h-[44px]',
                                 isSelected
                                   ? 'border-primary bg-primary text-primary-foreground shadow-md'
                                   : 'border-border bg-card text-foreground hover:border-primary/50 hover:bg-muted'
@@ -199,7 +226,7 @@ export default function ConsultationPage() {
                         })}
                       </div>
                     ) : (
-                      <p className="mt-4 rounded-lg bg-muted p-4 text-center text-sm text-muted-foreground">
+                      <p className="mt-4 rounded-lg bg-muted border border-border p-4 text-center text-sm text-muted-foreground">
                         No available slots for this date. Please try another day.
                       </p>
                     )}
@@ -218,7 +245,7 @@ export default function ConsultationPage() {
                   onChange={(e) => setNotes(e.target.value)}
                   rows={4}
                   placeholder="Tell us about your immigration goals or any specific questions..."
-                  className="mt-4 w-full rounded-lg border border-input bg-card px-4 py-3 text-foreground placeholder:text-muted-foreground outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/30"
+                  className="mt-4 w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/30"
                 />
               </div>
 
@@ -226,7 +253,7 @@ export default function ConsultationPage() {
               <Button
                 type="submit"
                 disabled={submitting || !selectedSlot}
-                className="w-full bg-primary text-primary-foreground hover:bg-primary/90 btn-glow py-3 text-lg"
+                className="w-full btn-gold py-4 text-base font-semibold shadow-md min-h-[48px]"
               >
                 {submitting ? (
                   <>
@@ -241,7 +268,7 @@ export default function ConsultationPage() {
                 )}
               </Button>
             </form>
-          </GlassCard>
+          </div>
         </div>
       </div>
     </div>

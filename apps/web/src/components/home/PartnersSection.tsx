@@ -17,10 +17,10 @@ const fallbackPartners = [
 ];
 
 const partnerGradients = [
-  'from-[#0B5D66] to-[#0A4E56]',
+  'from-primary to-primary/90',
   'from-[#C9A96E] to-[#B8955C]',
   'from-[#111827] to-[#374151]',
-  'from-[#0B5D66] to-[#C9A96E]',
+  'from-primary to-[#C9A96E]',
 ];
 
 function getInitials(name: string) {
@@ -46,7 +46,7 @@ export default function PartnersSection() {
   const displayPartners = partners.length > 0 ? partners : fallbackPartners;
 
   return (
-    <section className="py-16 bg-[#F8FAFA]">
+    <section className="py-16 bg-background">
       <div className="container-premium">
         <SectionHeading
           title="Trusted Partners"
@@ -69,20 +69,20 @@ export default function PartnersSection() {
                   transition={{ duration: 0.4, delay: i * 0.05 }}
                   className="group"
                 >
-                  <div className="relative h-full rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all hover:border-[#C9A96E]/50 hover:shadow-lg">
+                  <div className="relative h-full rounded-xl border border-border bg-card p-6 shadow-sm transition-all hover:border-accent/50 hover:shadow-lg">
                     <div className="flex items-center gap-4">
                       <div className={cn('flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br text-base font-bold text-white shadow-lg', gradient)}>
                         {getInitials(partner.name)}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <h3 className="truncate font-display text-lg font-semibold text-[#111827]">{partner.name}</h3>
+                        <h3 className="truncate font-display text-lg font-semibold text-foreground">{partner.name}</h3>
                         <p className="text-xs text-gray-500">{partner.category || 'Partner'}</p>
                       </div>
                     </div>
                     {partner.description && (
-                      <p className="mt-3 text-sm text-gray-600">{partner.description}</p>
+                      <p className="mt-3 text-sm text-muted-foreground">{partner.description}</p>
                     )}
-                    <Handshake className="absolute bottom-4 right-4 h-5 w-5 text-gray-200 transition-colors group-hover:text-[#C9A96E]" />
+                    <Handshake className="absolute bottom-4 right-4 h-5 w-5 text-gray-200 transition-colors group-hover:text-accent" />
                   </div>
                 </motion.div>
               );

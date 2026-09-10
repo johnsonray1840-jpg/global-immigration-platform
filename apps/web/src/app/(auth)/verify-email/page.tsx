@@ -88,19 +88,19 @@ export default function VerifyEmailPage() {
   };
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-dark px-4 py-8">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-deep-navy px-4 py-8">
       {/* Subtle radial glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(77,168,255,0.1),transparent)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(14,116,144,0.18),transparent)]" />
 
       <div className="relative w-full max-w-md">
         {/* Brand */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2">
-            <span className="font-display text-2xl font-bold text-white">
-              Global<span className="text-primary">Immigration</span>
+            <span className="font-display text-2xl md:text-3xl font-bold text-white tracking-tight">
+              Global<span className="text-accent">Citizens</span> Solution
             </span>
           </Link>
-          <p className="mt-2 text-sm text-white/60">
+          <p className="mt-2 text-sm text-slate-300">
             Secure email verification
           </p>
         </div>

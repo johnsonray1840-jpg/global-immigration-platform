@@ -86,7 +86,7 @@ function FormattedMessage({ content, onLinkClick }: { content: string; onLinkCli
             key={match.index}
             href={linkUrl}
             onClick={onLinkClick}
-            className="inline-flex items-center gap-1 font-semibold text-[#0B5D66] dark:text-[#C9A96E] hover:underline bg-[#0B5D66]/10 dark:bg-[#C9A96E]/20 px-2 py-0.5 rounded text-xs transition-colors my-0.5"
+            className="inline-flex items-center gap-1 font-semibold text-primary dark:text-accent hover:underline bg-primary/10 dark:bg-accent/20 px-2 py-0.5 rounded text-xs transition-colors my-0.5"
           >
             {linkText}
             <ExternalLink className="h-3 w-3 inline-block opacity-70" />
@@ -99,7 +99,7 @@ function FormattedMessage({ content, onLinkClick }: { content: string; onLinkCli
             href={linkUrl}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1 font-semibold text-[#0B5D66] dark:text-[#C9A96E] hover:underline bg-[#0B5D66]/10 px-2 py-0.5 rounded text-xs my-0.5"
+            className="inline-flex items-center gap-1 font-semibold text-primary dark:text-accent hover:underline bg-primary/10 px-2 py-0.5 rounded text-xs my-0.5"
           >
             {linkText}
             <ExternalLink className="h-3 w-3 inline-block" />
@@ -127,7 +127,7 @@ function FormattedMessage({ content, onLinkClick }: { content: string; onLinkCli
         segments.push(str.substring(lastIdx, bMatch.index));
       }
       segments.push(
-        <strong key={bMatch.index} className="font-semibold text-slate-900 dark:text-white">
+        <strong key={bMatch.index} className="font-semibold text-foreground">
           {bMatch[1]}
         </strong>
       );
@@ -144,14 +144,14 @@ function FormattedMessage({ content, onLinkClick }: { content: string; onLinkCli
   const lines = content.split('\n');
 
   return (
-    <div className="space-y-2 text-xs sm:text-sm leading-relaxed text-slate-700 dark:text-slate-200">
+    <div className="space-y-2 text-xs sm:text-sm leading-relaxed text-foreground">
       {lines.map((line, idx) => {
         const trimmed = line.trim();
         if (!trimmed) return <div key={idx} className="h-1" />;
 
         if (trimmed.startsWith('### ')) {
           return (
-            <h4 key={idx} className="font-display text-sm font-bold text-slate-900 dark:text-white mt-3 mb-1">
+            <h4 key={idx} className="font-display text-sm font-bold text-foreground mt-3 mb-1">
               {trimmed.replace('### ', '')}
             </h4>
           );
@@ -160,7 +160,7 @@ function FormattedMessage({ content, onLinkClick }: { content: string; onLinkCli
         if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
           return (
             <div key={idx} className="flex items-start gap-2 pl-1.5">
-              <span className="text-[#0B5D66] dark:text-[#C9A96E] font-bold mt-0.5">•</span>
+              <span className="text-primary dark:text-accent font-bold mt-0.5">•</span>
               <div className="flex-1">{renderParagraph(trimmed.replace(/^[-*]\s+/, ''))}</div>
             </div>
           );
@@ -339,10 +339,10 @@ export default function AIChatWidget() {
           whileTap={{ scale: 0.95 }}
           aria-label="Open AI Immigration Assistant"
           className={cn(
-            'flex h-14 w-14 items-center justify-center rounded-full shadow-2xl transition-all duration-300 border-2',
+            'flex h-14 w-14 items-center justify-center rounded-full transition-all duration-300',
             open
-              ? 'bg-slate-900 border-slate-700 text-white'
-              : 'bg-gradient-to-tr from-[#0B5D66] to-[#0E7480] border-[#C9A96E]/40 text-white hover:shadow-cyan-900/30'
+              ? 'bg-deep-navy border border-border text-white shadow-xl'
+              : 'bg-gradient-to-tr from-atlantic to-royal border border-accent/40 shadow-xl text-white hover:shadow-cyan-900/40'
           )}
         >
           {open ? (
@@ -351,8 +351,8 @@ export default function AIChatWidget() {
             <div className="relative flex items-center justify-center">
               <Bot className="h-7 w-7" />
               <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C9A96E] opacity-75" />
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-[#C9A96E]" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-accent" />
               </span>
             </div>
           )}
@@ -367,20 +367,20 @@ export default function AIChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-24 right-4 sm:right-6 z-50 flex h-[620px] max-h-[85vh] w-[92vw] sm:w-[440px] flex-col overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl"
+            className="fixed bottom-24 right-4 sm:right-6 z-50 flex h-[620px] max-h-[85vh] w-[92vw] sm:w-[440px] flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl"
           >
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-gradient-to-r from-[#0B5D66] to-[#08484F] p-4 text-white">
+            <div className="flex items-center justify-between border-b border-border/20 bg-gradient-to-r from-deep-navy to-atlantic p-4 text-white">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-white backdrop-blur-md border border-white/20">
-                  <Bot className="h-6 w-6 text-[#C9A96E]" />
+                  <Bot className="h-6 w-6 text-accent" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
                     <h3 className="font-display text-sm sm:text-base font-bold text-white tracking-wide">
                       AI Immigration Advisor
                     </h3>
-                    <span className="rounded-full bg-[#C9A96E]/20 px-2 py-0.5 text-[9px] font-semibold text-[#C9A96E] uppercase tracking-wider border border-[#C9A96E]/30">
+                    <span className="rounded-full bg-accent/20 px-2 py-0.5 text-[9px] font-semibold text-accent uppercase tracking-wider border border-accent/30">
                       Global Citizens Solution
                     </span>
                   </div>
@@ -395,14 +395,14 @@ export default function AIChatWidget() {
                 <button
                   onClick={resetChat}
                   title="New Conversation"
-                  className="rounded-lg p-1.5 text-white/70 hover:bg-white/10 hover:text-white transition-colors"
+                  className="rounded-lg p-1.5 text-white/70 hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
                 >
                   <RotateCcw className="h-4 w-4" />
                 </button>
                 <button
                   onClick={() => setOpen(false)}
                   title="Minimize"
-                  className="rounded-lg p-1.5 text-white/70 hover:bg-white/10 hover:text-white transition-colors"
+                  className="rounded-lg p-1.5 text-white/70 hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
                 >
                   <ChevronDown className="h-5 w-5" />
                 </button>
@@ -410,22 +410,22 @@ export default function AIChatWidget() {
             </div>
 
             {/* Messages Area */}
-            <div className="flex-1 space-y-4 overflow-y-auto p-4 bg-slate-50/70 dark:bg-slate-950/50">
+            <div className="flex-1 space-y-4 overflow-y-auto p-4 bg-background/50">
               {messages.length === 0 && !streamingMessage && (
                 <div className="space-y-4 py-2">
-                  <div className="rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-xs">
-                    <div className="flex items-center gap-2 text-[#0B5D66] dark:text-[#C9A96E] font-semibold text-xs uppercase tracking-wider">
+                  <div className="rounded-2xl border border-border bg-card p-4 shadow-xs">
+                    <div className="flex items-center gap-2 text-primary dark:text-accent font-semibold text-xs uppercase tracking-wider">
                       <Sparkles className="h-3.5 w-3.5" />
                       Welcome to Global Citizens Solution
                     </div>
-                    <p className="mt-1.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                    <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground leading-relaxed">
                       I am your 24/7 AI Navigator. I can answer complex visa questions, explain PR pathways, show available scholarships, and guide you anywhere across our platform.
                     </p>
                   </div>
 
                   {/* Suggested Quick Prompts */}
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2 px-1">
+                    <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-2 px-1">
                       Quick Assistance:
                     </p>
                     <div className="flex flex-col gap-2">
@@ -433,9 +433,9 @@ export default function AIChatWidget() {
                         <button
                           key={idx}
                           onClick={() => handleSend(item.text)}
-                          className="flex items-center gap-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3.5 py-2.5 text-left text-xs font-medium text-slate-700 dark:text-slate-200 hover:border-[#0B5D66] hover:bg-[#0B5D66]/5 dark:hover:bg-slate-800 transition-all shadow-xs group"
+                          className="flex items-center gap-2.5 rounded-xl border border-border bg-card px-3.5 py-2.5 text-left text-xs font-medium text-foreground hover:border-primary hover:bg-primary/5 transition-all shadow-xs group cursor-pointer"
                         >
-                          <item.icon className="h-4 w-4 text-[#0B5D66] dark:text-[#C9A96E] shrink-0 group-hover:scale-110 transition-transform" />
+                          <item.icon className="h-4 w-4 text-primary dark:text-accent shrink-0 group-hover:scale-110 transition-transform" />
                           <span className="truncate">{item.label}</span>
                         </button>
                       ))}
@@ -453,7 +453,7 @@ export default function AIChatWidget() {
                   )}
                 >
                   {m.role === 'assistant' && (
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#0B5D66]/10 text-[#0B5D66] dark:bg-slate-800 dark:text-[#C9A96E] mt-0.5 border border-slate-200 dark:border-slate-700">
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary dark:text-accent mt-0.5 border border-border">
                       <Bot className="h-4 w-4" />
                     </div>
                   )}
@@ -461,18 +461,18 @@ export default function AIChatWidget() {
                     className={cn(
                       'max-w-[85%] rounded-2xl p-3.5 shadow-xs',
                       m.role === 'user'
-                        ? 'bg-[#0B5D66] text-white rounded-br-xs'
-                        : 'bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 text-slate-800 dark:text-slate-100 rounded-bl-xs'
+                        ? 'bg-atlantic text-white rounded-br-xs'
+                        : 'bg-card border border-border text-foreground rounded-bl-xs'
                     )}
                   >
                     {m.role === 'user' ? (
-                      <p className="text-xs sm:text-sm">{m.content}</p>
+                      <p className="text-xs sm:text-sm leading-relaxed">{m.content}</p>
                     ) : (
                       <FormattedMessage content={m.content} />
                     )}
                   </div>
                   {m.role === 'user' && (
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#0B5D66] text-white text-xs mt-0.5 shadow-xs">
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-atlantic text-white text-xs mt-0.5 shadow-xs">
                       <User className="h-3.5 w-3.5" />
                     </div>
                   )}
@@ -481,19 +481,19 @@ export default function AIChatWidget() {
 
               {streamingMessage && (
                 <div className="flex gap-2.5 justify-start">
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#0B5D66]/10 text-[#0B5D66] dark:bg-slate-800 mt-0.5 border border-slate-200 dark:border-slate-700">
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary dark:text-accent mt-0.5 border border-border">
                     <Bot className="h-4 w-4" />
                   </div>
-                  <div className="max-w-[85%] rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-3.5 shadow-xs rounded-bl-xs">
+                  <div className="max-w-[85%] rounded-2xl bg-card border border-border text-foreground p-3.5 shadow-xs rounded-bl-xs">
                     <FormattedMessage content={streamingMessage} />
-                    <span className="inline-block w-1.5 h-3.5 bg-[#0B5D66] animate-pulse ml-1" />
+                    <span className="inline-block w-1.5 h-3.5 bg-primary animate-pulse ml-1" />
                   </div>
                 </div>
               )}
 
               {loading && !streamingMessage && (
-                <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 pl-9">
-                  <Loader2 className="h-3.5 w-3.5 animate-spin text-[#0B5D66]" />
+                <div className="flex items-center gap-2 text-xs text-muted-foreground pl-9">
+                  <Loader2 className="h-3.5 w-3.5 animate-spin text-primary" />
                   <span>Consulting immigration knowledge base...</span>
                 </div>
               )}
@@ -501,23 +501,23 @@ export default function AIChatWidget() {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input Bar - High Contrast, Crystal Clear Textarea & Send */}
-            <div className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3">
+            {/* Input Bar */}
+            <div className="border-t border-border bg-card p-3">
               <div className="flex items-center gap-2">
                 <input
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                  placeholder="Type your question (e.g. visa eligibility, scholarships, new user)..."
-                  className="flex-1 h-11 px-4 text-xs sm:text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 border border-slate-300 dark:border-slate-700 rounded-xl outline-none focus:border-[#0B5D66] focus:ring-2 focus:ring-[#0B5D66]/20 transition-all"
+                  placeholder="Type your question (e.g. visa eligibility, scholarships)..."
+                  className="flex-1 h-11 px-4 text-xs sm:text-sm bg-background text-foreground placeholder:text-muted-foreground border border-input rounded-xl outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
                   disabled={loading}
                   autoComplete="off"
                 />
                 <Button
                   onClick={() => handleSend()}
                   size="icon"
-                  className="h-11 w-11 bg-[#0B5D66] text-white hover:bg-[#0A4E56] shadow-sm shrink-0 rounded-xl disabled:opacity-50"
+                  className="h-11 w-11 bg-primary text-primary-foreground hover:bg-primary/90 shadow-xs shrink-0 rounded-xl disabled:opacity-50"
                   disabled={loading || !input.trim()}
                 >
                   <Send className="h-4 w-4" />

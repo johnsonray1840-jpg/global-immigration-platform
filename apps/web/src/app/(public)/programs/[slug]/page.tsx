@@ -61,13 +61,13 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
   if (!program) notFound();
 
   return (
-    <div className="bg-[#F8FAFA]">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[#0B5D66] py-16 md:py-24">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(201,169,110,0.2),transparent)]" />
+      <section className="relative overflow-hidden bg-gradient-to-r from-deep-navy via-deep-navy/95 to-atlantic py-16 md:py-24 text-white">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(200,169,107,0.15),transparent)]" />
         <div className="container-premium relative z-10 text-center">
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white">
-            <BadgeDollarSign className="h-4 w-4 text-[#C9A96E]" />
+          <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm border border-white/10">
+            <BadgeDollarSign className="h-4 w-4 text-accent" />
             {program.category}
           </span>
           <h1 className="mt-4 font-display text-4xl font-semibold tracking-tight text-white md:text-5xl">
@@ -80,98 +80,102 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
       <div className="container-premium py-12 md:py-16">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {/* Who Qualifies */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 md:p-8">
-            <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-[#111827]">
-              <CheckCircle2 className="h-6 w-6 text-[#0B5D66]" /> Who Qualifies
+          <div className="rounded-xl border border-border bg-card text-card-foreground p-6 md:p-8 shadow-sm">
+            <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-foreground">
+              <CheckCircle2 className="h-6 w-6 text-primary" /> Who Qualifies
             </h2>
-            <ul className="mt-4 space-y-2">
+            <ul className="mt-4 space-y-2.5">
               {program.eligibility.map((item: string, i: number) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#0B5D66]" /> {item}
+                <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> <span>{item}</span>
                 </li>
               ))}
             </ul>
           </div>
 
           {/* Requirements */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 md:p-8">
-            <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-[#111827]">
-              <FileText className="h-6 w-6 text-[#0B5D66]" /> Requirements
+          <div className="rounded-xl border border-border bg-card text-card-foreground p-6 md:p-8 shadow-sm">
+            <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-foreground">
+              <FileText className="h-6 w-6 text-primary" /> Requirements
             </h2>
-            <ul className="mt-4 space-y-2">
+            <ul className="mt-4 space-y-2.5">
               {program.requirements.map((item: string, i: number) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
-                  <FileText className="mt-0.5 h-4 w-4 shrink-0 text-[#C9A96E]" /> {item}
+                <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                  <FileText className="mt-0.5 h-4 w-4 shrink-0 text-accent" /> <span>{item}</span>
                 </li>
               ))}
             </ul>
           </div>
 
           {/* Documents */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 md:p-8">
-            <h2 className="font-display text-2xl font-semibold text-[#111827]">Required Documents</h2>
-            <ul className="mt-4 space-y-2">
+          <div className="rounded-xl border border-border bg-card text-card-foreground p-6 md:p-8 shadow-sm">
+            <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-foreground">
+              <ShieldCheck className="h-6 w-6 text-primary" /> Required Documents
+            </h2>
+            <ul className="mt-4 space-y-2.5">
               {program.documents.map((item: string, i: number) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#0B5D66]" /> {item}
+                <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> <span>{item}</span>
                 </li>
               ))}
             </ul>
           </div>
 
           {/* Fees & Processing */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 md:p-8">
-            <h2 className="font-display text-2xl font-semibold text-[#111827]">Fees & Processing</h2>
-            <div className="mt-4 space-y-3 text-sm text-gray-600">
-              <p><span className="font-medium text-[#111827]">Government Fees:</span> {program.governmentFees}</p>
-              <p><span className="font-medium text-[#111827]">Service Fees:</span> {program.serviceFees}</p>
-              <p><span className="font-medium text-[#111827]">Processing Time:</span> {program.processingTime}</p>
-              <p><span className="font-medium text-[#111827]">Validity:</span> {program.validity}</p>
-              <p><span className="font-medium text-[#111827]">Renewal:</span> {program.renewal}</p>
+          <div className="rounded-xl border border-border bg-card text-card-foreground p-6 md:p-8 shadow-sm">
+            <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-foreground">
+              <Clock className="h-6 w-6 text-primary" /> Fees & Processing
+            </h2>
+            <div className="mt-4 space-y-3 text-sm text-muted-foreground">
+              <p><span className="font-semibold text-foreground">Government Fees:</span> {program.governmentFees}</p>
+              <p><span className="font-semibold text-foreground">Service Fees:</span> {program.serviceFees}</p>
+              <p><span className="font-semibold text-foreground">Processing Time:</span> {program.processingTime}</p>
+              <p><span className="font-semibold text-foreground">Validity:</span> {program.validity}</p>
+              <p><span className="font-semibold text-foreground">Renewal:</span> {program.renewal}</p>
             </div>
           </div>
 
           {/* Common Mistakes */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 md:p-8">
-            <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-[#111827]">
-              <AlertTriangle className="h-6 w-6 text-[#C9A96E]" /> Common Mistakes
+          <div className="rounded-xl border border-border bg-card text-card-foreground p-6 md:p-8 shadow-sm">
+            <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-foreground">
+              <AlertTriangle className="h-6 w-6 text-accent" /> Common Mistakes
             </h2>
-            <ul className="mt-4 space-y-2">
+            <ul className="mt-4 space-y-2.5">
               {program.commonMistakes.map((item: string, i: number) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
-                  <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-500" /> {item}
+                <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                  <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" /> <span>{item}</span>
                 </li>
               ))}
             </ul>
           </div>
 
           {/* Approval Rate */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 md:p-8">
-            <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-[#111827]">
-              <PercentCircle className="h-6 w-6 text-[#0B5D66]" /> Approval Rate
+          <div className="rounded-xl border border-border bg-card text-card-foreground p-6 md:p-8 shadow-sm">
+            <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-foreground">
+              <PercentCircle className="h-6 w-6 text-primary" /> Approval Rate
             </h2>
-            <p className="mt-4 text-3xl font-semibold text-[#111827]">{program.approvalRate}</p>
+            <p className="mt-4 text-4xl font-semibold text-primary">{program.approvalRate}</p>
           </div>
         </div>
 
         {/* FAQs */}
         <div className="mt-16">
-          <h2 className="text-center font-display text-3xl font-semibold text-[#111827]">Frequently Asked Questions</h2>
+          <h2 className="text-center font-display text-3xl font-semibold text-foreground">Frequently Asked Questions</h2>
           <div className="mx-auto mt-8 max-w-3xl">
             <Accordion type="single" collapsible className="space-y-3">
               {program.faqs.map((faq: any, i: number) => (
-                <AccordionItem key={i} value={`faq-${i}`} className="group relative overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md data-[state=open]:border-[#C9A96E]/50">
-                  <span className="absolute left-0 top-0 h-full w-1 bg-transparent group-data-[state=open]:bg-[#C9A96E]" />
+                <AccordionItem key={i} value={`faq-${i}`} className="group relative overflow-hidden rounded-xl border border-border bg-card shadow-sm hover:shadow-md data-[state=open]:border-accent/50 transition-all">
+                  <span className="absolute left-0 top-0 h-full w-1 bg-transparent group-data-[state=open]:bg-accent transition-colors" />
                   <div className="pl-1">
-                    <AccordionTrigger className="flex items-center justify-between py-4 pr-4 text-left">
+                    <AccordionTrigger className="flex items-center justify-between py-4 pr-4 pl-4 text-left hover:no-underline">
                       <div className="flex items-start gap-3">
-                        <span className="font-display text-base font-semibold text-[#111827]">{faq.q}</span>
+                        <span className="font-display text-base font-semibold text-foreground">{faq.q}</span>
                       </div>
-                      <ChevronDown className="h-5 w-5 text-gray-400 transition-transform group-data-[state=open]:rotate-180" />
+                      <ChevronDown className="h-5 w-5 text-muted-foreground transition-transform group-data-[state=open]:rotate-180 shrink-0" />
                     </AccordionTrigger>
                   </div>
-                  <AccordionContent className="pl-12 pr-4 pb-5">
-                    <div className="rounded-lg bg-[#F8FAFA] p-4 text-sm text-gray-600">{faq.a}</div>
+                  <AccordionContent className="px-5 pb-5">
+                    <div className="rounded-lg bg-muted p-4 text-sm text-muted-foreground leading-relaxed">{faq.a}</div>
                   </AccordionContent>
                 </AccordionItem>
               ))}
@@ -182,7 +186,7 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
         {/* CTA */}
         <div className="mt-16 text-center">
           <Link href="/eligibility">
-            <Button className="bg-[#0B5D66] px-8 py-3 text-white hover:bg-[#0A4E56]">
+            <Button className="btn-gold px-8 py-3.5 text-base shadow-md">
               Check Your Eligibility <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </Link>

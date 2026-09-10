@@ -77,18 +77,18 @@ export default function ScholarshipsPage() {
   };
 
   return (
-    <div className="bg-[#F8FAFA] min-h-screen">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[#0B5D66] py-16 md:py-24">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(201,169,110,0.25),transparent)]" />
+      <section className="relative overflow-hidden bg-gradient-to-r from-deep-navy via-deep-navy/95 to-atlantic py-16 md:py-24 text-white">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(200,169,107,0.25),transparent)]" />
         <div className="container-premium relative z-10 text-center">
           <motion.span
             initial={{ opacity: 0, y: -15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white"
+            className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur-sm"
           >
-            <GraduationCap className="h-4 w-4 text-[#C9A96E]" />
+            <GraduationCap className="h-4 w-4 text-accent" />
             Global Higher Education & Fellowships
           </motion.span>
           <motion.h1
@@ -112,22 +112,22 @@ export default function ScholarshipsPage() {
 
       {/* Filters Strip */}
       <div className="container-premium -mt-8 relative z-20">
-        <div className="rounded-2xl border border-gray-200/80 bg-white p-6 shadow-lg">
+        <div className="rounded-2xl border border-border bg-card text-card-foreground p-6 shadow-lg">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                placeholder="Search scholarship name, country, field..."
-                className="pl-9 h-11 bg-gray-50 border-gray-200"
+                placeholder="Search scholarship, country, field..."
+                className="pl-9 h-11 bg-background border-input text-foreground"
               />
             </div>
             <select
               value={selectedCountry}
               onChange={(e) => setSelectedCountry(e.target.value)}
-              className="h-11 rounded-lg border border-gray-200 bg-gray-50 px-4 text-sm text-[#111827] focus:border-[#0B5D66] focus:ring-2 focus:ring-[#0B5D66]/30"
+              className="h-11 rounded-lg border border-input bg-background px-4 text-sm text-foreground focus:border-primary focus:ring-2 focus:ring-primary/30"
             >
               <option value="">All Destination Countries</option>
               {countries.map((c) => (
@@ -139,7 +139,7 @@ export default function ScholarshipsPage() {
             <select
               value={selectedUniversity}
               onChange={(e) => setSelectedUniversity(e.target.value)}
-              className="h-11 rounded-lg border border-gray-200 bg-gray-50 px-4 text-sm text-[#111827] focus:border-[#0B5D66] focus:ring-2 focus:ring-[#0B5D66]/30"
+              className="h-11 rounded-lg border border-input bg-background px-4 text-sm text-foreground focus:border-primary focus:ring-2 focus:ring-primary/30"
             >
               <option value="">All Partner Universities</option>
               {universities.map((u) => (
@@ -151,7 +151,7 @@ export default function ScholarshipsPage() {
             <div className="flex gap-2">
               <Button
                 onClick={handleSearch}
-                className="flex-1 h-11 bg-[#0B5D66] text-white hover:bg-[#0A4E56] font-medium"
+                className="flex-1 h-11 btn-gold font-semibold shadow-sm"
               >
                 <Filter className="mr-2 h-4 w-4" /> Filter
               </Button>
@@ -159,7 +159,7 @@ export default function ScholarshipsPage() {
                 <Button
                   onClick={handleReset}
                   variant="outline"
-                  className="h-11 border-gray-200 text-gray-500 hover:text-gray-800"
+                  className="h-11 border-border text-muted-foreground hover:text-foreground"
                   title="Reset Filters"
                 >
                   <RotateCcw className="h-4 w-4" />
@@ -174,10 +174,10 @@ export default function ScholarshipsPage() {
       <div className="container-premium py-14">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h2 className="font-display text-2xl font-bold text-[#111827]">
+            <h2 className="font-display text-2xl font-bold text-foreground">
               Available Scholarships
             </h2>
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-muted-foreground mt-1">
               Showing {scholarships.length} active opportunities
             </p>
           </div>
@@ -186,15 +186,15 @@ export default function ScholarshipsPage() {
         {loading ? (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="h-80 animate-pulse rounded-2xl bg-gray-200/80" />
+              <div key={i} className="h-80 animate-pulse rounded-2xl bg-muted" />
             ))}
           </div>
         ) : scholarships.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-gray-300 bg-white p-16 text-center">
-            <GraduationCap className="mx-auto h-16 w-16 text-gray-300" />
-            <h3 className="mt-4 font-display text-xl font-semibold text-gray-700">No scholarships found</h3>
-            <p className="mt-2 text-sm text-gray-500">Try adjusting your search criteria or resetting filters.</p>
-            <Button onClick={handleReset} variant="outline" className="mt-6 border-[#0B5D66] text-[#0B5D66]">
+          <div className="rounded-2xl border border-dashed border-border bg-card text-card-foreground p-16 text-center">
+            <GraduationCap className="mx-auto h-16 w-16 text-muted-foreground/40" />
+            <h3 className="mt-4 font-display text-xl font-semibold text-foreground">No scholarships found</h3>
+            <p className="mt-2 text-sm text-muted-foreground">Try adjusting your search criteria or resetting filters.</p>
+            <Button onClick={handleReset} variant="outline" className="mt-6 border-primary text-primary hover:bg-primary/10">
               Show All Scholarships
             </Button>
           </div>
@@ -209,49 +209,49 @@ export default function ScholarshipsPage() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.35, delay: i * 0.04 }}
-                  className="flex flex-col justify-between rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#C9A96E] hover:shadow-xl group"
+                  className="flex flex-col justify-between rounded-2xl border border-border bg-card text-card-foreground p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-accent/50 hover:shadow-lg group"
                 >
                   <div>
                     {/* Header Badges */}
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       {sch.country && (
-                        <span className="inline-flex items-center gap-1.5 rounded-md bg-[#0B5D66]/10 px-2.5 py-1 text-xs font-semibold text-[#0B5D66]">
+                        <span className="inline-flex items-center gap-1.5 rounded-md bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
                           <Globe2 className="h-3.5 w-3.5" />
                           {sch.country.name}
                         </span>
                       )}
                       {sch.eligibilityJson?.coverageType && (
-                        <Badge className="bg-[#C9A96E]/15 text-[#9B7D3B] border border-[#C9A96E]/30 text-[11px] font-semibold">
-                          <Award className="mr-1 h-3 w-3 text-[#C9A96E]" />
+                        <Badge className="bg-accent/15 text-foreground dark:text-accent border border-accent/30 text-[11px] font-semibold">
+                          <Award className="mr-1 h-3 w-3 text-accent" />
                           {sch.eligibilityJson.coverageType}
                         </Badge>
                       )}
                     </div>
 
                     {/* Title */}
-                    <h3 className="mt-4 font-display text-xl font-bold text-[#111827] group-hover:text-[#0B5D66] transition-colors line-clamp-2">
+                    <h3 className="mt-4 font-display text-xl font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2">
                       {sch.name}
                     </h3>
 
                     {/* University */}
                     {sch.university && (
-                      <p className="mt-1.5 flex items-center gap-1.5 text-xs font-medium text-gray-500">
-                        <Building2 className="h-3.5 w-3.5 shrink-0 text-gray-400" />
+                      <p className="mt-1.5 flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+                        <Building2 className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
                         <span className="truncate">{sch.university.name}</span>
                       </p>
                     )}
 
                     {/* Description */}
-                    <p className="mt-3 text-sm leading-relaxed text-gray-600 line-clamp-3">
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground line-clamp-3">
                       {sch.description}
                     </p>
 
                     {/* Key Benefits */}
                     {sch.eligibilityJson?.benefits && sch.eligibilityJson.benefits.length > 0 && (
-                      <div className="mt-4 space-y-1.5 border-t border-gray-100 pt-3">
+                      <div className="mt-4 space-y-1.5 border-t border-border pt-3">
                         {sch.eligibilityJson.benefits.slice(0, 2).map((benefit: string, idx: number) => (
-                          <div key={idx} className="flex items-start gap-1.5 text-xs text-gray-600">
-                            <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-600 mt-0.5" />
+                          <div key={idx} className="flex items-start gap-1.5 text-xs text-muted-foreground">
+                            <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-500 mt-0.5" />
                             <span className="truncate">{benefit}</span>
                           </div>
                         ))}
@@ -260,14 +260,14 @@ export default function ScholarshipsPage() {
                   </div>
 
                   {/* Footer & CTA */}
-                  <div className="mt-6 border-t border-gray-100 pt-4">
-                    <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
-                      <div className="flex items-center gap-1 font-semibold text-[#111827] text-sm">
-                        <Banknote className="h-4 w-4 text-[#C9A96E]" />
+                  <div className="mt-6 border-t border-border pt-4">
+                    <div className="flex items-center justify-between text-xs text-muted-foreground mb-3">
+                      <div className="flex items-center gap-1 font-semibold text-foreground text-sm">
+                        <Banknote className="h-4 w-4 text-accent" />
                         ${sch.fundingAmount ? sch.fundingAmount.toLocaleString() : 'Full Value'}
                       </div>
-                      <div className="flex items-center gap-1 text-gray-500">
-                        <CalendarDays className="h-3.5 w-3.5 text-gray-400" />
+                      <div className="flex items-center gap-1 text-muted-foreground">
+                        <CalendarDays className="h-3.5 w-3.5 text-muted-foreground" />
                         {sch.deadline
                           ? `Deadline: ${new Date(sch.deadline).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}`
                           : 'Open'}
@@ -277,7 +277,7 @@ export default function ScholarshipsPage() {
                     <Link href={`/scholarships/${sch.id}`} className="block">
                       <Button
                         variant="outline"
-                        className="w-full border-[#0B5D66]/30 text-[#0B5D66] font-medium hover:bg-[#0B5D66] hover:text-white transition-all group-hover:border-[#0B5D66]"
+                        className="w-full border-border text-foreground font-medium hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all"
                       >
                         View Full Details
                         <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />

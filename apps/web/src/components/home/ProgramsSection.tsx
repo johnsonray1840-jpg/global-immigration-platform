@@ -36,7 +36,7 @@ const programSlugs: Record<string, string> = {
 
 export default function ProgramsSection() {
   return (
-    <section className="py-20 bg-[#F8FAFA]">
+    <section className="py-20 bg-background">
       <div className="container-premium">
         <SectionHeading
           title="Explore Immigration Programs"
@@ -51,26 +51,26 @@ export default function ProgramsSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
             >
-              <div className="group relative h-full rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-[#C9A96E] hover:shadow-lg">
+              <div className="group relative h-full rounded-xl border border-border bg-card p-6 transition-all hover:border-accent/40 hover:shadow-lg">
                 {program.badge && (
-                  <span className="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-[#C9A96E]/10 px-3 py-1 text-xs font-medium text-[#C9A96E]">
-                    <Star className="h-3 w-3 fill-[#C9A96E] text-[#C9A96E]" />
+                  <span className="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-accent/10 px-3 py-1 text-xs font-medium text-accent">
+                    <Star className="h-3 w-3 fill-accent text-accent" />
                     {program.badge}
                   </span>
                 )}
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#0B5D66]/10">
-                  <program.icon className="h-6 w-6 text-[#0B5D66]" />
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                  <program.icon className="h-6 w-6 text-primary" />
                 </div>
-                <h3 className="mt-4 font-display text-2xl font-semibold text-[#111827]">
+                <h3 className="mt-4 font-display text-2xl font-semibold text-foreground">
                   {program.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-gray-600">
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   {program.description}
                 </p>
-                <div className="mt-6 flex items-center justify-between border-t border-gray-100 pt-4">
+                <div className="mt-6 flex items-center justify-between border-t border-border pt-4">
                   <Link
                     href={`/programs/${programSlugs[program.title] || program.title.toLowerCase().replace(/\s+/g, '-')}`}
-                    className="inline-flex items-center text-sm font-medium text-[#0B5D66] hover:text-[#0A4E56]"
+                    className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80"
                   >
                     Learn More <ArrowRight className="ml-1 h-4 w-4" />
                   </Link>

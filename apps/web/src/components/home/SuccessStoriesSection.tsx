@@ -91,7 +91,7 @@ export default function SuccessStoriesSection() {
 
   return (
     <section
-      className="relative overflow-hidden py-24 bg-[#0B5D66]"
+      className="relative overflow-hidden py-24 bg-primary"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -115,13 +115,13 @@ export default function SuccessStoriesSection() {
               {visibleTestimonials.map((story) => (
                 <div
                   key={story.name}
-                  className="flex h-full flex-col rounded-xl border border-white/20 bg-white/5 p-6 backdrop-blur-xl transition-all hover:border-[#C9A96E]/50 hover:bg-white/10"
+                  className="flex h-full flex-col rounded-xl border border-white/20 bg-card/5 p-6 backdrop-blur-xl transition-all hover:border-accent/50 hover:bg-card/10"
                 >
                   <div className="flex items-center justify-between">
-                    <Quote className="h-8 w-8 text-[#C9A96E]" />
+                    <Quote className="h-8 w-8 text-accent" />
                     <div className="flex">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-4 w-4 fill-[#C9A96E] text-[#C9A96E]" />
+                        <Star key={i} className="h-4 w-4 fill-accent text-accent" />
                       ))}
                     </div>
                   </div>
@@ -152,14 +152,14 @@ export default function SuccessStoriesSection() {
 
           <button
             onClick={prevPage}
-            className="absolute -left-4 top-1/2 hidden -translate-y-1/2 rounded-full bg-white/10 p-2 text-white backdrop-blur-lg transition hover:bg-[#C9A96E]/50 md:block"
+            className="absolute -left-4 top-1/2 hidden -translate-y-1/2 rounded-full bg-card/10 p-2 text-white backdrop-blur-lg transition hover:bg-accent/50 md:block"
             aria-label="Previous stories"
           >
             <ChevronLeft className="h-6 w-6" />
           </button>
           <button
             onClick={nextPage}
-            className="absolute -right-4 top-1/2 hidden -translate-y-1/2 rounded-full bg-white/10 p-2 text-white backdrop-blur-lg transition hover:bg-[#C9A96E]/50 md:block"
+            className="absolute -right-4 top-1/2 hidden -translate-y-1/2 rounded-full bg-card/10 p-2 text-white backdrop-blur-lg transition hover:bg-accent/50 md:block"
             aria-label="Next stories"
           >
             <ChevronRight className="h-6 w-6" />
@@ -173,7 +173,7 @@ export default function SuccessStoriesSection() {
               onClick={() => setCurrentIndex(i)}
               className={cn(
                 'h-2 rounded-full transition-all',
-                i === currentIndex ? 'w-6 bg-[#C9A96E]' : 'w-2 bg-white/30 hover:bg-white/50'
+                i === currentIndex ? 'w-6 bg-accent' : 'w-2 bg-card/30 hover:bg-card/50'
               )}
               aria-label={`Go to page ${i + 1}`}
             />

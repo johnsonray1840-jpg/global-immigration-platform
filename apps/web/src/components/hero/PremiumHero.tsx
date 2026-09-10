@@ -14,8 +14,8 @@ import AnimatedCounter from '@/components/shared/AnimatedCounter';
 const GlobeMap = dynamic(() => import('@/components/map/GlobeMap'), {
   ssr: false,
   loading: () => (
-    <div className="absolute inset-0 flex items-center justify-center bg-[#0B5D66]">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#C9A96E]"></div>
+    <div className="absolute inset-0 flex items-center justify-center bg-[#071A2B]">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-accent"></div>
     </div>
   ),
 });
@@ -53,15 +53,15 @@ export default function PremiumHero() {
   };
 
   return (
-    <section className="relative h-screen min-h-[600px] overflow-hidden bg-[#0B5D66]">
+    <section className="relative h-screen min-h-[600px] overflow-hidden bg-gradient-to-br from-[#071A2B] via-[#0A2540] to-[#0E7490]">
       {/* Interactive 3D Globe background */}
       <div className="absolute inset-0 z-0 opacity-80">
         <GlobeMap className="h-full w-full" />
       </div>
 
       {/* Overlay gradient for text readability */}
-      <div className="absolute inset-0 z-[1] bg-gradient-to-r from-[#0B5D66]/95 via-[#0B5D66]/80 to-[#0B5D66]/40" />
-      <div className="absolute inset-0 z-[1] bg-gradient-to-t from-[#0B5D66]/60 to-transparent" />
+      <div className="absolute inset-0 z-[1] bg-gradient-to-r from-[#071A2B]/95 via-[#0A2540]/80 to-[#0E7490]/40" />
+      <div className="absolute inset-0 z-[1] bg-gradient-to-t from-[#071A2B]/80 to-transparent" />
 
       {/* Content */}
       <div className="container-premium relative z-10 flex h-full flex-col justify-center items-start text-left max-w-3xl">
@@ -72,7 +72,7 @@ export default function PremiumHero() {
           className="mb-6"
         >
           <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-md">
-            <ShieldCheck className="h-4 w-4 text-[#C9A96E]" />
+            <ShieldCheck className="h-4 w-4 text-accent" />
             GLOBAL IMMIGRATION & MOBILITY
           </span>
         </motion.div>
@@ -99,16 +99,16 @@ export default function PremiumHero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.3 }}
-          className="mt-8 flex flex-col sm:flex-row gap-4"
+          className="mt-8 flex flex-col w-full sm:w-auto sm:flex-row gap-4"
         >
-          <Link href="/programs">
-            <Button className="bg-[#C9A96E] text-[#111827] hover:bg-[#b8955c] px-8 py-3 text-base font-semibold rounded-md">
+          <Link href="/programs" className="w-full sm:w-auto">
+            <Button className="w-full sm:w-auto btn-gold px-8 py-3 text-base font-semibold rounded-md">
               Explore Immigration Options
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
-          <Link href="/eligibility">
-            <Button variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-3 text-base rounded-md">
+          <Link href="/eligibility" className="w-full sm:w-auto">
+            <Button variant="outline" className="w-full sm:w-auto border-white/30 text-white hover:bg-white/10 px-8 py-3 text-base rounded-md">
               Check Your Eligibility
             </Button>
           </Link>
