@@ -182,9 +182,9 @@ model User {
   wireAccountAssignment UserWireAccount?
   cryptoSessions       CryptoPaymentSession[]
   investments          Investment[]
-  pprovalsRequested    PaymentApproval[]   @relation("RequestedBy")
+  approvalsRequested   PaymentApproval[]   @relation("RequestedBy")
   approvalsReviewed    PaymentApproval[]   @relation("ReviewedBy")
-  
+  aiChatLogs           AiChatLog[]
 }
 
 model UserProfile {
@@ -667,6 +667,26 @@ model AiDocument {
   content   String
   embedding Json?
   createdAt DateTime @default(now())
+}
+
+model AiChatLog {
+  id         String    @id @default(cuid())
+  sessionId  String
+  userId     String?
+  userName   String?
+  userEmail  String?
+  question   String    @db.Text
+  response   String    @db.Text
+  intent     String?
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime  @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([sessionId])
+  @@index([userId])
+  @@index([createdAt])
 }
 
 // ──────────────────────────────────────────────

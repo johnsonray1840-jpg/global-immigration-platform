@@ -26,7 +26,7 @@ export default function AboutPage() {
       <div className="container-premium py-16 md:py-20">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="font-display text-3xl md:text-4xl font-semibold text-[#111827]">Who We Are</h2>
-          <p className="mt-4 text-lg leading-relaxed text-gray-600">Global Immigration Services is a licensed and government-approved consultancy. We combine deep legal expertise with cutting-edge technology to make immigration simple, secure, and successful.</p>
+          <p className="mt-4 text-lg leading-relaxed text-gray-600">Global Citizens Solution is a licensed and government-approved immigration and citizenship consultancy. We combine deep legal expertise with cutting-edge technology to make global migration, residency, and citizenship simple, secure, and successful.</p>
         </div>
         <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2">
           <div className="rounded-xl border border-gray-200 bg-white p-8">

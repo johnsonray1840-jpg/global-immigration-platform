@@ -3,6 +3,15 @@ import { PrismaService } from '../prisma/prisma.service';
 import { HfInference } from '@huggingface/inference';
 import type { Response } from 'express';
 
+export interface ChatMetadata {
+  sessionId?: string;
+  userId?: string;
+  userName?: string;
+  userEmail?: string;
+  ipAddress?: string;
+  userAgent?: string;
+}
+
 @Injectable()
 export class AiService {
   private hf: HfInference | null = null;
@@ -17,11 +26,12 @@ export class AiService {
     message: string,
     history: Array<{ role: 'user' | 'assistant'; content: string }> = [],
     language = 'en',
+    metadata?: ChatMetadata,
   ) {
     const trimmedMsg = message?.trim() || '';
     if (!trimmedMsg) {
       return {
-        reply: 'Hello! I am your AI Immigration & Platform Navigator. How can I help you explore visas, scholarships, or navigate our platform today?',
+        reply: 'Hello! I am your AI Immigration & Platform Navigator for Global Citizens Solution. How can I assist you with visa pathways, global scholarships, or website navigation today?',
         contextUsed: false,
       };
     }
@@ -38,16 +48,20 @@ export class AiService {
       ru: 'Отвечайте на русском языке.',
     }[language] || 'Respond in English.';
 
-    const systemPrompt = `You are the senior AI Immigration & Platform Advisor for Global Immigration Platform (https://globalimmigration.com).
+    const systemPrompt = `You are the senior AI Immigration & Platform Advisor for Global Citizens Solution (https://globalcitizenssolution.com).
 Your primary role is to:
 1. Help both guests and registered clients navigate the entire website with clickable markdown links.
 2. Answer intense, detailed questions about visas (Express Entry, Work Permits, Student Visas, Golden Visas, Citizenship by Investment, Digital Nomad Visas).
 3. Guide users on scholarship applications, required documentation, OCR checks, and case progress workflows.
-4. If a question is outside immigration, global education, visas, or platform navigation, politely decline and refocus on immigration services.
+4. If a user states they do not have an account or are new, explain both guest exploration features and the benefits of creating a free account.
+5. If a question is outside immigration, global education, visas, or platform navigation, politely decline and refocus on immigration services.
+6. Do not include emojis in your responses. Keep the tone executive, professional, and clear.
 
 KEY PLATFORM NAVIGATION ROUTES:
+- Create Free Account: [Create Account](/register)
+- Sign In to Account: [Sign In](/login)
 - Check Visa Eligibility & Points: [Eligibility Assessment](/eligibility)
-- Global Scholarships Directory: [Browse 10+ Scholarships](/scholarships)
+- Global Scholarships Directory: [Browse Scholarships](/scholarships)
 - Premium Service Packages: [View Service Packages](/packages)
 - Immigration Programs & Pathways: [Explore Programs](/programs)
 - Country Guides & Cost of Living: [Country Directory](/countries)
@@ -64,13 +78,15 @@ ${languageInstruction}
 RELEVANT DATABASE CONTEXT:
 ${context}
 
-Provide a structured, helpful, and thorough response. Use bolding, bullet points, and markdown links where helpful.`;
+Provide a structured, helpful, and thorough response. Use bolding, bullet points, and markdown links where helpful. Do not use emojis.`;
 
     const messages = [
       { role: 'system', content: systemPrompt },
       ...history.slice(-6),
       { role: 'user', content: trimmedMsg },
     ];
+
+    let finalReply = '';
 
     try {
       if (this.hf) {
@@ -82,16 +98,21 @@ Provide a structured, helpful, and thorough response. Use bolding, bullet points
         const generated = response.generated_text || '';
         const cleaned = generated.split('assistant:').pop()?.trim() || generated.trim();
         if (cleaned && cleaned.length > 20) {
-          return { reply: cleaned, contextUsed: !!context };
+          finalReply = this.cleanEmojis(cleaned);
         }
       }
     } catch (error) {
-      console.warn('Hugging Face inference failed, utilizing built-in expert intelligence engine:', error?.message || error);
+      console.warn('Hugging Face inference fallback to built-in expert intelligence engine:', error?.message || error);
     }
 
-    // Built-in high-intelligence immigration expert engine
-    const intelligentReply = this.generateExpertReply(trimmedMsg, context);
-    return { reply: intelligentReply, contextUsed: !!context };
+    if (!finalReply) {
+      finalReply = this.generateExpertReply(trimmedMsg, context);
+    }
+
+    // Persist conversation log in database for admin monitoring
+    await this.logConversation(trimmedMsg, finalReply, metadata);
+
+    return { reply: finalReply, contextUsed: !!context };
   }
 
   async streamChat(
@@ -99,42 +120,222 @@ Provide a structured, helpful, and thorough response. Use bolding, bullet points
     history: Array<{ role: 'user' | 'assistant'; content: string }>,
     language: string,
     res: Response,
+    metadata?: ChatMetadata,
   ) {
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
     res.flushHeaders();
 
-    const full = await this.chat(message, history, language);
+    const full = await this.chat(message, history, language, metadata);
     const words = full.reply.split(' ');
 
     for (const word of words) {
       res.write(`data: ${JSON.stringify({ word })}\n\n`);
-      await new Promise((resolve) => setTimeout(resolve, 30));
+      await new Promise((resolve) => setTimeout(resolve, 25));
     }
     res.write('data: [DONE]\n\n');
     res.end();
   }
 
+  private cleanEmojis(text: string): string {
+    return text.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F018}-\u{1F270}\u{2388}-\u{23E8}]/gu, '').replace(/\s+/g, ' ');
+  }
+
+  private detectIntent(query: string): string {
+    const q = query.toLowerCase();
+    if (q.includes('no account') || q.includes('dont have an account') || q.includes("don't have an account") || q.includes('guest') || q.includes('sign up') || q.includes('register') || q.includes('new user') || q.includes('how to start') || q.includes('where to start')) {
+      return 'ACCOUNT_ONBOARDING';
+    }
+    if (q.includes('scholarship') || q.includes('tuition') || q.includes('grant') || q.includes('study abroad') || q.includes('fellowship')) {
+      return 'SCHOLARSHIPS';
+    }
+    if (q.includes('canada') || q.includes('express entry') || q.includes('crs') || q.includes('pr') || q.includes('permanent residence')) {
+      return 'CANADA_PR';
+    }
+    if (q.includes('usa') || q.includes('united states') || q.includes('eb-2') || q.includes('eb-1') || q.includes('h-1b') || q.includes('green card')) {
+      return 'USA_IMMIGRATION';
+    }
+    if (q.includes('cbi') || q.includes('citizenship by investment') || q.includes('golden visa') || q.includes('caribbean') || q.includes('malta')) {
+      return 'CBI_GOLDEN_VISA';
+    }
+    if (q.includes('uk') || q.includes('germany') || q.includes('chancenkarte') || q.includes('europe') || q.includes('blue card')) {
+      return 'EUROPE_IMMIGRATION';
+    }
+    if (q.includes('consultation') || q.includes('appointment') || q.includes('advisor') || q.includes('lawyer')) {
+      return 'CONSULTATION_BOOKING';
+    }
+    if (q.includes('track') || q.includes('status') || q.includes('upload') || q.includes('document') || q.includes('case')) {
+      return 'CASE_DOCUMENT_WORKFLOW';
+    }
+    if (q.includes('package') || q.includes('price') || q.includes('fee') || q.includes('cost')) {
+      return 'PACKAGES_PRICING';
+    }
+    return 'GENERAL_INQUIRY';
+  }
+
+  private async logConversation(question: string, response: string, metadata?: ChatMetadata) {
+    try {
+      if (this.prisma.aiChatLog) {
+        await this.prisma.aiChatLog.create({
+          data: {
+            sessionId: metadata?.sessionId || 'guest-session',
+            userId: metadata?.userId || null,
+            userName: metadata?.userName || (metadata?.userId ? 'Registered Client' : 'Guest Visitor'),
+            userEmail: metadata?.userEmail || null,
+            question,
+            response,
+            intent: this.detectIntent(question),
+            ipAddress: metadata?.ipAddress || null,
+            userAgent: metadata?.userAgent || null,
+          },
+        });
+      }
+    } catch (err) {
+      console.warn('Could not persist AI chat record:', err?.message || err);
+    }
+  }
+
+  // Admin Monitoring Methods
+  async getChatLogs(page = 1, limit = 20, search = '', userType = 'all') {
+    const skip = (page - 1) * limit;
+    const where: any = {};
+
+    if (search) {
+      where.OR = [
+        { question: { contains: search, mode: 'insensitive' } },
+        { response: { contains: search, mode: 'insensitive' } },
+        { userName: { contains: search, mode: 'insensitive' } },
+        { userEmail: { contains: search, mode: 'insensitive' } },
+        { sessionId: { contains: search, mode: 'insensitive' } },
+      ];
+    }
+
+    if (userType === 'registered') {
+      where.userId = { not: null };
+    } else if (userType === 'guest') {
+      where.userId = null;
+    }
+
+    const [items, total] = await Promise.all([
+      this.prisma.aiChatLog.findMany({
+        where,
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: limit,
+        include: { user: { select: { id: true, email: true, profile: { select: { fullName: true } } } } },
+      }),
+      this.prisma.aiChatLog.count({ where }),
+    ]);
+
+    return {
+      items,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+    };
+  }
+
+  async getChatSessions(page = 1, limit = 20, search = '') {
+    const logs = await this.prisma.aiChatLog.findMany({
+      where: search
+        ? {
+            OR: [
+              { question: { contains: search, mode: 'insensitive' } },
+              { response: { contains: search, mode: 'insensitive' } },
+              { userName: { contains: search, mode: 'insensitive' } },
+              { userEmail: { contains: search, mode: 'insensitive' } },
+              { sessionId: { contains: search, mode: 'insensitive' } },
+            ],
+          }
+        : undefined,
+      orderBy: { createdAt: 'desc' },
+      take: 500,
+    });
+
+    const sessionsMap = new Map<string, {
+      sessionId: string;
+      userId: string | null;
+      userName: string;
+      userEmail: string | null;
+      messageCount: number;
+      lastQuestion: string;
+      lastResponse: string;
+      lastActive: Date;
+    }>();
+
+    for (const log of logs) {
+      if (!sessionsMap.has(log.sessionId)) {
+        sessionsMap.set(log.sessionId, {
+          sessionId: log.sessionId,
+          userId: log.userId,
+          userName: log.userName || (log.userId ? 'Registered Client' : 'Guest Visitor'),
+          userEmail: log.userEmail,
+          messageCount: 1,
+          lastQuestion: log.question,
+          lastResponse: log.response,
+          lastActive: log.createdAt,
+        });
+      } else {
+        const entry = sessionsMap.get(log.sessionId)!;
+        entry.messageCount += 1;
+      }
+    }
+
+    const allSessions = Array.from(sessionsMap.values());
+    const startIndex = (page - 1) * limit;
+    const paginated = allSessions.slice(startIndex, startIndex + limit);
+
+    return {
+      sessions: paginated,
+      total: allSessions.length,
+      page,
+      totalPages: Math.ceil(allSessions.length / limit),
+    };
+  }
+
+  async getSessionHistory(sessionId: string) {
+    return this.prisma.aiChatLog.findMany({
+      where: { sessionId },
+      orderBy: { createdAt: 'asc' },
+      include: { user: { select: { id: true, email: true, profile: { select: { fullName: true } } } } },
+    });
+  }
+
+  async deleteChatLog(id: string) {
+    return this.prisma.aiChatLog.delete({ where: { id } });
+  }
+
+  async deleteSessionLogs(sessionId: string) {
+    return this.prisma.aiChatLog.deleteMany({ where: { sessionId } });
+  }
+
+  async getChatStats() {
+    const [totalMessages, registeredCount, guestCount, todayCount] = await Promise.all([
+      this.prisma.aiChatLog.count(),
+      this.prisma.aiChatLog.count({ where: { userId: { not: null } } }),
+      this.prisma.aiChatLog.count({ where: { userId: null } }),
+      this.prisma.aiChatLog.count({
+        where: {
+          createdAt: { gte: new Date(new Date().setHours(0, 0, 0, 0)) },
+        },
+      }),
+    ]);
+
+    return {
+      totalMessages,
+      registeredCount,
+      guestCount,
+      todayCount,
+    };
+  }
+
   private async retrieveContext(query: string): Promise<string> {
     const rawTokens = query.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter((w) => w.length > 2);
-    if (rawTokens.length === 0) return '';
-
-    const searchClause = rawTokens.slice(0, 4).join(' | ');
+    if (!rawTokens.length) return '';
 
     try {
-      const [faqs, countries, programs, scholarships, visaRules, servicePackages] = await Promise.all([
-        this.prisma.faq.findMany({
-          where: {
-            OR: rawTokens.slice(0, 3).map((token) => ({
-              OR: [
-                { question: { contains: token, mode: 'insensitive' } },
-                { answer: { contains: token, mode: 'insensitive' } },
-              ],
-            })),
-          },
-          take: 4,
-        }),
+      const [countries, faqs, programs, scholarships, visaRules, servicePackages] = await Promise.all([
         this.prisma.country.findMany({
           where: {
             OR: rawTokens.slice(0, 3).map((token) => ({
@@ -145,6 +346,17 @@ Provide a structured, helpful, and thorough response. Use bolding, bullet points
             })),
           },
           take: 3,
+        }),
+        this.prisma.faq.findMany({
+          where: {
+            OR: rawTokens.slice(0, 3).map((token) => ({
+              OR: [
+                { question: { contains: token, mode: 'insensitive' } },
+                { answer: { contains: token, mode: 'insensitive' } },
+              ],
+            })),
+          },
+          take: 2,
         }),
         this.prisma.program.findMany({
           where: {
@@ -238,59 +450,229 @@ Provide a structured, helpful, and thorough response. Use bolding, bullet points
     // 1. Off-topic filter
     const offTopicTriggers = ['recipe', 'poem', 'joke', 'crypto pump', 'weather today', 'write code for', 'python function', 'movie recommendation'];
     if (offTopicTriggers.some((t) => q.includes(t))) {
-      return `I am your dedicated **AI Immigration & Platform Navigator**. I specialize exclusively in visa pathways, scholarship funding, document requirements, and platform assistance.\n\nHow can I assist your global immigration or relocation goals today?\n- 🔍 [Check Visa Eligibility](/eligibility)\n- 🎓 [Explore 10+ Global Scholarships](/scholarships)\n- 📦 [Browse Premium Packages](/packages)\n- 📅 [Book 1-on-1 Consultation](/consultation)`;
+      return `I am your dedicated AI Immigration & Platform Navigator for Global Citizens Solution. I specialize exclusively in visa pathways, citizenship by investment, global scholarship funding, document requirements, and platform navigation.\n\nHow can I assist your global immigration or relocation goals today?\n- [Check Visa Eligibility](/eligibility)\n- [Explore 10+ Global Scholarships](/scholarships)\n- [Browse Service Packages](/packages)\n- [Book 1-on-1 Consultation](/consultation)`;
     }
 
-    // 2. Navigation Intent: Scholarships
+    // 2. Specialized Intent: "I don't have an account" / New Guest Visitor Walkthrough
+    if (
+      q.includes('dont have an account') ||
+      q.includes("don't have an account") ||
+      q.includes('no account') ||
+      q.includes('not registered') ||
+      q.includes('guest') ||
+      q.includes('im new') ||
+      q.includes("i'm new") ||
+      q.includes('how to start') ||
+      q.includes('where to start') ||
+      q.includes('new user') ||
+      q.includes('first time') ||
+      q.includes('how do i sign up')
+    ) {
+      return `### Welcome to Global Citizens Solution
+
+You do not need an account to start exploring our platform. You can immediately access many of our core features as a guest:
+
+**1. What You Can Do Right Now as a Guest:**
+- **Free Points & Eligibility Assessment**: Run an instant evaluation to discover your qualifying score for Canada, the UK, Germany, and Australia: [Check Eligibility](/eligibility)
+- **Explore 10+ Ongoing Global Scholarships**: Browse fully-funded undergraduate, master's, and doctoral scholarships with active deadlines and grant amounts: [Browse Scholarships](/scholarships)
+- **Explore 50+ Countries & Programs**: Compare living costs, processing times, safety ratings, and visa categories: [Country Directory](/countries) | [Compare Countries](/compare)
+- **Review Service Packages**: Compare our professional consultation and legal filing tiers: [View Service Packages](/packages)
+
+**2. Benefits of Creating a Free Account:**
+When you are ready to proceed with your application, creating a free account unlocks your dedicated Client Portal:
+- **End-to-End Case Management**: Track every stage from document compilation to official government visa issuance in real-time.
+- **Secure Encrypted Document Vault**: Upload passports, transcripts, and proofs of funds with automated AI OCR verification.
+- **Private 1-on-1 Strategy Consultations**: Schedule direct sessions with licensed RCIC consultants and immigration lawyers: [Book Consultation](/consultation)
+- **Direct Messaging**: Communicate directly with your assigned case officer and receive milestone notifications.
+
+**Quick Navigation Links:**
+- [Create Free Account](/register)
+- [Sign In to Existing Account](/login)
+- [Check Points & Visa Eligibility](/eligibility)
+- [Explore 10+ Global Scholarships](/scholarships)
+- [Book a 1-on-1 Consultation](/consultation)
+
+What specific country or visa program would you like to explore today?`;
+    }
+
+    // 3. Navigation Intent: Scholarships
     if (q.includes('scholarship') || q.includes('tuition') || q.includes('grant') || q.includes('study abroad') || q.includes('fellowship')) {
-      return `### 🎓 Global Scholarships & Education Grants\n\nWe feature **10 prestigious, fully-funded global scholarships** across top study destinations:\n\n1. **Fulbright Foreign Student Program (USA)**: Up to $50,000 covering full tuition, living stipend, round-trip flights, and J-1 visa sponsorship.\n2. **Chevening Scholarships (UK)**: 100% tuition coverage for master's programs with monthly living allowances.\n3. **DAAD Helmut-Schmidt-Programme (Germany)**: Full tuition waiver + €934/month stipend and insurance.\n4. **Australia Awards (Australia)**: Full university tuition + establishment allowance + airfare.\n5. **Vanier CGS (Canada)**: $50,000/year doctoral grants for 3 years.\n6. **Eiffel Excellence (France)**: Master's & PhD monthly stipend + flight grants.\n7. **Swiss Govt Excellence (Switzerland)**: Full research and PhD stipends (CHF 1,920/mo).\n8. **MEXT Scholarship (Japan)**: 100% tuition waiver + 145,000 JPY/month.\n9. **SINGA Award (Singapore)**: 4-year PhD fellowship + SGD 2,700/mo.\n10. **Govt of Ireland Scholarship (Ireland)**: Full tuition waiver + €10,000 living stipend.\n\n👉 **Where to go on the website:**\n- [Browse All Scholarships & Deadlines](/scholarships)\n- [Explore Student Visa Pathways](/programs)\n- [Book an Education Consultant](/consultation)`;
-    }
+      return `### Global Scholarships & Education Grants
 
-    // 3. Navigation Intent: How to navigate / Getting Started for New Users
-    if (q.includes('where do i start') || q.includes('how to start') || q.includes('navigate') || q.includes('new user') || q.includes('how does this website work') || q.includes('help me navigate') || q.includes('guide me')) {
-      return `### 🧭 Welcome to Global Immigration Platform! Here is how to navigate:\n\nWhether you are exploring options or ready to submit an application, follow these steps:\n\n1. **Step 1: Check Your Eligibility (2 Mins)**\n   Use our automated points assessment calculator to discover which countries and visa categories you qualify for.\n   👉 [Launch Eligibility Assessment](/eligibility)\n\n2. **Step 2: Choose Your Destination & Program**\n   Explore over 50 countries, comparing safety, processing times, and cost of living:\n   👉 [Explore Country Directory](/countries) | [Compare Destinations](/compare)\n\n3. **Step 3: Select a Service Package or Book Consultation**\n   Choose our end-to-end legal and filing packages or speak directly with an accredited consultant:\n   👉 [View Service Packages](/packages) | [Book 1-on-1 Consultation](/consultation)\n\n4. **Step 4: Track Your Application & Upload Documents**\n   Once registered, your client portal gives you real-time case tracking, status updates, and automated OCR document checks:\n   👉 [Go to Client Dashboard](/dashboard) | [View My Cases](/dashboard/cases)\n\nWhat specific country or visa type would you like to explore first?`;
+Global Citizens Solution features 10 prestigious, fully-funded global scholarships across top study destinations:
+
+1. **Fulbright Foreign Student Program (USA)**: Up to $50,000 covering full tuition, living stipend, round-trip flights, and J-1 visa sponsorship.
+2. **Chevening Scholarships (UK)**: 100% tuition coverage for master's programs with monthly living allowances.
+3. **DAAD Helmut-Schmidt-Programme (Germany)**: Full tuition waiver + €934/month stipend and insurance.
+4. **Australia Awards (Australia)**: Full university tuition + establishment allowance + airfare.
+5. **Vanier CGS (Canada)**: $50,000/year doctoral grants for 3 years.
+6. **Eiffel Excellence (France)**: Master's & PhD monthly stipend + flight grants.
+7. **Swiss Govt Excellence (Switzerland)**: Full research and PhD stipends (CHF 1,920/mo).
+8. **MEXT Scholarship (Japan)**: 100% tuition waiver + 145,000 JPY/month.
+9. **SINGA Award (Singapore)**: 4-year PhD fellowship + SGD 2,700/mo.
+10. **Govt of Ireland Scholarship (Ireland)**: Full tuition waiver + €10,000 living stipend.
+
+**Where to go on the website:**
+- [Browse All Scholarships & Deadlines](/scholarships)
+- [Explore Student Visa Pathways](/programs)
+- [Book an Education Consultant](/consultation)`;
     }
 
     // 4. Case Tracking & Document Upload Workflow
     if (q.includes('track') || q.includes('status') || q.includes('upload') || q.includes('document') || q.includes('ocr') || q.includes('case')) {
-      return `### 📂 Case Management & Document Verification Workflow\n\nHere is how our secure case tracking and document system works:\n\n- **Document Center**: Upload your passport, proof of funds, employment reference, and transcripts (PDF/JPG/PNG up to 25MB). Our AI OCR system instantly verifies document clarity and data integrity.\n  👉 [Open Document Center](/dashboard/documents)\n\n- **Live Case Timeline**: You can track each stage of your application:\n  1. \`PROFILE_CREATED\` → Initial setup.\n  2. \`DOCUMENTS_PENDING\` → Upload required files.\n  3. \`DOCUMENTS_VERIFIED\` → All documents approved by our review team.\n  4. \`UNDER_INTERNAL_REVIEW\` → Legal specialist final audit.\n  5. \`SUBMITTED_TO_GOVERNMENT\` → Official government filing.\n  6. \`BIOMETRICS_SCHEDULED\` / \`APPROVED\` → Visa grant issued!\n  👉 [Track Active Cases](/dashboard/cases)\n\n- **Rejected Documents?** If an admin or consultant requests a replacement, the exact reason will appear in red on your case details page so you can re-upload instantly.`;
+      return `### Case Management & Document Verification Workflow
+
+Here is how our secure case tracking and document system works:
+
+- **Document Center**: Upload your passport, proof of funds, employment reference, and transcripts (PDF/JPG/PNG up to 25MB). Our AI OCR system instantly verifies document clarity and data integrity.
+  [Open Document Center](/dashboard/documents)
+
+- **Live Case Timeline**: You can track each stage of your application:
+  1. PROFILE_CREATED - Initial setup.
+  2. DOCUMENTS_PENDING - Upload required files.
+  3. DOCUMENTS_VERIFIED - All documents approved by our review team.
+  4. UNDER_INTERNAL_REVIEW - Legal specialist final audit.
+  5. SUBMITTED_TO_GOVERNMENT - Official government filing.
+  6. BIOMETRICS_SCHEDULED / APPROVED - Visa grant issued.
+  [Track Active Cases](/dashboard/cases)
+
+- **Rejected Documents**: If an admin or consultant requests a replacement, the exact reason will appear in red on your case details page so you can re-upload instantly.`;
     }
 
     // 5. Canada Express Entry / PR / CRS Points
     if (q.includes('canada') || q.includes('express entry') || q.includes('crs') || q.includes('pr') || q.includes('permanent residence')) {
-      return `### 🍁 Canada Immigration & Permanent Residence Pathways\n\nCanada offers some of the most accessible pathways to permanent residency (PR):\n\n1. **Express Entry System (Federal Skilled Worker / CEC)**:\n   - Points-based Comprehensive Ranking System (CRS) evaluating **Age**, **Education (ECA evaluated)**, **Language (CLB 7-9+ in IELTS/CELPIP)**, and **Work Experience**.\n2. **Provincial Nominee Programs (PNP)**: Gives +600 CRS points if nominated by provinces like Ontario (OINP), BC (BCPNP), or Alberta (AAIP).\n3. **Study-to-PR Pathway**: Post-Graduation Work Permit (PGWP) leading to Canadian Experience Class (CEC).\n4. **Start-up Visa & Investor Programs**: Direct permanent residence for entrepreneurs with designated venture capital or angel support.\n\n👉 **Next Steps on Platform:**\n- [Calculate Your Canada PR Score](/eligibility)\n- [Explore Canada Country Details](/countries/CA)\n- [Book a Registered Canadian Immigration Consultant (RCIC)](/consultation)`;
+      return `### Canada Immigration & Permanent Residence Pathways
+
+Canada offers some of the most accessible pathways to permanent residency (PR):
+
+1. **Express Entry System (Federal Skilled Worker / CEC)**:
+   - Points-based Comprehensive Ranking System (CRS) evaluating Age, Education (ECA evaluated), Language (CLB 7-9+ in IELTS/CELPIP), and Work Experience.
+2. **Provincial Nominee Programs (PNP)**: Gives +600 CRS points if nominated by provinces like Ontario (OINP), BC (BCPNP), or Alberta (AAIP).
+3. **Study-to-PR Pathway**: Post-Graduation Work Permit (PGWP) leading to Canadian Experience Class (CEC).
+4. **Start-up Visa & Investor Programs**: Direct permanent residence for entrepreneurs with designated venture capital or angel support.
+
+**Next Steps on Platform:**
+- [Calculate Your Canada PR Score](/eligibility)
+- [Explore Canada Country Details](/countries/CA)
+- [Book a Registered Canadian Immigration Consultant (RCIC)](/consultation)`;
     }
 
     // 6. United States Visas
     if (q.includes('united states') || q.includes('usa') || q.includes('eb-2') || q.includes('eb-1') || q.includes('h-1b') || q.includes('greencard') || q.includes('green card')) {
-      return `### 🇺🇸 United States Visa & Green Card Pathways\n\nKey immigration pathways to the United States include:\n\n- **EB-2 NIW (National Interest Waiver)**: Self-petitioned Green Card for professionals with advanced degrees or exceptional ability without requiring an employer sponsor.\n- **EB-1A / EB-1C**: Extraordinary ability and multinational executive transfers.\n- **H-1B Specialty Occupation**: Employer-sponsored work visa with annual lottery quota.\n- **F-1 Student Visa**: Academic study with 1 to 3 years STEM OPT work authorization.\n- **EB-5 Immigrant Investor**: $800,000 targeted employment area investment leading to permanent residence.\n\n👉 **Helpful Links:**\n- [View US Programs & Requirements](/countries/US)\n- [Check US Visa Eligibility](/eligibility)\n- [Consult with a US Immigration Attorney](/consultation)`;
+      return `### United States Visa & Green Card Pathways
+
+Key immigration pathways to the United States include:
+
+- **EB-2 NIW (National Interest Waiver)**: Self-petitioned Green Card for professionals with advanced degrees or exceptional ability without requiring an employer sponsor.
+- **EB-1A / EB-1C**: Extraordinary ability and multinational executive transfers.
+- **H-1B Specialty Occupation**: Employer-sponsored work visa with annual lottery quota.
+- **F-1 Student Visa**: Academic study with 1 to 3 years STEM OPT work authorization.
+- **EB-5 Immigrant Investor**: $800,000 targeted employment area investment leading to permanent residence.
+
+**Helpful Links:**
+- [View US Programs & Requirements](/countries/US)
+- [Check US Visa Eligibility](/eligibility)
+- [Consult with a US Immigration Attorney](/consultation)`;
     }
 
     // 7. United Kingdom & Europe Pathways
     if (q.includes('uk') || q.includes('united kingdom') || q.includes('germany') || q.includes('europe') || q.includes('schengen') || q.includes('blue card') || q.includes('france') || q.includes('chancenkarte')) {
-      return `### 🇪🇺 UK & European Immigration Pathways\n\nTop European immigration programs:\n\n- **UK Skilled Worker Visa**: Requires a job offer from an approved UK sponsor at or above the minimum salary threshold.\n- **Germany Opportunity Card (Chancenkarte)**: Points-based job search visa allowing qualified non-EU talent to enter Germany for up to 1 year.\n- **EU Blue Card**: Fast-track work and residence permit for university graduates with qualifying employment in Germany, France, Netherlands, etc.\n- **Portugal D8 Digital Nomad & D7 Passive Income**: Visas for remote workers earning 4x Portuguese minimum wage.\n- **Golden Visas & European Residency**: Greece, Spain, and Malta residency programs.\n\n👉 **Explore on our platform:**\n- [Compare European Countries](/compare)\n- [Check Germany / UK Visa Rules](/countries/DE)\n- [Book a European Visa Specialist](/consultation)`;
+      return `### UK & European Immigration Pathways
+
+Top European immigration programs:
+
+- **UK Skilled Worker Visa**: Requires a job offer from an approved UK sponsor at or above the minimum salary threshold.
+- **Germany Opportunity Card (Chancenkarte)**: Points-based job search visa allowing qualified non-EU talent to enter Germany for up to 1 year.
+- **EU Blue Card**: Fast-track work and residence permit for university graduates with qualifying employment in Germany, France, Netherlands, etc.
+- **Portugal D8 Digital Nomad & D7 Passive Income**: Visas for remote workers earning 4x Portuguese minimum wage.
+- **Golden Visas & European Residency**: Greece, Spain, and Malta residency programs.
+
+**Explore on our platform:**
+- [Compare European Countries](/compare)
+- [Check Germany / UK Visa Rules](/countries/DE)
+- [Book a European Visa Specialist](/consultation)`;
     }
 
     // 8. Citizenship by Investment (CBI) & Golden Visas
     if (q.includes('citizenship by investment') || q.includes('cbi') || q.includes('golden visa') || q.includes('second passport') || q.includes('investor')) {
-      return `### 💎 Citizenship by Investment & Golden Visas\n\nAcquire a second passport or residence permit through qualifying investment:\n\n- **Caribbean Programs (Fast 3-6 Months Processing)**:\n  - St. Kitts & Nevis, Dominica, Grenada, Antigua & Barbuda, Saint Lucia ($100k - $250k donation or real estate purchase).\n  - Visa-free access to 140+ countries including UK & Schengen.\n- **European Golden Visas & Residency**:\n  - Greece Golden Visa (€250k - €800k real estate investment).\n  - Malta Permanent Residence & Citizenship by Direct Investment.\n  - UAE Golden Visa (10-year residency with 2M AED investment).\n\n👉 **Take Action:**\n- [View Investor Service Packages](/packages)\n- [Explore Citizenship Programs](/programs/citizenship-by-investment)\n- [Book a Private Wealth & Immigration Advisor](/consultation)`;
+      return `### Citizenship by Investment & Golden Visas
+
+Acquire a second passport or residence permit through qualifying investment:
+
+- **Caribbean Programs (Fast 3-6 Months Processing)**:
+  - St. Kitts & Nevis, Dominica, Grenada, Antigua & Barbuda, Saint Lucia ($100k - $250k donation or real estate purchase).
+  - Visa-free access to 140+ countries including UK & Schengen.
+- **European Golden Visas & Residency**:
+  - Greece Golden Visa (€250k - €800k real estate investment).
+  - Malta Permanent Residence & Citizenship by Direct Investment.
+  - UAE Golden Visa (10-year residency with 2M AED investment).
+
+**Take Action:**
+- [View Investor Service Packages](/packages)
+- [Explore Citizenship Programs](/programs/citizenship-by-investment)
+- [Book a Private Wealth & Immigration Advisor](/consultation)`;
     }
 
     // 9. Consultation & Appointment Booking
     if (q.includes('consultation') || q.includes('book') || q.includes('talk to') || q.includes('human') || q.includes('advisor') || q.includes('lawyer') || q.includes('appointment')) {
-      return `### 📅 Book a 1-on-1 Consultation with a Licensed Immigration Specialist\n\nOur certified immigration lawyers and consultants provide personalized legal reviews, profile evaluations, and custom application roadmaps.\n\n- **Video Consultation (Zoom / Meet / In-App)**: 45-minute comprehensive strategy session.\n- **Full Document Pre-Screening**: Assessment of qualification credentials, work proof, and funds.\n- **Custom Filing Timeline & Risk Analysis**.\n\n👉 **Schedule Your Session Now:**\n- [Book a Consultation Session](/consultation)\n- [Manage Existing Appointments](/dashboard/appointments)`;
+      return `### Book a 1-on-1 Consultation with a Licensed Immigration Specialist
+
+Our certified immigration lawyers and consultants provide personalized legal reviews, profile evaluations, and custom application roadmaps.
+
+- **Video Consultation (Zoom / Meet / In-App)**: 45-minute comprehensive strategy session.
+- **Full Document Pre-Screening**: Assessment of qualification credentials, work proof, and funds.
+- **Custom Filing Timeline & Risk Analysis**.
+
+**Schedule Your Session Now:**
+- [Book a Consultation Session](/consultation)
+- [Manage Existing Appointments](/dashboard/appointments)`;
     }
 
     // 10. Service Packages & Pricing
     if (q.includes('package') || q.includes('price') || q.includes('cost') || q.includes('fee') || q.includes('how much')) {
-      return `### 💼 Transparent Immigration Service Packages\n\nWe offer clear, all-inclusive packages with no hidden fees:\n\n- **Holiday & Tourist Package**: Document curation, itinerary building, and embassy booking.\n- **Student Visa & Scholarship Package**: University matching, admission SOP guidance, scholarship filings, and student visa handling.\n- **Skilled Worker & Express Entry Package**: Points optimization, ECA assistance, employer sponsor guidance, and legal submission.\n- **Investor & Golden Visa Package**: Full legal due diligence, escrow guidance, and government dossier filing.\n\n👉 **View Details:**\n- [Explore All Service Packages](/packages)\n- [Payment Options & Crypto Wallet](/dashboard/wallet)`;
+      return `### Transparent Immigration Service Packages
+
+We offer clear, all-inclusive packages with no hidden fees:
+
+- **Holiday & Tourist Package**: Document curation, itinerary building, and embassy booking.
+- **Student Visa & Scholarship Package**: University matching, admission SOP guidance, scholarship filings, and student visa handling.
+- **Skilled Worker & Express Entry Package**: Points optimization, ECA assistance, employer sponsor guidance, and legal submission.
+- **Investor & Golden Visa Package**: Full legal due diligence, escrow guidance, and government dossier filing.
+
+**View Details:**
+- [Explore All Service Packages](/packages)
+- [Payment Options & Crypto Wallet](/dashboard/wallet)`;
     }
 
     // Default intelligent immigration response
     if (context) {
-      return `### 🌐 Global Immigration Platform Assistance\n\nBased on your inquiry:\n\n${context}\n\n**Helpful Platform Links:**\n- 🔍 [Check Your Eligibility](/eligibility)\n- 🎓 [Explore Scholarships](/scholarships)\n- 📦 [View Service Packages](/packages)\n- 📅 [Book a Consultation](/consultation)\n\nWould you like more details on requirements, processing times, or application fees?`;
+      return `### Global Citizens Solution Assistance
+
+Based on your inquiry:
+
+${context}
+
+**Helpful Platform Links:**
+- [Check Your Eligibility](/eligibility)
+- [Explore Scholarships](/scholarships)
+- [View Service Packages](/packages)
+- [Book a Consultation](/consultation)
+
+Would you like more details on requirements, processing times, or application fees?`;
     }
 
-    return `### 🌐 Global Immigration Platform Assistant\n\nI am here to guide you across all visa pathways, scholarships, and platform tools.\n\n**Where would you like to go?**\n- 🔍 **Check Points & Eligibility**: [Launch Assessment](/eligibility)\n- 🎓 **10+ Global Scholarships**: [View Scholarships](/scholarships)\n- 💼 **Our Legal Packages**: [Explore Packages](/packages)\n- 🌍 **Compare Countries**: [Country Directory](/countries)\n- 📅 **Talk to an Expert**: [Book Consultation](/consultation)\n- 📂 **Track Your Active Case**: [Open Client Dashboard](/dashboard/cases)\n\nFeel free to ask any specific question about visas, required documents, or destination requirements!`;
+    return `### Global Citizens Solution Assistant
+
+I am here to guide you across all visa pathways, scholarships, and platform tools.
+
+**Where would you like to go?**
+- **Check Points & Eligibility**: [Launch Assessment](/eligibility)
+- **10+ Global Scholarships**: [View Scholarships](/scholarships)
+- **Our Legal Packages**: [Explore Packages](/packages)
+- **Compare Countries**: [Country Directory](/countries)
+- **Talk to an Expert**: [Book Consultation](/consultation)
+- **Track Your Active Case**: [Open Client Dashboard](/dashboard/cases)
+
+Feel free to ask any specific question about visas, required documents, or destination requirements!`;
   }
 }

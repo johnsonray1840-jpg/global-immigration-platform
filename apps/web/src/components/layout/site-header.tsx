@@ -63,8 +63,8 @@ export default function SiteHeader() {
       scrolled ? 'bg-white/95 shadow-md backdrop-blur-lg border-b border-gray-200' : 'bg-transparent'
     )}>
       <div className="container-premium flex h-16 md:h-20 items-center justify-between">
-        <Link href="/" className="font-display text-2xl md:text-3xl font-bold text-[#0B5D66]">
-          Global<span className="text-[#C9A96E]">Immigration</span>
+        <Link href="/" className="font-display text-xl md:text-2xl font-bold text-[#0B5D66]">
+          Global<span className="text-[#C9A96E]">Citizens</span> Solution
         </Link>
 
         {/* Desktop nav */}
@@ -117,7 +117,7 @@ export default function SiteHeader() {
             </SheetTrigger>
             <SheetContent side="left" className="w-80 p-0 bg-white">
               <div className="p-5 border-b border-gray-100 flex items-center justify-between">
-                <span className="font-display text-2xl font-bold text-[#0B5D66]">Global<span className="text-[#C9A96E]">Immigration</span></span>
+                <span className="font-display text-xl font-bold text-[#0B5D66]">Global<span className="text-[#C9A96E]">Citizens</span> Solution</span>
                 <SheetTrigger asChild><Button variant="ghost" size="icon"><X className="h-5 w-5" /></Button></SheetTrigger>
               </div>
               <nav className="p-5 space-y-1 overflow-y-auto max-h-[80vh]">

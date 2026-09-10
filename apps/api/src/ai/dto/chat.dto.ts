@@ -10,5 +10,21 @@ export class ChatDto {
 
   @IsOptional()
   @IsString()
-  language?: string; // e.g., 'en', 'fr', 'es', 'de', 'zh', 'ar'
+  language?: string;
+
+  @IsOptional()
+  @IsString()
+  sessionId?: string;
+
+  @IsOptional()
+  @IsString()
+  userId?: string;
+
+  @IsOptional()
+  @IsString()
+  userName?: string;
+
+  @IsOptional()
+  @IsString()
+  userEmail?: string;
 }

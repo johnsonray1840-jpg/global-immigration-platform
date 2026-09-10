@@ -16,3 +16,4 @@ export default function GlobalAIChat() {
 
   return <AIChatWidget />;
 }
+

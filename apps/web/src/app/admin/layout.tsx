@@ -22,12 +22,14 @@ import {
   CheckSquare,
   GraduationCap,
   Briefcase,
+  Bot,
 } from 'lucide-react';
 import ThemeToggle from '@/components/layout/theme-toggle';
 import { cn } from '@/lib/utils';
 
 const nav = [
   { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },
+  { label: 'AI Inquiries & Chats', href: '/admin/ai-chats', icon: Bot },
   { label: 'Payment Approvals', href: '/admin/approvals', icon: CheckSquare },
   { label: 'Users & Roles', href: '/admin/users', icon: Users },
   { label: 'Countries', href: '/admin/countries', icon: Globe2 },

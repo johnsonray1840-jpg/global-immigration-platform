@@ -29,10 +29,10 @@ export default function SiteFooter() {
         {/* Brand */}
         <div>
           <Link href="/" className="font-display text-2xl font-bold text-white">
-            Global<span className="text-primary">Immigration</span>
+            Global<span className="text-primary">Citizens</span> Solution
           </Link>
           <p className="mt-4 text-sm leading-relaxed text-white/70">
-            Government‑approved immigration consultancy with 50+ years of combined expertise.
+            Government‑approved immigration and citizenship by investment consultancy with 50+ years of combined expertise.
             Your trusted partner for global mobility.
           </p>
         </div>
@@ -83,7 +83,7 @@ export default function SiteFooter() {
             </div>
           </form>
           <div className="mt-6 space-y-2 text-sm text-white/70">
-            <p className="flex items-center gap-2"><Mail className="h-4 w-4" /> support@globalimmigration.com</p>
+            <p className="flex items-center gap-2"><Mail className="h-4 w-4" /> support@globalcitizenssolution.com</p>
             <p className="flex items-center gap-2"><Phone className="h-4 w-4" /> +1 (555) 123-4567</p>
             <p className="flex items-center gap-2"><MapPin className="h-4 w-4" /> New York, London, Doha, Dubai</p>
           </div>
@@ -92,7 +92,7 @@ export default function SiteFooter() {
 
       <div className="border-t border-white/10 py-6">
         <div className="container-premium flex flex-col items-center justify-between gap-4 text-xs text-white/50 sm:flex-row">
-          <p>© {new Date().getFullYear()} Global Immigration Services. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Global Citizens Solution. All rights reserved.</p>
           <div className="flex gap-4">
   <Link href="/sitemap" className="hover:text-primary">Sitemap</Link>
   <Link href="/accessibility" className="hover:text-primary">Accessibility</Link>

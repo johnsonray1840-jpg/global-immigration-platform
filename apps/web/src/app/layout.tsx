@@ -16,8 +16,8 @@ const dmSerif = DM_Serif_Display({
 
 
 export const metadata: Metadata = {
-  title: 'Global Immigration & Visa Platform',
-  description: 'AI-Powered Global Immigration, Visa Processing, and Citizenship by Investment Platform',
+  title: 'Global Citizens Solution | Immigration & Mobility Platform',
+  description: 'Global Citizens Solution - AI-Powered Global Immigration, Citizenship by Investment, Visa Processing, and Residency Solutions',
   other: {
     google: 'notranslate',
   },
