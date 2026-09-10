@@ -5,10 +5,10 @@ import AnimatedCounter from '@/components/shared/AnimatedCounter';
 import { ShieldCheck, Users, TrendingUp, Globe2 } from 'lucide-react';
 
 const stats = [
-  { icon: Globe2, end: 50, suffix: '+', label: 'Countries Served' },
-  { icon: Users, end: 15000, suffix: '+', label: 'Successful Cases' },
-  { icon: TrendingUp, end: 98, suffix: '%', label: 'Approval Rate' },
-  { icon: ShieldCheck, end: 50, suffix: '+', label: 'Years Experience' },
+  { icon: Globe2, end: 50, suffix: '+', label: 'Global Destinations' },
+  { icon: Users, end: 15000, suffix: '+', label: 'Consultations Guided' },
+  { icon: ShieldCheck, end: 25, suffix: '+', label: 'Legal & Immigration Partners' },
+  { icon: TrendingUp, end: 100, suffix: '%', label: 'Transparent Case Management' },
 ];
 
 export default function StatsSection() {

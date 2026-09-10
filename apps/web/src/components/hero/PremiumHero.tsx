@@ -121,29 +121,29 @@ export default function PremiumHero() {
           transition={{ duration: 0.7, delay: 0.4 }}
           className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 w-full"
         >
-          <div className="text-center text-white">
-            <p className="font-display text-3xl font-semibold">
+          <div className="text-left text-white border-l border-accent/40 pl-3">
+            <p className="font-display text-2xl md:text-3xl font-semibold">
               <AnimatedCounter end={50} suffix="+" />
             </p>
-            <p className="mt-1 text-sm text-white/80">Countries</p>
+            <p className="mt-1 text-xs md:text-sm text-white/80">Destinations</p>
           </div>
-          <div className="text-center text-white">
-            <p className="font-display text-3xl font-semibold">
+          <div className="text-left text-white border-l border-accent/40 pl-3">
+            <p className="font-display text-2xl md:text-3xl font-semibold">
               <AnimatedCounter end={15000} suffix="+" />
             </p>
-            <p className="mt-1 text-sm text-white/80">Cases</p>
+            <p className="mt-1 text-xs md:text-sm text-white/80">Clients Advised</p>
           </div>
-          <div className="text-center text-white">
-            <p className="font-display text-3xl font-semibold">
-              <AnimatedCounter end={98} suffix="%" />
+          <div className="text-left text-white border-l border-accent/40 pl-3">
+            <p className="font-display text-2xl md:text-3xl font-semibold">
+              <AnimatedCounter end={25} suffix="+" />
             </p>
-            <p className="mt-1 text-sm text-white/80">Approval</p>
+            <p className="mt-1 text-xs md:text-sm text-white/80">Legal Specialists</p>
           </div>
-          <div className="text-center text-white">
-            <p className="font-display text-3xl font-semibold">
-              <AnimatedCounter end={50} suffix="+" />
+          <div className="text-left text-white border-l border-accent/40 pl-3">
+            <p className="font-display text-2xl md:text-3xl font-semibold">
+              24/7
             </p>
-            <p className="mt-1 text-sm text-white/80">Years</p>
+            <p className="mt-1 text-xs md:text-sm text-white/80">Global Support</p>
           </div>
         </motion.div>
       </div>

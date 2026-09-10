@@ -3,6 +3,7 @@
 @theme {
   /* ===== Premium Brand Palette ===== */
   --color-deep-navy: #071A2B;
+  --color-dark-blue: #0B2D4D;
   --color-atlantic: #0E7490;
   --color-atlantic-light: #14B8A6;
   --color-royal: #2563EB;
@@ -11,54 +12,54 @@
   --color-gold-dark: #B08D4A;
 
   /* Neutral Scale */
-  --color-slate-50: #F8FAFC;
+  --color-slate-50: #F7FAFC;
   --color-slate-100: #F1F5F9;
   --color-slate-200: #E2E8F0;
   --color-slate-300: #CBD5E1;
   --color-slate-400: #94A3B8;
   --color-slate-500: #64748B;
-  --color-slate-600: #475569;
+  --color-slate-600: #526273;
   --color-slate-700: #334155;
   --color-slate-800: #1E293B;
   --color-slate-900: #0F172A;
-  --color-slate-950: #020617;
+  --color-slate-950: #050B14;
 
-  /* Legacy aliases (for gradual migration) */
+  /* Legacy aliases (for smooth compatibility) */
   --color-white: #ffffff;
   --color-black: #000000;
-  --color-charcoal: #071A2B;
-  --color-ash-light: #F8FAFC;
+  --color-charcoal: #0B1726;
+  --color-ash-light: #F7FAFC;
   --color-ash: #E2E8F0;
-  --color-ash-dark: #64748B;
+  --color-ash-dark: #526273;
   --color-silver: #E2E8F0;
 
   /* Light Mode Semantic Tokens */
-  --color-primary: #0E7490;
+  --color-primary: #071A2B;
   --color-primary-foreground: #ffffff;
   --color-accent: #C8A96B;
   --color-accent-foreground: #071A2B;
-  --color-background: #F8FAFC;
-  --color-foreground: #071A2B;
+  --color-background: #F7FAFC;
+  --color-foreground: #0B1726;
   --color-card: #FFFFFF;
-  --color-card-foreground: #071A2B;
+  --color-card-foreground: #0B1726;
   --color-popover: #FFFFFF;
-  --color-popover-foreground: #071A2B;
+  --color-popover-foreground: #0B1726;
   --color-muted: #F1F5F9;
-  --color-muted-foreground: #64748B;
+  --color-muted-foreground: #526273;
   --color-border: #E2E8F0;
   --color-input: #E2E8F0;
   --color-ring: #0E7490;
-  --color-destructive: #EF4444;
+  --color-destructive: #C94B4B;
   --color-destructive-foreground: #FFFFFF;
-  --color-secondary: #F1F5F9;
-  --color-secondary-foreground: #071A2B;
-  --color-success: #10B981;
-  --color-warning: #F59E0B;
-  --color-error: #EF4444;
+  --color-secondary: #0B2D4D;
+  --color-secondary-foreground: #FFFFFF;
+  --color-success: #16856A;
+  --color-warning: #C58A24;
+  --color-error: #C94B4B;
 
   /* Dark mode base tokens */
-  --color-dark: #071A2B;
-  --color-dark-foreground: #FFFFFF;
+  --color-dark: #050B14;
+  --color-dark-foreground: #F1F5F9;
 
   /* Fonts */
   --font-display: var(--font-dm-serif), serif;
@@ -73,27 +74,30 @@
   --radius-2xl: 1.5rem;
 }
 
-/* ===== Dark Mode — Deep Navy Luxury Palette ===== */
+/* ===== Dark Mode — Ultra-Premium Dedicated Luxury Palette ===== */
 .dark {
-  --color-background: #071A2B;
-  --color-foreground: #F8FAFC;
-  --color-card: #0C2340;
-  --color-card-foreground: #F8FAFC;
-  --color-popover: #0C2340;
-  --color-popover-foreground: #F8FAFC;
+  --color-background: #050B14;
+  --color-foreground: #F1F5F9;
+  --color-card: #0A1624;
+  --color-card-foreground: #F1F5F9;
+  --color-popover: #0A1624;
+  --color-popover-foreground: #F1F5F9;
   --color-primary: #0E7490;
   --color-primary-foreground: #FFFFFF;
   --color-accent: #C8A96B;
-  --color-accent-foreground: #F8FAFC;
-  --color-muted: #0C2340;
-  --color-muted-foreground: #94A3B8;
-  --color-border: #1E3A5F;
-  --color-input: #1E3A5F;
+  --color-accent-foreground: #F1F5F9;
+  --color-muted: #102236;
+  --color-muted-foreground: #A9B8C8;
+  --color-border: #1E344A;
+  --color-input: #1E344A;
   --color-ring: #C8A96B;
-  --color-secondary: #0C2340;
-  --color-secondary-foreground: #F8FAFC;
-  --color-destructive: #EF4444;
+  --color-secondary: #102236;
+  --color-secondary-foreground: #F1F5F9;
+  --color-destructive: #C94B4B;
   --color-destructive-foreground: #FFFFFF;
+  --color-success: #16856A;
+  --color-warning: #C58A24;
+  --color-error: #C94B4B;
 }
 
 * {
@@ -127,7 +131,7 @@ body {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
 }
 .dark .glass-card {
-  background: rgba(12, 35, 64, 0.7);
+  background: rgba(10, 22, 36, 0.7);
   border-color: rgba(200, 169, 107, 0.1);
 }
 
@@ -161,7 +165,7 @@ body {
 
 /* ===== Skeleton Loader ===== */
 .skeleton {
-  background: linear-gradient(90deg, #E2E8F0 25%, #F8FAFC 50%, #E2E8F0 75%);
+  background: linear-gradient(90deg, #E2E8F0 25%, #F7FAFC 50%, #E2E8F0 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
 }
@@ -172,10 +176,10 @@ body {
 
 /* ===== Custom Scrollbar ===== */
 ::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: #F8FAFC; }
+::-webkit-scrollbar-track { background: #F7FAFC; }
 ::-webkit-scrollbar-thumb { background: #C8A96B; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #B08D4A; }
-.dark ::-webkit-scrollbar-track { background: #071A2B; }
+.dark ::-webkit-scrollbar-track { background: #050B14; }
 .dark ::-webkit-scrollbar-thumb { background: #C8A96B; }
 
 /* ===== Focus styles ===== */
