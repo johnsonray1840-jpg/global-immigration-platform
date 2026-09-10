@@ -4,6 +4,7 @@ import "./globals.css";
 import SocketProvider from "@/components/providers/socket-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { LanguageProvider } from "@/i18n/LanguageContext";
+import GlobalAIChat from "@/components/ai/GlobalAIChat";
 import type { Metadata, Viewport } from "next";
 
 
@@ -29,7 +30,23 @@ export const viewport: Viewport = {
   themeColor: "#071A2B",
 };
 
-import GlobalAIChat from "@/components/ai/GlobalAIChat";
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'Global Citizens Solution',
+  description: 'AI-Powered Global Immigration, Citizenship by Investment, Visa Processing, and Residency Solutions.',
+  url: 'https://global-immigration-platform.vercel.app',
+  email: 'support@ctcorporationbusiness.com',
+  priceRange: '$$$$',
+  areaServed: 'Worldwide',
+  serviceType: [
+    'Immigration Consulting',
+    'Citizenship by Investment',
+    'Residency by Investment',
+    'Work Permits',
+    'Student Visas',
+  ],
+};
 
 export default function RootLayout({
   children,
@@ -38,6 +55,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="notranslate" suppressHydrationWarning data-scroll-behavior="smooth">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body
         className={`${inter.variable} ${dmSerif.variable} font-body antialiased`}
         suppressHydrationWarning

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import api from '@/lib/api-client';
 import { SectionHeading } from '@/components/shared/section-heading';
 import { GlassCard } from '@/components/shared/glass-card';
@@ -36,7 +37,15 @@ export default function PartnersPage() {
             {partners.map((partner) => (
               <div key={partner.id} className="rounded-2xl border border-border bg-card text-card-foreground p-6 text-center shadow-sm transition-all hover:border-accent/40 hover:shadow-md">
                 {partner.logoUrl && (
-                  <img src={partner.logoUrl} alt={partner.name} className="mx-auto h-16 w-16 rounded-full object-cover ring-2 ring-primary/20" />
+                  <div className="mx-auto h-16 w-16 relative rounded-full overflow-hidden ring-2 ring-primary/20">
+                    <Image
+                      src={partner.logoUrl}
+                      alt={partner.name}
+                      fill
+                      unoptimized
+                      className="object-cover"
+                    />
+                  </div>
                 )}
                 <h3 className="mt-4 font-display text-xl font-semibold text-foreground">{partner.name}</h3>
                 {partner.website && (

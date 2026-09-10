@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import Image from 'next/image';
 import api from '@/lib/api-client';
 import { GlassCard } from '@/components/shared/glass-card';
 import { Button } from '@/components/ui/button';
@@ -44,7 +45,15 @@ export default function NewsDetailPage() {
             {article.title}
           </h1>
           {article.imageUrl && (
-            <img src={article.imageUrl} alt={article.title} className="mt-6 w-full rounded-xl object-cover max-h-96" />
+            <div className="relative mt-6 w-full h-72 md:h-96 rounded-xl overflow-hidden">
+              <Image
+                src={article.imageUrl}
+                alt={article.title}
+                fill
+                unoptimized
+                className="object-cover"
+              />
+            </div>
           )}
           <div className="mt-8 text-base leading-relaxed text-foreground/90 whitespace-pre-line space-y-4">
             {article.content}

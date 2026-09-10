@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { ShieldCheck, Target, Eye, Users, CheckCircle2, ArrowRight } from 'lucide-react';
 import { GlassCard } from '@/components/shared/glass-card';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const teamMembers = [
   { name: 'John Smith', role: 'Managing Director', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop' },
@@ -71,7 +72,13 @@ export default function AboutPage() {
           <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-3">
             {teamMembers.map(member => (
               <div key={member.name} className="rounded-xl border border-border bg-card text-card-foreground p-6 text-center shadow-sm transition-all hover:border-accent/40 hover:shadow-md">
-                <img src={member.img} alt={member.name} className="mx-auto h-24 w-24 rounded-full object-cover ring-2 ring-accent/30" />
+                <Image
+                  src={member.img}
+                  alt={member.name}
+                  width={96}
+                  height={96}
+                  className="mx-auto h-24 w-24 rounded-full object-cover ring-2 ring-accent/30"
+                />
                 <h4 className="mt-4 font-display text-xl font-semibold text-foreground">{member.name}</h4>
                 <p className="text-sm text-muted-foreground">{member.role}</p>
               </div>
