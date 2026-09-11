@@ -36,7 +36,7 @@ const jsonLd = {
   name: 'Global Citizens Solution',
   description: 'AI-Powered Global Immigration, Citizenship by Investment, Visa Processing, and Residency Solutions.',
   url: 'https://global-immigration-platform.vercel.app',
-  email: 'support@ctcorporationbusiness.com',
+  email: 'support@gcsworldwide.org',
   priceRange: '$$$$',
   areaServed: 'Worldwide',
   serviceType: [

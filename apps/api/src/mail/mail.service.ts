@@ -18,7 +18,7 @@ export class MailService {
     const apiKey = this.configService.get<string>('RESEND_API_KEY');
     this.from =
       this.configService.get<string>('EMAIL_FROM') ||
-      'Global Immigration <support@ctcorporationbusiness.com>';
+      'Global Immigration <support@gcsworldwide.org>';
 
     if (apiKey) {
       this.resend = new Resend(apiKey);

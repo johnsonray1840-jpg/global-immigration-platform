@@ -83,7 +83,7 @@ export default function SiteFooter() {
             </div>
           </form>
           <div className="mt-6 space-y-2 text-sm text-slate-400">
-            <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-accent" /> support@ctcorporationbusiness.com</p>
+            <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-accent" /> support@gcsworldwide.org</p>
             <p className="flex items-center gap-2"><Phone className="h-4 w-4 text-accent" /> +1 (555) 123-4567</p>
             <p className="flex items-center gap-2"><MapPin className="h-4 w-4 text-accent" /> New York, London, Doha, Dubai</p>
           </div>
