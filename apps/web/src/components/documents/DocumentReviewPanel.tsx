@@ -343,12 +343,12 @@ export default function DocumentReviewPanel({
 
       {/* Document View Modal */}
       <Dialog open={!!viewingDoc} onOpenChange={() => setViewingDoc(null)}>
-        <DialogContent className="bg-white sm:max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="bg-[#0A1F38] border-sky-500/20 text-white sm:max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="font-display text-xl font-semibold text-[#111827]">
+            <DialogTitle className="font-display text-xl font-semibold text-white">
               {viewingDoc?.name}
             </DialogTitle>
-            <DialogDescription className="text-sm text-gray-500">
+            <DialogDescription className="text-sm text-slate-400">
               Uploaded document details, visual preview, and OCR data.
             </DialogDescription>
           </DialogHeader>
@@ -356,28 +356,28 @@ export default function DocumentReviewPanel({
           {viewingDoc && (
             <div className="space-y-4 py-3">
               {/* Document Overview Card */}
-              <div className="grid grid-cols-2 gap-3 rounded-lg border border-gray-200 bg-gray-50 p-3 text-xs">
+              <div className="grid grid-cols-2 gap-3 rounded-lg border border-sky-500/20 bg-[#030D1A]/60 p-3 text-xs">
                 <div>
-                  <span className="text-gray-500">Document Type:</span>
-                  <p className="font-semibold text-gray-800">{viewingDoc.type.replace(/_/g, ' ')}</p>
+                  <span className="text-slate-400">Document Type:</span>
+                  <p className="font-semibold text-white">{viewingDoc.type.replace(/_/g, ' ')}</p>
                 </div>
                 <div>
-                  <span className="text-gray-500">Status:</span>
+                  <span className="text-slate-400">Status:</span>
                   <Badge className={cn('block w-fit mt-0.5', statusColors[viewingDoc.status])}>
                     {viewingDoc.status.replace(/_/g, ' ')}
                   </Badge>
                 </div>
                 <div>
-                  <span className="text-gray-500">Uploaded On:</span>
-                  <p className="font-medium text-gray-800">{new Date(viewingDoc.uploadedAt).toLocaleString()}</p>
+                  <span className="text-slate-400">Uploaded On:</span>
+                  <p className="font-medium text-slate-200">{new Date(viewingDoc.uploadedAt).toLocaleString()}</p>
                 </div>
                 <div>
-                  <span className="text-gray-500">Direct Link:</span>
+                  <span className="text-slate-400">Direct Link:</span>
                   <a
                     href={viewingDoc.fileUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-[#0B5D66] hover:underline font-medium mt-0.5"
+                    className="flex items-center gap-1 text-sky-400 hover:text-sky-300 hover:underline font-medium mt-0.5"
                   >
                     Open in New Window <ExternalLink className="h-3 w-3" />
                   </a>
@@ -385,7 +385,7 @@ export default function DocumentReviewPanel({
               </div>
 
               {/* Preview Window */}
-              <div className="rounded-xl border border-gray-200 overflow-hidden bg-gray-100 flex items-center justify-center min-h-[300px] max-h-[500px]">
+              <div className="rounded-xl border border-sky-500/20 overflow-hidden bg-[#030D1A]/80 flex items-center justify-center min-h-[300px] max-h-[500px]">
                 {viewingDoc.fileUrl.match(/\.(pdf)$/i) ? (
                   <iframe
                     src={viewingDoc.fileUrl}
@@ -400,9 +400,9 @@ export default function DocumentReviewPanel({
                   />
                 ) : (
                   <div className="text-center p-8">
-                    <FileText className="mx-auto h-16 w-16 text-gray-400" />
-                    <p className="mt-3 text-sm font-medium text-gray-700">Preview not available for this format</p>
-                    <Button variant="outline" size="sm" className="mt-3" asChild>
+                    <FileText className="mx-auto h-16 w-16 text-slate-500" />
+                    <p className="mt-3 text-sm font-medium text-slate-300">Preview not available for this format</p>
+                    <Button variant="outline" size="sm" className="mt-3 border-sky-500/30 text-sky-400" asChild>
                       <a href={viewingDoc.fileUrl} target="_blank" rel="noopener noreferrer">
                         <Download className="mr-1.5 h-4 w-4" /> Download / Open
                       </a>
@@ -413,11 +413,11 @@ export default function DocumentReviewPanel({
 
               {/* OCR Text Box */}
               {viewingDoc.ocrText && (
-                <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
-                  <h4 className="font-medium text-[#111827] text-sm mb-1.5 flex items-center gap-1.5">
-                    <FileText className="h-4 w-4 text-[#0B5D66]" /> Extracted OCR Text
+                <div className="rounded-xl border border-sky-500/20 bg-[#030D1A]/60 p-4">
+                  <h4 className="font-medium text-white text-sm mb-1.5 flex items-center gap-1.5">
+                    <FileText className="h-4 w-4 text-sky-400" /> Extracted OCR Text
                   </h4>
-                  <pre className="text-xs text-gray-700 font-mono whitespace-pre-wrap max-h-40 overflow-y-auto bg-white p-3 rounded-lg border border-gray-200">
+                  <pre className="text-xs text-slate-300 font-mono whitespace-pre-wrap max-h-40 overflow-y-auto bg-[#07172B] p-3 rounded-lg border border-sky-500/20">
                     {viewingDoc.ocrText}
                   </pre>
                 </div>
@@ -428,6 +428,7 @@ export default function DocumentReviewPanel({
                 <Button
                   type="button"
                   variant="outline"
+                  className="border-sky-500/30 text-slate-300 hover:text-white"
                   onClick={() => setViewingDoc(null)}
                 >
                   Close
@@ -441,7 +442,7 @@ export default function DocumentReviewPanel({
                       setRejectReason(viewingDoc.reviewNotes || '');
                       setViewingDoc(null);
                     }}
-                    className="text-red-600 border-red-200 hover:bg-red-50"
+                    className="text-red-400 border-red-500/30 hover:bg-red-950/40"
                   >
                     <XCircle className="mr-1.5 h-4 w-4" /> Reject...
                   </Button>
@@ -451,7 +452,7 @@ export default function DocumentReviewPanel({
                       handleApprove(viewingDoc.id);
                       setViewingDoc(null);
                     }}
-                    className="bg-green-600 text-white hover:bg-green-700"
+                    className="bg-emerald-600 text-white hover:bg-emerald-500"
                   >
                     <CheckCircle2 className="mr-1.5 h-4 w-4" /> Approve Document
                   </Button>
@@ -464,27 +465,27 @@ export default function DocumentReviewPanel({
 
       {/* Reject Document Modal */}
       <Dialog open={!!rejectingDoc} onOpenChange={() => setRejectingDoc(null)}>
-        <DialogContent className="bg-white sm:max-w-md">
+        <DialogContent className="bg-[#0A1F38] border-sky-500/20 text-white sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="font-display text-xl font-semibold text-[#111827]">
+            <DialogTitle className="font-display text-xl font-semibold text-white">
               Reject Document
             </DialogTitle>
-            <DialogDescription className="text-sm text-gray-500">
+            <DialogDescription className="text-sm text-slate-400">
               Provide feedback for {rejectingDoc?.name}. The applicant will see this reason to correct and resubmit.
             </DialogDescription>
           </DialogHeader>
 
           <form onSubmit={handleRejectSubmit} className="space-y-4 py-2">
             <div>
-              <label className="text-sm font-medium text-[#111827]">
-                Rejection Reason <span className="text-red-500">*</span>
+              <label className="text-sm font-medium text-slate-200">
+                Rejection Reason <span className="text-red-400">*</span>
               </label>
               <Textarea
                 value={rejectReason}
                 onChange={(e) => setRejectReason(e.target.value)}
                 placeholder="e.g. Passport is expired, image is blurry, or missing page 2..."
                 rows={4}
-                className="mt-1"
+                className="mt-1 bg-[#030D1A] border-sky-500/30 text-white placeholder:text-slate-500"
                 required
               />
             </div>
@@ -493,6 +494,7 @@ export default function DocumentReviewPanel({
               <Button
                 type="button"
                 variant="outline"
+                className="border-sky-500/30 text-slate-300"
                 onClick={() => setRejectingDoc(null)}
               >
                 Cancel
