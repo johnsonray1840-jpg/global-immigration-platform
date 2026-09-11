@@ -54,7 +54,21 @@ export class WalletService {
         where: { type: 'CRYPTO', isActive: true },
       });
     }
-    if (!method) throw new BadRequestException('No payment method available');
+    if (!method) {
+      // Auto-create default payment method if none exist in the database
+      method = await this.prisma.paymentMethod.create({
+        data: {
+          type: (paymentMethodType as any) || 'CRYPTO',
+          displayName:
+            paymentMethodType === 'BANK_TRANSFER'
+              ? 'Direct Bank Wire (SWIFT/IBAN)'
+              : paymentMethodType === 'CARD'
+              ? 'Credit / Debit Card'
+              : 'Cryptocurrency Escrow (USDT/BTC/ETH)',
+          isActive: true,
+        },
+      });
+    }
 
     const invoice = await this.prisma.invoice.create({
       data: {
