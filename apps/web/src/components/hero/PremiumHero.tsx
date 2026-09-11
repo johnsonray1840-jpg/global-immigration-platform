@@ -53,15 +53,15 @@ export default function PremiumHero() {
   };
 
   return (
-    <section className="relative h-screen min-h-[600px] overflow-hidden bg-gradient-to-br from-[#071A2B] via-[#0A2540] to-[#0E7490]">
+    <section className="relative h-screen min-h-[600px] overflow-hidden bg-gradient-to-br from-[#030D1A] via-[#071E38] to-[#0A3258]">
       {/* Interactive 3D Globe background */}
       <div className="absolute inset-0 z-0 opacity-80">
         <GlobeMap className="h-full w-full" />
       </div>
 
-      {/* Overlay gradient for text readability */}
-      <div className="absolute inset-0 z-[1] bg-gradient-to-r from-[#071A2B]/95 via-[#0A2540]/80 to-[#0E7490]/40" />
-      <div className="absolute inset-0 z-[1] bg-gradient-to-t from-[#071A2B]/80 to-transparent" />
+      {/* Futuristic glowing sky-blue overlay */}
+      <div className="absolute inset-0 z-[1] bg-gradient-to-r from-[#030D1A]/95 via-[#071E38]/85 to-[#0284C7]/25" />
+      <div className="absolute inset-0 z-[1] bg-gradient-to-t from-[#030D1A] via-transparent to-transparent" />
 
       {/* Content */}
       <div className="container-premium relative z-10 flex h-full flex-col justify-center items-start text-left max-w-3xl">
@@ -71,9 +71,9 @@ export default function PremiumHero() {
           transition={{ duration: 0.7, ease: 'easeOut' }}
           className="mb-6"
         >
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-md">
+          <span className="inline-flex items-center gap-2 rounded-full bg-sky-500/15 px-4 py-2 text-xs sm:text-sm font-semibold text-sky-300 backdrop-blur-md border border-sky-400/30">
             <ShieldCheck className="h-4 w-4 text-accent" />
-            GLOBAL IMMIGRATION & MOBILITY
+            GLOBAL IMMIGRATION & WEALTH MOBILITY
           </span>
         </motion.div>
 
@@ -81,35 +81,35 @@ export default function PremiumHero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="font-display text-4xl md:text-6xl font-semibold leading-tight text-white hero-text-shadow"
+          className="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-white tracking-tight hero-text-shadow"
         >
-          Your Journey Beyond Borders.
+          Your Journey <span className="bg-gradient-to-r from-white via-sky-200 to-sky-400 bg-clip-text text-transparent">Beyond Borders</span>.
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="mt-6 text-lg md:text-xl text-white/90 max-w-2xl"
+          className="mt-6 text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl leading-relaxed"
         >
-          Expert immigration pathways for individuals, families, students, investors and professionals seeking opportunities around the world.
+          Licensed global immigration, residency by investment, and second citizenship solutions for high-net-worth individuals, executives, and families worldwide.
         </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.3 }}
-          className="mt-8 flex flex-col w-full sm:w-auto sm:flex-row gap-4"
+          className="mt-8 flex flex-col w-full sm:w-auto sm:flex-row gap-3.5"
         >
           <Link href="/programs" className="w-full sm:w-auto">
-            <Button className="w-full sm:w-auto btn-gold px-8 py-3 text-base font-semibold rounded-md">
-              Explore Immigration Options
+            <Button className="w-full sm:w-auto btn-gold px-8 py-3.5 text-base font-bold rounded-xl shadow-lg">
+              Explore Immigration Pathways
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
           <Link href="/eligibility" className="w-full sm:w-auto">
-            <Button variant="outline" className="w-full sm:w-auto border-white/30 text-white hover:bg-white/10 px-8 py-3 text-base rounded-md">
-              Check Your Eligibility
+            <Button variant="outline" className="w-full sm:w-auto border-sky-500/40 text-sky-200 hover:bg-sky-500/15 hover:border-sky-300 px-8 py-3.5 text-base font-semibold rounded-xl backdrop-blur-md">
+              Check Points & Eligibility
             </Button>
           </Link>
         </motion.div>

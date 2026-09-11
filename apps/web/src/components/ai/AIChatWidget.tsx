@@ -35,28 +35,33 @@ interface ChatMessage {
 const quickPrompts = [
   {
     icon: Compass,
-    label: 'Guide Me / Where to Start',
-    text: "I don't have an account on this website yet. Can you guide me on where to start and how everything works?",
+    label: 'How to Sign In',
+    text: 'How can I sign in to my account?',
   },
   {
-    icon: GraduationCap,
-    label: 'Global Scholarships Directory',
-    text: 'What ongoing scholarships are available and how do I apply?',
+    icon: User,
+    label: 'How to Register',
+    text: 'How do I create a new account?',
   },
   {
     icon: FileCheck2,
-    label: 'Check Visa Eligibility',
-    text: 'How do I check my eligibility and calculate points for immigration?',
+    label: 'Upload Documents',
+    text: 'How do I upload documents for AI OCR verification?',
+  },
+  {
+    icon: Briefcase,
+    label: 'Deposit & Payments',
+    text: 'How do I deposit funds or make a payment?',
   },
   {
     icon: Globe,
-    label: 'Canada Express Entry & PR',
-    text: 'Tell me about Canada Express Entry requirements, CRS points, and PR pathways.',
+    label: 'Track Investment Costs',
+    text: 'How can I calculate and track investment program costs?',
   },
   {
-    icon: Calendar,
-    label: 'Book a Consultation',
-    text: 'How can I book a 1-on-1 consultation with a licensed immigration consultant?',
+    icon: GraduationCap,
+    label: 'Global Scholarships',
+    text: 'What ongoing scholarships are available and how do I apply?',
   },
 ];
 

@@ -217,6 +217,49 @@ export default function WalletPage() {
         ))}
       </div>
 
+      {/* Investment Capital Ledger */}
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.2 }}>
+        <div className="overflow-hidden rounded-2xl border border-[#0E7490]/20 bg-gradient-to-br from-[#071A2B] to-[#041324] text-white p-6 md:p-8 shadow-lg">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-6 border-b border-white/10">
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <Badge className="bg-[#C8A96B]/20 text-[#C8A96B] hover:bg-[#C8A96B]/30 border-0">Active Program</Badge>
+              </div>
+              <h3 className="font-display text-xl md:text-2xl font-bold">St. Kitts & Nevis CBI</h3>
+              <p className="text-sm text-slate-400 mt-1">Sustainable Island State Contribution (SISC)</p>
+            </div>
+            <div className="text-left md:text-right">
+              <p className="text-sm text-slate-400">Total Committed Escrow</p>
+              <p className="font-display text-2xl md:text-3xl font-bold text-white mt-1">$286,200.00</p>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+            <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+              <p className="text-xs text-slate-400 mb-1">Stage 1: Retainer (Paid)</p>
+              <p className="font-mono text-lg font-bold text-[#C8A96B]">$17,500.00</p>
+            </div>
+            <div className="bg-white/5 rounded-xl p-4 border border-[#0E7490]/40 shadow-[0_0_15px_rgba(14,116,144,0.15)]">
+              <p className="text-xs text-slate-400 mb-1">Stage 2: Gov Deposit (Due)</p>
+              <p className="font-mono text-lg font-bold text-white">$22,500.00</p>
+            </div>
+            <div className="bg-white/5 rounded-xl p-4 border border-white/10 opacity-70">
+              <p className="text-xs text-slate-400 mb-1">Stage 3: Capital Funding</p>
+              <p className="font-mono text-lg font-bold text-slate-300">$250,000.00</p>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between pt-4 border-t border-white/10">
+            <p className="text-xs text-slate-400 flex items-center gap-1.5">
+              <CheckCircle2 className="h-4 w-4 text-[#C8A96B]" /> Escrow governed by international banking laws
+            </p>
+            <Button variant="outline" size="sm" className="border-white/20 text-white hover:bg-white/10 bg-transparent">
+              Download Statement
+            </Button>
+          </div>
+        </div>
+      </motion.div>
+
       {/* Deposit History */}
       <div>
         <div className="flex items-center justify-between">

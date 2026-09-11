@@ -127,12 +127,11 @@ export default function SiteHeader() {
         {/* Right actions (Desktop) */}
         <div className="hidden lg:flex items-center gap-4">
           <LanguageSwitcher />
-          <ThemeToggle />
           {isLoggedIn ? (
             <>
               <Link
                 href="/dashboard"
-                className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
+                className="text-sm font-medium text-foreground/80 hover:text-sky-400 transition-colors"
               >
                 Dashboard
               </Link>
@@ -148,9 +147,14 @@ export default function SiteHeader() {
             <>
               <Link
                 href="/login"
-                className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
+                className="text-sm font-medium text-foreground/80 hover:text-sky-400 transition-colors px-2 py-1"
               >
                 Sign In
+              </Link>
+              <Link href="/register">
+                <Button variant="outline" className="border-sky-500/40 text-sky-300 hover:bg-sky-500/10 hover:border-sky-400 font-medium">
+                  Register
+                </Button>
               </Link>
               <Link href="/consultation">
                 <Button className="btn-gold font-semibold shadow-xs">
@@ -162,46 +166,67 @@ export default function SiteHeader() {
         </div>
 
         {/* Mobile top bar actions */}
-        <div className="lg:hidden flex items-center gap-1.5">
+        <div className="lg:hidden flex items-center gap-2">
+          {!isLoggedIn ? (
+            <div className="flex items-center gap-1.5">
+              <Link href="/login">
+                <Button variant="ghost" size="sm" className="h-8 px-2.5 text-xs text-sky-200 hover:text-white hover:bg-sky-500/10">
+                  Sign In
+                </Button>
+              </Link>
+              <Link href="/register">
+                <Button size="sm" className="h-8 px-3 text-xs btn-sky font-semibold rounded-lg shadow-sm">
+                  Register
+                </Button>
+              </Link>
+            </div>
+          ) : (
+            <Link href="/dashboard">
+              <Button size="sm" variant="outline" className="h-8 px-2.5 text-xs border-sky-500/40 text-sky-300">
+                Dashboard
+              </Button>
+            </Link>
+          )}
+
           <LanguageSwitcher />
-          <ThemeToggle />
+
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" aria-label="Open Navigation Menu" className="h-10 w-10">
-                <Menu className="h-6 w-6" />
+              <Button variant="ghost" size="icon" aria-label="Open Navigation Menu" className="h-9 w-9 text-sky-200 hover:text-white hover:bg-sky-500/10">
+                <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
             <SheetContent
               side="left"
-              className="w-80 p-0 bg-background dark:bg-deep-navy text-foreground border-r border-border flex flex-col justify-between"
+              className="w-84 max-w-[90vw] p-0 bg-[#030D1A]/95 backdrop-blur-2xl text-foreground border-r border-sky-500/20 flex flex-col justify-between"
             >
               <div>
-                <div className="p-5 border-b border-border flex items-center justify-between">
-                  <SheetTitle className="font-display text-xl font-bold text-primary tracking-tight">
+                <div className="p-5 border-b border-sky-500/15 flex items-center justify-between">
+                  <SheetTitle className="font-display text-xl font-bold text-sky-400 tracking-tight">
                     Global<span className="text-accent">Citizens</span> Solution
                   </SheetTitle>
                 </div>
-                <nav className="p-4 space-y-1 overflow-y-auto max-h-[calc(100vh-180px)]">
+                <nav className="p-4 space-y-1.5 overflow-y-auto max-h-[calc(100vh-220px)]">
                   {mainNav.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
                       onClick={() => setMobileOpen(false)}
                       className={cn(
-                        'flex items-center gap-3 min-h-[48px] px-3.5 rounded-xl text-base font-medium transition-colors',
+                        'flex items-center gap-3 min-h-[48px] px-4 rounded-xl text-base font-medium transition-all',
                         pathname === item.href
-                          ? 'bg-primary/10 text-primary font-semibold'
-                          : 'text-foreground/90 hover:bg-muted hover:text-primary'
+                          ? 'bg-sky-500/15 text-sky-300 font-semibold border border-sky-500/30'
+                          : 'text-foreground/90 hover:bg-white/5 hover:text-sky-300'
                       )}
                     >
-                      <item.icon className="h-5 w-5 text-primary shrink-0" />
+                      <item.icon className="h-5 w-5 text-sky-400 shrink-0" />
                       <span>{item.label}</span>
                     </Link>
                   ))}
 
-                  <div className="pt-3 mt-3 border-t border-border">
-                    <p className="px-3.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
-                      Programs
+                  <div className="pt-3 mt-3 border-t border-sky-500/15">
+                    <p className="px-4 text-xs font-semibold uppercase tracking-wider text-sky-400/80 mb-2">
+                      Immigration & Investment Programs
                     </p>
                     {programLinks.map((link) => (
                       <Link
@@ -209,10 +234,10 @@ export default function SiteHeader() {
                         href={link.href}
                         onClick={() => setMobileOpen(false)}
                         className={cn(
-                          'flex items-center min-h-[44px] px-3.5 rounded-xl text-sm transition-colors',
+                          'flex items-center min-h-[44px] px-4 rounded-xl text-sm transition-all',
                           pathname === link.href
-                            ? 'text-primary font-medium bg-primary/10'
-                            : 'text-foreground/80 hover:bg-muted hover:text-primary'
+                            ? 'text-sky-300 font-medium bg-sky-500/15 border border-sky-500/25'
+                            : 'text-foreground/80 hover:bg-white/5 hover:text-sky-300'
                         )}
                       >
                         {link.label}
@@ -223,15 +248,15 @@ export default function SiteHeader() {
               </div>
 
               {/* Bottom Drawer CTA */}
-              <div className="p-4 border-t border-border bg-background/50 dark:bg-deep-navy/50 space-y-2">
+              <div className="p-4 border-t border-sky-500/15 bg-black/40 space-y-2">
                 {isLoggedIn ? (
                   <>
                     <Link
                       href="/dashboard"
                       onClick={() => setMobileOpen(false)}
-                      className="flex items-center gap-3 min-h-[48px] px-3.5 rounded-xl text-base font-medium text-foreground hover:text-primary hover:bg-muted"
+                      className="flex items-center gap-3 min-h-[48px] px-4 rounded-xl text-base font-medium text-foreground hover:text-sky-300 hover:bg-white/5"
                     >
-                      <LayoutDashboard className="h-5 w-5 text-primary" /> Dashboard
+                      <LayoutDashboard className="h-5 w-5 text-sky-400" /> Dashboard
                     </Link>
                     <Button
                       variant="ghost"
@@ -246,13 +271,22 @@ export default function SiteHeader() {
                   </>
                 ) : (
                   <>
-                    <Link
-                      href="/login"
-                      onClick={() => setMobileOpen(false)}
-                      className="flex items-center justify-center min-h-[44px] rounded-xl text-sm font-medium text-foreground hover:text-primary hover:bg-muted"
-                    >
-                      Sign In
-                    </Link>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Link
+                        href="/login"
+                        onClick={() => setMobileOpen(false)}
+                        className="flex items-center justify-center min-h-[44px] rounded-xl text-sm font-medium border border-sky-500/30 text-sky-200 hover:bg-sky-500/10"
+                      >
+                        Sign In
+                      </Link>
+                      <Link
+                        href="/register"
+                        onClick={() => setMobileOpen(false)}
+                        className="flex items-center justify-center min-h-[44px] rounded-xl text-sm font-medium btn-sky"
+                      >
+                        Register
+                      </Link>
+                    </div>
                     <Link href="/consultation" onClick={() => setMobileOpen(false)}>
                       <Button className="w-full min-h-[48px] btn-gold font-semibold shadow-md">
                         Book Consultation

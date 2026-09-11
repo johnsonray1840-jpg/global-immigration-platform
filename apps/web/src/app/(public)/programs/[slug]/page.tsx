@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import InvestmentTracker from '@/components/investment/InvestmentTracker';
 
 export const revalidate = 3600;
 
@@ -157,6 +158,13 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
             <p className="mt-4 text-4xl font-semibold text-primary">{program.approvalRate}</p>
           </div>
         </div>
+
+        {/* Investment Tracker */}
+        {(program.category?.toLowerCase().includes('investment') || program.title?.toLowerCase().includes('investment') || program.slug?.includes('investment')) && (
+          <div className="mt-16">
+            <InvestmentTracker />
+          </div>
+        )}
 
         {/* FAQs */}
         <div className="mt-16">

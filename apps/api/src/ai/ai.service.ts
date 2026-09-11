@@ -453,6 +453,101 @@ Provide a structured, helpful, and thorough response. Use bolding, bullet points
       return `I am your dedicated AI Immigration & Platform Navigator for Global Citizens Solution. I specialize exclusively in visa pathways, citizenship by investment, global scholarship funding, document requirements, and platform navigation.\n\nHow can I assist your global immigration or relocation goals today?\n- [Check Visa Eligibility](/eligibility)\n- [Explore 10+ Global Scholarships](/scholarships)\n- [Browse Service Packages](/packages)\n- [Book 1-on-1 Consultation](/consultation)`;
     }
 
+    // 1A. Platform Operations: How to Sign In / Login
+    if (q.includes('how can i sign in') || q.includes('how do i sign in') || q.includes('how to sign in') || q.includes('how to login') || q.includes('how do i login') || q.includes('sign in steps') || q.includes('login to my account')) {
+      return `### How to Sign In to Your Account
+
+To access your Global Citizens Solution client dashboard:
+
+1. Click on **[Sign In](/login)** in the top navigation bar or go directly to: [Sign In Page](/login).
+2. Enter your registered **Email Address** and **Password**.
+3. If you have enabled Two-Factor Authentication (2FA), enter the 6-digit code from your authenticator app (Google Authenticator / Authy).
+4. Click **Sign In** to access your active cases, document vault, consultation appointments, and wallet.
+
+**Forgot your password?**
+- You can reset your password anytime by clicking [Forgot Password](/forgot-password).
+- Don't have an account yet? [Create a Free Account](/register).`;
+    }
+
+    // 1B. Platform Operations: How to Register / Create Account
+    if (q.includes('how do i register') || q.includes('how to register') || q.includes('how can i register') || q.includes('create account') || q.includes('how to sign up') || q.includes('how do i sign up') || q.includes('register account')) {
+      return `### How to Create Your Account
+
+Creating an account gives you full access to our case management portal and legal team:
+
+1. Click on **[Register](/register)** in the top navigation or go to: [Create Account](/register).
+2. Enter your **First Name**, **Last Name**, **Email Address**, and a secure password.
+3. Click **Create Account**. A 6-digit verification code will be sent to your email.
+4. Enter the verification code at [Verify Email](/verify-email) to activate your account.
+5. Once verified, you can immediately begin an application, upload documents for AI OCR review, and book strategy sessions.
+
+**Direct Link:** [Register Now for Free](/register)`;
+    }
+
+    // 1C. Platform Operations: How to Upload Documents
+    if (q.includes('upload document') || q.includes('how do i upload') || q.includes('how to upload') || q.includes('uploading document') || q.includes('submit document') || q.includes('document upload')) {
+      return `### How to Upload Documents for Verification
+
+Our platform uses an encrypted Document Vault with automated AI OCR quality checks:
+
+1. **Sign in** to your account and navigate to the **[Document Center](/dashboard/documents)**.
+2. Select your application category (e.g., *Passport & Identity*, *Proof of Funds*, *Academic Transcripts*, *Employment Letters*, *Police Clearance*).
+3. Drag and drop your file or click **Browse Files**.
+   - **Supported formats**: PDF, JPG, PNG, WebP.
+   - **Maximum file size**: Up to 25 MB per document.
+4. Click **Upload & Scan**. Our AI OCR system will immediately verify document legibility and index key information.
+5. Your assigned immigration consultant will review and approve the document within 24–48 hours.
+
+**Direct Link:** [Go to Document Center](/dashboard/documents)`;
+    }
+
+    // 1D. Platform Operations: How to Deposit Funds / Make Payments
+    if (q.includes('how do i deposit') || q.includes('how to deposit') || q.includes('how to pay') || q.includes('how do i pay') || q.includes('deposit funds') || q.includes('make payment') || q.includes('payment method') || q.includes('wire transfer') || q.includes('crypto deposit')) {
+      return `### How to Deposit Funds & Make Payments
+
+Global Citizens Solution supports three secure, tier-1 payment rails protected by institutional escrow:
+
+1. **Credit / Debit Card**:
+   - Instant processing via Stripe / PCI-DSS Level 1 compliant gateway.
+   - Ideal for consultation bookings and initial retainer deposits.
+
+2. **Bank Wire Transfer (SWIFT / IBAN / SEPA)**:
+   - Go to your **[Billing & Wallet](/dashboard/wallet)**.
+   - Generate official bank wire transfer instructions with your unique client reference ID.
+   - Upload your bank transfer receipt slip for priority verification within 1–2 business days.
+
+3. **Cryptocurrency Escrow (BTC, ETH, USDT, USDC)**:
+   - Select Crypto at checkout or in your wallet to generate a dedicated single-use escrow address with a 30-minute confirmation timer.
+   - Automatically credited upon blockchain confirmation.
+
+**Direct Link:** [Manage Billing & Deposits](/dashboard/wallet)`;
+    }
+
+    // 1E. Platform Operations: How to Track Investment Program Spending
+    if (q.includes('investment tracker') || q.includes('track how much') || q.includes('investment spending') || q.includes('track investment') || q.includes('track spend') || q.includes('golden visa cost') || q.includes('cbi cost') || q.includes('investment calculator')) {
+      return `### How to Track & Calculate Investment Program Spending
+
+We provide an interactive **Investment Program Capital & Expense Tracker** that breaks down every fee tranche before and during your application:
+
+1. **Pre-Application Cost Breakdown**:
+   - Use our [Citizenship by Investment Guide](/programs/citizenship-by-investment) to calculate total outlay across:
+     - **Qualifying Capital Investment**: (e.g., Portugal Fund €500k, Caribbean CBI $100k–$200k, Malta, Greece €250k–€800k).
+     - **Government Due Diligence & Application Fees**.
+     - **Family Member Add-on Surcharges** (Spouse, Children, Dependent Parents).
+     - **Legal, Escrow & Processing Fees**.
+
+2. **Live Milestone & Escrow Tracking for Active Clients**:
+   - From your **[Client Wallet](/dashboard/wallet)** and **[Case Workspace](/dashboard/workspace)**, you can view:
+     - **Total Committed Capital**.
+     - **Amount Funded & Held in Escrow**.
+     - **Milestone Releases** (released strictly upon government approval stages).
+     - **Itemized Fee Receipts & Exportable Financial Statements**.
+
+**Direct Links:**
+- [Interactive Investment Cost Tracker](/programs/citizenship-by-investment)
+- [Manage Investment Wallet & Escrow](/dashboard/wallet)`;
+    }
+
     // 2. Specialized Intent: "I don't have an account" / New Guest Visitor Walkthrough
     if (
       q.includes('dont have an account') ||
