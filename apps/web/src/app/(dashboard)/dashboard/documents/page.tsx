@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import api from '@/lib/api-client';
-import { GlassCard } from '@/components/shared/glass-card';
 import DocumentUploader from '@/components/documents/DocumentUploader';
 import {
   FileText,
@@ -12,7 +11,9 @@ import {
   XCircle,
   Upload,
   FolderOpen,
-  ChevronDown,
+  ShieldCheck,
+  Sparkles,
+  Lock,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -27,10 +28,10 @@ import {
 import { cn } from '@/lib/utils';
 
 const docStatusStyles: Record<string, string> = {
-  UPLOADED: 'bg-blue-100 text-blue-700 border-blue-200',
-  VERIFIED: 'bg-green-100 text-green-700 border-green-200',
-  REJECTED: 'bg-red-100 text-red-700 border-red-200',
-  EXPIRED: 'bg-gray-100 text-gray-500 border-gray-200',
+  UPLOADED: 'bg-sky-500/15 text-sky-300 border-sky-500/30',
+  VERIFIED: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
+  REJECTED: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
+  EXPIRED: 'bg-slate-500/15 text-slate-400 border-slate-500/30',
 };
 
 export default function DocumentsPage() {
@@ -43,9 +44,10 @@ export default function DocumentsPage() {
   useEffect(() => {
     api.get('/cases')
       .then((res) => {
-        setCases(res.data);
-        if (res.data.length > 0) {
-          setSelectedCase(res.data[0].id);
+        const list = Array.isArray(res.data) ? res.data : [];
+        setCases(list);
+        if (list.length > 0) {
+          setSelectedCase(list[0].id);
         }
         setLoadingCases(false);
       })
@@ -57,7 +59,7 @@ export default function DocumentsPage() {
       setLoadingDocs(true);
       api.get(`/cases/${selectedCase}/documents`)
         .then((res) => {
-          setDocuments(res.data);
+          setDocuments(Array.isArray(res.data) ? res.data : []);
           setLoadingDocs(false);
         })
         .catch(() => setLoadingDocs(false));
@@ -65,122 +67,132 @@ export default function DocumentsPage() {
   }, [selectedCase]);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 text-white">
       {/* Header */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h2 className="font-display text-3xl font-semibold text-foreground">
-            My Documents
+          <div className="flex items-center gap-2 mb-1">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-sky-500/10 px-3 py-0.5 text-xs font-semibold text-sky-400 border border-sky-500/20">
+              <Lock className="h-3 w-3" /> End-to-End 256-bit Encrypted Vault
+            </span>
+          </div>
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-white">
+            Compliance & Identity Dossier
           </h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Upload and manage documents for your immigration cases.
+          <p className="mt-1 text-xs text-slate-400">
+            Upload passport scans, police clearances, apostilled certificates, and proof of funds.
           </p>
         </div>
-        {!loadingCases && cases.length > 0 && (
-          <Button className="bg-primary text-primary-foreground hover:bg-primary/90 btn-glow">
-            <Upload className="mr-2 h-4 w-4" />
-            Upload New
-          </Button>
-        )}
       </div>
 
       {/* Case Selector */}
       {!loadingCases && cases.length > 0 ? (
-        <Select value={selectedCase || undefined} onValueChange={setSelectedCase}>
-          <SelectTrigger className="w-full md:w-96">
-            <SelectValue placeholder="Select a case" />
-          </SelectTrigger>
-          <SelectContent>
-            {cases.map((c) => (
-              <SelectItem key={c.id} value={c.id}>
-                {c.originCountry?.name} → {c.destinationCountry?.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div className="rounded-2xl border border-sky-500/20 bg-[#0A1F38]/80 p-5 backdrop-blur-md">
+          <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+            Select Active Immigration Dossier:
+          </label>
+          <Select value={selectedCase || undefined} onValueChange={setSelectedCase}>
+            <SelectTrigger className="w-full md:w-96 bg-[#030D1A] border-sky-500/30 text-white">
+              <SelectValue placeholder="Select a case dossier" />
+            </SelectTrigger>
+            <SelectContent className="bg-[#0A1F38] border-sky-500/30 text-white">
+              {cases.map((c) => (
+                <SelectItem key={c.id} value={c.id} className="focus:bg-sky-500/20 focus:text-white">
+                  {c.originCountry?.name || 'Origin'} &rarr; {c.destinationCountry?.name || 'Destination'} ({c.visaRule?.visaType?.name || 'Case'})
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       ) : !loadingCases ? (
-        <div className="rounded-2xl border border-dashed border-border p-8 text-center">
-          <FolderOpen className="mx-auto h-10 w-10 text-muted-foreground" />
-          <p className="mt-2 text-muted-foreground">You have no active cases yet.</p>
+        <div className="rounded-2xl border border-dashed border-sky-500/20 bg-[#0A1F38]/40 p-8 text-center">
+          <FolderOpen className="mx-auto h-10 w-10 text-sky-400/40" />
+          <p className="mt-2 text-sm text-slate-300 font-semibold">No active cases found</p>
+          <p className="text-xs text-slate-400 mt-0.5">Please create or start a case assessment to upload documents.</p>
         </div>
       ) : (
-        <Skeleton className="h-12 w-full md:w-96" />
+        <Skeleton className="h-14 w-full md:w-96 bg-sky-950/40" />
       )}
 
       {/* Upload Area */}
       {selectedCase && (
-  <div className="rounded-2xl border border-dashed border-border bg-muted/50 p-6 transition-colors hover:border-primary/50">
-    <DocumentUploader
-      caseId={selectedCase}
-      onUploadSuccess={() => {
-        if (selectedCase) {
-          setLoadingDocs(true);
-          api.get(`/cases/${selectedCase}/documents`)
-            .then((res) => {
-              setDocuments(res.data);
-              setLoadingDocs(false);
-            })
-            .catch(() => setLoadingDocs(false));
-        }
-      }}
-    />
-  </div>
-)}
+        <div className="rounded-2xl border border-sky-500/20 bg-[#0A1F38]/80 p-6 backdrop-blur-md shadow-xl">
+          <DocumentUploader
+            caseId={selectedCase}
+            onUploadSuccess={() => {
+              if (selectedCase) {
+                setLoadingDocs(true);
+                api.get(`/cases/${selectedCase}/documents`)
+                  .then((res) => {
+                    setDocuments(Array.isArray(res.data) ? res.data : []);
+                    setLoadingDocs(false);
+                  })
+                  .catch(() => setLoadingDocs(false));
+              }
+            }}
+          />
+        </div>
+      )}
 
       {/* Document List */}
       <div>
-        <h3 className="font-display text-2xl font-semibold text-foreground">
-          Uploaded Documents
-        </h3>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-display text-xl font-bold text-white">
+            Vault Dossier Documents
+          </h3>
+          <span className="text-xs text-slate-400">{documents.length} Files Stored</span>
+        </div>
+
         {loadingDocs ? (
-          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-            {[1, 2, 3].map((i) => (
-              <Skeleton key={i} className="h-24 rounded-2xl" />
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {[1, 2, 3, 4].map((i) => (
+              <Skeleton key={i} className="h-24 rounded-2xl bg-sky-950/40" />
             ))}
           </div>
         ) : documents.length === 0 ? (
-          <div className="mt-6 rounded-2xl border border-dashed border-border p-12 text-center">
-            <FileText className="mx-auto h-12 w-12 text-muted-foreground" />
-            <p className="mt-4 text-muted-foreground">No documents uploaded yet.</p>
+          <div className="rounded-2xl border border-dashed border-sky-500/20 bg-[#0A1F38]/40 p-12 text-center">
+            <FileText className="mx-auto h-12 w-12 text-sky-400/40" />
+            <p className="mt-4 text-sm font-semibold text-white">No documents uploaded to this dossier yet</p>
+            <p className="text-xs text-slate-400 mt-1">Use the upload box above to submit required identity and legal records.</p>
           </div>
         ) : (
-          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <AnimatePresence>
               {documents.map((doc) => (
                 <motion.div
                   key={doc.id}
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
+                  exit={{ opacity: 0, y: -8 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <GlassCard className="flex items-center justify-between p-4 transition-shadow hover:shadow-lg">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
-                        <FileText className="h-5 w-5 text-primary" />
+                  <div className="flex items-center justify-between p-4 rounded-xl border border-sky-500/20 bg-[#0A1F38]/90 hover:border-sky-400/40 transition-all shadow-md">
+                    <div className="flex items-center gap-3.5">
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-sky-500/10 border border-sky-500/20">
+                        <FileText className="h-5 w-5 text-sky-400" />
                       </div>
                       <div>
-                        <p className="font-medium text-foreground">{doc.name}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {doc.type} • Uploaded {new Date(doc.uploadedAt).toLocaleDateString()}
+                        <p className="font-semibold text-white text-sm truncate max-w-xs">{doc.name}</p>
+                        <p className="text-xs text-slate-400 mt-0.5">
+                          {doc.type?.replace(/_/g, ' ')} &bull; {new Date(doc.uploadedAt || Date.now()).toLocaleDateString()}
                         </p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
                       {doc.status === 'VERIFIED' && (
-                        <CheckCircle2 className="h-5 w-5 text-green-500" />
+                        <CheckCircle2 className="h-4 w-4 text-emerald-400" />
                       )}
                       {doc.status === 'REJECTED' && (
-                        <XCircle className="h-5 w-5 text-red-500" />
+                        <XCircle className="h-4 w-4 text-rose-400" />
                       )}
                       {doc.status === 'UPLOADED' && (
-                        <Clock className="h-5 w-5 text-blue-500" />
+                        <Clock className="h-4 w-4 text-sky-400" />
                       )}
-                      <Badge className={cn('border', docStatusStyles[doc.status] || 'bg-gray-100 text-gray-700 border-gray-200')}>
+                      <Badge className={cn('border text-xs px-2 py-0.5 font-semibold', docStatusStyles[doc.status] || docStatusStyles.UPLOADED)}>
                         {doc.status}
                       </Badge>
                     </div>
-                  </GlassCard>
+                  </div>
                 </motion.div>
               ))}
             </AnimatePresence>

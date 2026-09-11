@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import api from '@/lib/api-client';
 import { Button } from '@/components/ui/button';
-import { GlassCard } from '@/components/shared/glass-card';
 import { toast } from 'sonner';
 import {
   ArrowRight,
@@ -16,6 +15,8 @@ import {
   Briefcase,
   Wallet,
   Loader2,
+  Sparkles,
+  ShieldCheck,
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import {
@@ -28,10 +29,10 @@ import {
 import { cn } from '@/lib/utils';
 
 const steps = [
-  { id: 1, title: 'Personal Details', subtitle: 'Tell us about yourself', icon: User },
-  { id: 2, title: 'Migration Goals', subtitle: 'What are you looking for?', icon: Globe2 },
-  { id: 3, title: 'Background', subtitle: 'Education and work', icon: Briefcase },
-  { id: 4, title: 'Preferences', subtitle: 'Budget and timeline', icon: Wallet },
+  { id: 1, title: 'Personal Profile', subtitle: 'Identity & legal verification', icon: User },
+  { id: 2, title: 'Global Objectives', subtitle: 'Preferred destination tracks', icon: Globe2 },
+  { id: 3, title: 'Professional Background', subtitle: 'Qualifications & tenure', icon: Briefcase },
+  { id: 4, title: 'Wealth & Deployment', subtitle: 'Budget & family allocation', icon: Wallet },
 ];
 
 const destinationOptions = [
@@ -41,8 +42,10 @@ const destinationOptions = [
   { code: 'AU', name: 'Australia' },
   { code: 'DE', name: 'Germany' },
   { code: 'SG', name: 'Singapore' },
-  { code: 'AE', name: 'UAE' },
+  { code: 'AE', name: 'United Arab Emirates' },
   { code: 'PT', name: 'Portugal' },
+  { code: 'CH', name: 'Switzerland' },
+  { code: 'NZ', name: 'New Zealand' },
 ];
 
 export default function OnboardingPage() {
@@ -93,10 +96,10 @@ export default function OnboardingPage() {
         investmentBudget: Number(form.investmentBudget) || undefined,
         familySize: Number(form.familySize),
       });
-      toast.success('Onboarding complete!');
+      toast.success('VIP Client profile established!');
       router.push('/dashboard');
     } catch (error) {
-      toast.error('Failed to save onboarding');
+      toast.error('Failed to save onboarding details');
     } finally {
       setSubmitting(false);
     }
@@ -109,107 +112,117 @@ export default function OnboardingPage() {
           <div className="space-y-4">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
-                <label className="text-sm font-medium text-foreground">First Name</label>
+                <label className="text-xs font-semibold uppercase tracking-wider text-slate-300">Given Name(s)</label>
                 <Input
                   value={form.firstName}
                   onChange={(e) => updateForm('firstName', e.target.value)}
-                  className="mt-1"
+                  placeholder="e.g. Alexander"
+                  className="mt-1.5 bg-[#030D1A] border-sky-500/30 text-white placeholder:text-slate-500 rounded-xl"
                 />
               </div>
               <div>
-                <label className="text-sm font-medium text-foreground">Last Name</label>
+                <label className="text-xs font-semibold uppercase tracking-wider text-slate-300">Family Name / Surname</label>
                 <Input
                   value={form.lastName}
                   onChange={(e) => updateForm('lastName', e.target.value)}
-                  className="mt-1"
+                  placeholder="e.g. Vance"
+                  className="mt-1.5 bg-[#030D1A] border-sky-500/30 text-white placeholder:text-slate-500 rounded-xl"
                 />
               </div>
             </div>
             <div>
-              <label className="text-sm font-medium text-foreground">Nationality</label>
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-300">Citizenship / Nationality</label>
               <Input
                 value={form.nationality}
                 onChange={(e) => updateForm('nationality', e.target.value)}
-                placeholder="e.g., united states, canada"
-                className="mt-1"
+                placeholder="e.g. United Kingdom, Singapore, United States"
+                className="mt-1.5 bg-[#030D1A] border-sky-500/30 text-white placeholder:text-slate-500 rounded-xl"
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-foreground">Date of Birth</label>
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-300">Date of Birth</label>
               <Input
                 type="date"
                 value={form.dateOfBirth}
                 onChange={(e) => updateForm('dateOfBirth', e.target.value)}
-                className="mt-1"
+                className="mt-1.5 bg-[#030D1A] border-sky-500/30 text-white rounded-xl"
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-foreground">Phone</label>
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-300">Primary Contact Phone / Signal</label>
               <Input
                 value={form.phone}
                 onChange={(e) => updateForm('phone', e.target.value)}
-                className="mt-1"
+                placeholder="+1 (555) 000-0000"
+                className="mt-1.5 bg-[#030D1A] border-sky-500/30 text-white placeholder:text-slate-500 rounded-xl"
               />
             </div>
-            <div>
-              <label className="text-sm font-medium text-foreground">Country of Residence</label>
-              <Input
-                value={form.country}
-                onChange={(e) => updateForm('country', e.target.value)}
-                className="mt-1"
-              />
-            </div>
-            <div>
-              <label className="text-sm font-medium text-foreground">City</label>
-              <Input
-                value={form.city}
-                onChange={(e) => updateForm('city', e.target.value)}
-                className="mt-1"
-              />
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-slate-300">Country of Residence</label>
+                <Input
+                  value={form.country}
+                  onChange={(e) => updateForm('country', e.target.value)}
+                  placeholder="e.g. Canada"
+                  className="mt-1.5 bg-[#030D1A] border-sky-500/30 text-white placeholder:text-slate-500 rounded-xl"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-slate-300">City / Jurisdiction</label>
+                <Input
+                  value={form.city}
+                  onChange={(e) => updateForm('city', e.target.value)}
+                  placeholder="e.g. Vancouver"
+                  className="mt-1.5 bg-[#030D1A] border-sky-500/30 text-white placeholder:text-slate-500 rounded-xl"
+                />
+              </div>
             </div>
           </div>
         );
 
       case 2:
         return (
-          <div className="space-y-4">
+          <div className="space-y-5">
             <div>
-              <label className="text-sm font-medium text-foreground">Migration Purpose</label>
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-300">Primary Relocation Objective</label>
               <Select
                 value={form.migrationPurpose}
                 onValueChange={(value) => updateForm('migrationPurpose', value)}
               >
-                <SelectTrigger className="mt-1 w-full">
-                  <SelectValue placeholder="Select purpose" />
+                <SelectTrigger className="mt-1.5 w-full bg-[#030D1A] border-sky-500/30 text-white rounded-xl">
+                  <SelectValue placeholder="Select target classification" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="study">Study</SelectItem>
-                  <SelectItem value="work">Work</SelectItem>
-                  <SelectItem value="family">Family Reunification</SelectItem>
-                  <SelectItem value="investment">Investment</SelectItem>
-                  <SelectItem value="citizenship">Citizenship</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
+                <SelectContent className="bg-[#0A1F38] border-sky-500/30 text-white">
+                  <SelectItem value="investment">Investment & Sovereign CBI / RBI ($250k+)</SelectItem>
+                  <SelectItem value="work">Executive / High-Skilled Employment</SelectItem>
+                  <SelectItem value="study">Higher Education / University Placement</SelectItem>
+                  <SelectItem value="family">Direct Family Sponsorship</SelectItem>
+                  <SelectItem value="citizenship">Permanent Settlement & Dual Passport</SelectItem>
+                  <SelectItem value="other">Bespoke Advisory</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <label className="text-sm font-medium text-foreground">Preferred Destinations</label>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {destinationOptions.map((dest) => (
-                  <button
-                    key={dest.code}
-                    type="button"
-                    onClick={() => toggleDestination(dest.code)}
-                    className={cn(
-                      'rounded-full border px-4 py-2 text-sm font-medium transition-colors',
-                      form.preferredDestinations.includes(dest.code)
-                        ? 'border-primary bg-primary text-primary-foreground'
-                        : 'border-border bg-card text-foreground hover:bg-muted'
-                    )}
-                  >
-                    {dest.name}
-                  </button>
-                ))}
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-300">Preferred Sovereign Jurisdictions</label>
+              <div className="mt-2.5 flex flex-wrap gap-2">
+                {destinationOptions.map((dest) => {
+                  const isSelected = form.preferredDestinations.includes(dest.code);
+                  return (
+                    <button
+                      key={dest.code}
+                      type="button"
+                      onClick={() => toggleDestination(dest.code)}
+                      className={cn(
+                        'rounded-xl border px-3.5 py-2 text-xs font-semibold transition-all',
+                        isSelected
+                          ? 'border-sky-400 bg-sky-500/20 text-sky-300 shadow-md shadow-sky-500/20'
+                          : 'border-white/10 bg-[#030D1A]/80 text-slate-300 hover:border-sky-500/40 hover:bg-[#071E38]'
+                      )}
+                    >
+                      {dest.name}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -219,46 +232,48 @@ export default function OnboardingPage() {
         return (
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-medium text-foreground">Education Level</label>
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-300">Highest Academic Attainment</label>
               <Select
                 value={form.educationLevel}
                 onValueChange={(value) => updateForm('educationLevel', value)}
               >
-                <SelectTrigger className="mt-1 w-full">
-                  <SelectValue placeholder="Select education" />
+                <SelectTrigger className="mt-1.5 w-full bg-[#030D1A] border-sky-500/30 text-white rounded-xl">
+                  <SelectValue placeholder="Select educational tier" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="high_school">High School</SelectItem>
-                  <SelectItem value="bachelor">Bachelor</SelectItem>
-                  <SelectItem value="master">Master</SelectItem>
-                  <SelectItem value="phd">PhD</SelectItem>
+                <SelectContent className="bg-[#0A1F38] border-sky-500/30 text-white">
+                  <SelectItem value="phd">Doctorate / PhD / Post-Doc</SelectItem>
+                  <SelectItem value="master">Master&apos;s Degree / MBA</SelectItem>
+                  <SelectItem value="bachelor">Bachelor&apos;s Degree / Professional Dip.</SelectItem>
+                  <SelectItem value="high_school">Secondary / High School</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <label className="text-sm font-medium text-foreground">Occupation</label>
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-300">Current Executive / Professional Title</label>
               <Input
                 value={form.occupation}
                 onChange={(e) => updateForm('occupation', e.target.value)}
-                className="mt-1"
+                placeholder="e.g. Managing Director / Senior Software Architect"
+                className="mt-1.5 bg-[#030D1A] border-sky-500/30 text-white placeholder:text-slate-500 rounded-xl"
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-foreground">Annual Income (USD)</label>
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-300">Approximate Annual Income (USD)</label>
               <Input
                 type="number"
                 value={form.annualIncome}
                 onChange={(e) => updateForm('annualIncome', e.target.value)}
-                className="mt-1"
+                placeholder="e.g. 180000"
+                className="mt-1.5 bg-[#030D1A] border-sky-500/30 text-white placeholder:text-slate-500 rounded-xl"
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-foreground">Language Test (optional)</label>
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-300">Language Certifications (Optional)</label>
               <Input
                 value={form.languageTest}
                 onChange={(e) => updateForm('languageTest', e.target.value)}
-                placeholder="e.g., IELTS 7.0"
-                className="mt-1"
+                placeholder="e.g. IELTS 8.0, TOEFL 110, DELF B2"
+                className="mt-1.5 bg-[#030D1A] border-sky-500/30 text-white placeholder:text-slate-500 rounded-xl"
               />
             </div>
           </div>
@@ -268,37 +283,38 @@ export default function OnboardingPage() {
         return (
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-medium text-foreground">Investment Budget (USD)</label>
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-300">Capital Deployment Allocation (USD)</label>
               <Input
                 type="number"
                 value={form.investmentBudget}
                 onChange={(e) => updateForm('investmentBudget', e.target.value)}
-                className="mt-1"
+                placeholder="e.g. 350000"
+                className="mt-1.5 bg-[#030D1A] border-sky-500/30 text-white placeholder:text-slate-500 rounded-xl"
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-foreground">Family Size</label>
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-300">Total Accompanying Family Members</label>
               <Input
                 type="number"
                 min="1"
                 value={form.familySize}
                 onChange={(e) => updateForm('familySize', e.target.value)}
-                className="mt-1"
+                className="mt-1.5 bg-[#030D1A] border-sky-500/30 text-white rounded-xl"
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-foreground">Marital Status</label>
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-300">Marital Status</label>
               <Select
                 value={form.maritalStatus}
                 onValueChange={(value) => updateForm('maritalStatus', value)}
               >
-                <SelectTrigger className="mt-1 w-full">
-                  <SelectValue placeholder="Select status" />
+                <SelectTrigger className="mt-1.5 w-full bg-[#030D1A] border-sky-500/30 text-white rounded-xl">
+                  <SelectValue placeholder="Select marital status" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="single">Single</SelectItem>
-                  <SelectItem value="married">Married</SelectItem>
-                  <SelectItem value="divorced">Divorced</SelectItem>
+                <SelectContent className="bg-[#0A1F38] border-sky-500/30 text-white">
+                  <SelectItem value="single">Single / Individual</SelectItem>
+                  <SelectItem value="married">Legally Married / Common-Law</SelectItem>
+                  <SelectItem value="divorced">Divorced / Separated</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -311,9 +327,12 @@ export default function OnboardingPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4 py-8">
+    <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center px-4 py-8">
       <div className="w-full max-w-2xl">
-        <GlassCard className="p-6 md:p-10">
+        <div className="relative overflow-hidden rounded-3xl border border-sky-500/20 bg-[#0A1F38]/90 p-6 md:p-10 backdrop-blur-2xl shadow-2xl">
+          <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-sky-500/10 blur-3xl" />
+          <div className="pointer-events-none absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-[#C8A96B]/10 blur-3xl" />
+
           {/* Progress indicator */}
           <div className="mb-8 flex items-center justify-between">
             {steps.map((s, idx) => {
@@ -324,19 +343,19 @@ export default function OnboardingPage() {
                   <div className="flex flex-col items-center">
                     <div
                       className={cn(
-                        'flex h-10 w-10 items-center justify-center rounded-full border-2 transition-all',
+                        'flex h-10 w-10 items-center justify-center rounded-xl border-2 transition-all',
                         isCompleted
-                          ? 'border-primary bg-primary text-white'
+                          ? 'border-emerald-500/50 bg-emerald-500/20 text-emerald-300'
                           : isActive
-                          ? 'border-primary bg-primary/10 text-primary'
-                          : 'border-border bg-card text-muted-foreground'
+                          ? 'border-sky-400 bg-sky-500/20 text-sky-300 shadow-lg shadow-sky-500/20'
+                          : 'border-white/10 bg-[#030D1A] text-slate-500'
                       )}
                     >
-                      {isCompleted ? <CheckCircle2 className="h-5 w-5" /> : <s.icon className="h-5 w-5" />}
+                      {isCompleted ? <CheckCircle2 className="h-5 w-5" /> : <s.icon className="h-4 w-4" />}
                     </div>
                     <span className={cn(
-                      'mt-2 text-xs font-medium',
-                      isActive || isCompleted ? 'text-primary' : 'text-muted-foreground'
+                      'mt-2 text-[11px] font-semibold hidden sm:block',
+                      isActive ? 'text-sky-400' : isCompleted ? 'text-emerald-400' : 'text-slate-500'
                     )}>
                       {s.title}
                     </span>
@@ -344,7 +363,7 @@ export default function OnboardingPage() {
                   {idx < steps.length - 1 && (
                     <div className={cn(
                       'mx-2 h-0.5 flex-1',
-                      step > idx + 1 ? 'bg-primary' : 'bg-border'
+                      step > idx + 1 ? 'bg-emerald-500/50' : 'bg-white/10'
                     )} />
                   )}
                 </div>
@@ -352,12 +371,14 @@ export default function OnboardingPage() {
             })}
           </div>
 
-          <h1 className="font-display text-3xl font-semibold text-foreground">
-            {steps[step - 1].title}
-          </h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            {steps[step - 1].subtitle}
-          </p>
+          <div className="border-b border-sky-500/10 pb-4">
+            <h1 className="font-display text-2xl md:text-3xl font-bold tracking-tight text-white flex items-center gap-2">
+              {steps[step - 1].title} <Sparkles className="h-5 w-5 text-sky-400" />
+            </h1>
+            <p className="mt-1 text-xs md:text-sm text-slate-400">
+              {steps[step - 1].subtitle}
+            </p>
+          </div>
 
           <AnimatePresence mode="wait">
             <motion.div
@@ -366,37 +387,47 @@ export default function OnboardingPage() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.2 }}
-              className="mt-8"
+              className="mt-6"
             >
               {renderStep()}
             </motion.div>
           </AnimatePresence>
 
-          <div className="mt-8 flex justify-between">
-            <Button variant="ghost" onClick={prev} disabled={step === 1} className="text-foreground">
-              <ArrowLeft className="mr-2 h-4 w-4" /> Back
+          <div className="mt-8 flex items-center justify-between border-t border-sky-500/10 pt-5">
+            <Button
+              variant="ghost"
+              onClick={prev}
+              disabled={step === 1}
+              className="text-slate-400 hover:text-white hover:bg-white/5 rounded-xl text-xs"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" /> Previous Step
             </Button>
             {step < steps.length ? (
-              <Button onClick={next} className="bg-primary text-primary-foreground hover:bg-primary/90 btn-glow">
-                Next <ArrowRight className="ml-2 h-4 w-4" />
+              <Button
+                onClick={next}
+                className="bg-gradient-to-r from-sky-500 to-sky-600 text-white font-semibold hover:from-sky-400 hover:to-sky-500 border border-sky-400/30 rounded-xl text-xs px-6 py-2.5 shadow-lg shadow-sky-500/20"
+              >
+                Continue <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             ) : (
               <Button
                 onClick={submit}
                 disabled={submitting}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 btn-glow"
+                className="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-semibold hover:from-emerald-400 hover:to-emerald-500 border border-emerald-400/30 rounded-xl text-xs px-6 py-2.5 shadow-lg shadow-emerald-500/20"
               >
                 {submitting ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving...
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Finalizing Profile...
                   </>
                 ) : (
-                  'Complete'
+                  <>
+                    <ShieldCheck className="mr-2 h-4 w-4" /> Complete VIP Intake
+                  </>
                 )}
               </Button>
             )}
           </div>
-        </GlassCard>
+        </div>
       </div>
     </div>
   );
