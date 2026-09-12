@@ -5,6 +5,7 @@ import SocketProvider from "@/components/providers/socket-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { LanguageProvider } from "@/i18n/LanguageContext";
 import GlobalAIChat from "@/components/ai/GlobalAIChat";
+import WhatsAppButton from "@/components/shared/WhatsAppButton";
 import type { Metadata, Viewport } from "next";
 
 
@@ -125,6 +126,7 @@ export default function RootLayout({
             <SocketProvider>
               {children}
               <GlobalAIChat />
+              <WhatsAppButton />
             </SocketProvider>
           </LanguageProvider>
         </ThemeProvider>
