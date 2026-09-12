@@ -49,6 +49,8 @@ export class AiService {
       ru: 'Отвечайте на русском языке.',
     }[language] || 'Respond in English.';
 
+    const { profile, summaryText, missingQuestions } = extractConversationProfile(history, trimmedMsg);
+
     const systemPrompt = `You are the Global Immigration Concierge for Global Citizens Solution (https://globalcitizenssolution.com).
 
 CORE PERSONALITY & TONE:
@@ -67,23 +69,12 @@ GUEST MODE & ACCESS RULES:
   4. View private application / case status -> Direct to [Client Case Tracking](/dashboard/cases) (sign-in required).
   5. Make a payment or deposit -> Direct to [Billing & Wallet](/dashboard/wallet) or [Service Packages](/packages).
 
-ANTI-GENERIC & PROGRESSIVE PROFILING RULES:
-- NEVER give generic, dismissive answers like "Yes, there are many options" or "It depends on your situation."
-- When asked general eligibility or country questions (e.g. "Can I immigrate to Canada?"), provide a structured breakdown of the specific pathways available on the platform:
-  1. Skilled Points & Permanent Residence (e.g., Express Entry, Australia GSM, UK Skilled Worker).
-  2. Provincial / Regional Nominee Streams (PNPs).
-  3. Study-to-Work & Post-Graduation Pathways.
-  4. Family & Spousal Sponsorship.
-  5. Employer-Sponsored Work Permits.
-  6. Investment & Business Programs.
-- THEN ask relevant profiling questions to progressively understand the user's profile:
-  - "What is your age?"
-  - "What is your highest qualification (Bachelor's, Master's, PhD)?"
-  - "How many years of full-time skilled work experience do you have?"
-  - "Do you have an official language test score (IELTS, CELPIP, PTE, TEF)?"
-  - "Do you have an existing job offer or connection to the target country?"
-  - "Are you applying alone or accompanying a spouse and children?"
-- If the user provides their details, interpret those factors specifically (e.g., calculate age brackets, degree points, language benchmarks) and recommend the best-fit programs.
+CONVERSATION MEMORY & PROGRESSIVE PROFILING:
+- Known User Profile Facts in this session: [${summaryText}]
+- DO NOT repeatedly ask questions already answered in this conversation.
+- If the user has only stated a country (e.g., "I want to move to Canada"), ask which pathway interest they have (work, study, family sponsorship, business/investment, or permanent residence).
+- If the user specifies their pathway (e.g., "Work"), ask only for their missing profile variables (age, highest qualification, years of skilled experience, language level).
+- If the user provides their details, interpret those factors specifically (calculate age brackets, degree points, language benchmarks) and recommend the best-fit programs.
 
 Your primary role is to:
 1. Help both guests and registered clients navigate the entire website with clickable markdown links.
@@ -142,7 +133,7 @@ Provide a structured, helpful, and thorough response. Use bolding, bullet points
     }
 
     if (!finalReply) {
-      finalReply = this.generateExpertReply(trimmedMsg, context);
+      finalReply = this.generateExpertReply(trimmedMsg, context, profile, missingQuestions);
     }
 
     // Persist conversation log in database for admin monitoring
@@ -489,8 +480,13 @@ Provide a structured, helpful, and thorough response. Use bolding, bullet points
     }
   }
 
-  private generateExpertReply(query: string, context: string): string {
-    const q = query.toLowerCase();
+  private generateExpertReply(
+    query: string,
+    context: string,
+    profile?: any,
+    missingQuestions?: string[]
+  ): string {
+    const q = query.toLowerCase().trim();
 
     // 1. Off-topic filter
     const offTopicTriggers = ['recipe', 'poem', 'joke', 'crypto pump', 'weather today', 'write code for', 'python function', 'movie recommendation'];
@@ -502,6 +498,52 @@ Provide a structured, helpful, and thorough response. Use bolding, bullet points
     const faqMatch = findFAQMatch(query);
     if (faqMatch) {
       return faqMatch.answer;
+    }
+
+    // 1B. Conversational Follow-Up Turn: Broad Country Statement (e.g. "I want to move to Canada")
+    if (
+      (q === 'i want to move to canada' || q === 'move to canada' || q === 'relocate to canada' || q === 'canada') &&
+      (!profile?.interestPathway || profile.interestPathway === 'pr')
+    ) {
+      return `I can help you explore the possible pathways to Canada.
+
+Are you primarily interested in **work**, **study**, **family sponsorship**, **business/investment**, or direct **permanent residence**?`;
+    }
+
+    // 1C. Conversational Follow-Up Turn: Single Pathway Selection (e.g. "Work", "Study", "PR")
+    if (q === 'work' || q === 'working' || q === 'job' || q === 'employment') {
+      const countryPrefix = profile?.targetCountry ? `for ${profile.targetCountry}` : '';
+      return `Great! To narrow this down ${countryPrefix}, what is your **age**, **highest qualification** *(Bachelor's, Master's, etc.)*, **years of skilled work experience**, and **English/French language level**?`;
+    }
+
+    if (q === 'study' || q === 'studying' || q === 'university' || q === 'student') {
+      const countryPrefix = profile?.targetCountry ? `in ${profile.targetCountry}` : '';
+      return `Excellent! To evaluate educational pathways and scholarship funding ${countryPrefix}, what is your **current highest qualification**, **intended level of study** *(Bachelor's, Master's, PhD)*, and **preferred field of study**?
+
+*You can also browse: [10+ Global Fully-Funded Scholarships](${platformRoutes.scholarships.path})*`;
+    }
+
+    // 1D. Conversational Follow-Up Turn: Profile details provided (e.g. Age + Degree + Experience)
+    if (profile?.age && profile?.qualification) {
+      const country = profile.targetCountry || 'Canada';
+      const ageTier = profile.age <= 29 ? 'maximum age bracket (optimal points)' : profile.age <= 35 ? 'strong competitive age tier' : 'mature professional category';
+      return `### Profile Assessment for ${country}
+
+Based on the information you've provided:
+- **Age**: ${profile.age} (*${ageTier}*)
+- **Education**: ${profile.qualification}
+- **Experience**: ${profile.experienceYears ? `${profile.experienceYears} years skilled experience` : 'Pending verification'}
+- **Language**: ${profile.languageProficiency || 'Pending official test'}
+
+**Recommended Pathways**:
+1. **Direct Skilled Permanent Residence**: Your profile aligns well with points-based selection (e.g., Express Entry FSW). Scoring CLB 9+ in language tests (IELTS 8777) will maximize your CRS rank.
+2. **Provincial Nominee Programs (PNPs)**: Provincial streams targeting your occupational sector for +600 bonus points.
+3. **Employer-Sponsored Work Permit**: Direct employment route with potential for accelerated PR transition.
+
+**Next Steps on Platform**:
+- [Run Full Points & Eligibility Calculation](${platformRoutes.eligibility.path})
+- [Book a Strategy Session with an RCIC Consultant](${platformRoutes.consultation.path})
+- [Explore Skilled Worker Package](${platformRoutes.packages.path})`;
     }
 
     // 1A. Platform Operations: How to Sign In / Login
