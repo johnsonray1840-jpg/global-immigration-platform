@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { HfInference } from '@huggingface/inference';
 import type { Response } from 'express';
+import { websiteKnowledge, platformRoutes } from './knowledge/website-knowledge';
 
 export interface ChatMetadata {
   sessionId?: string;
@@ -719,41 +720,162 @@ Acquire a second passport or residence permit through qualifying investment:
   - Malta Permanent Residence & Citizenship by Direct Investment.
   - UAE Golden Visa (10-year residency with 2M AED investment).
 
-**Take Action:**
-- [View Investor Service Packages](/packages)
-- [Explore Citizenship Programs](/programs/citizenship-by-investment)
-- [Book a Private Wealth & Immigration Advisor](/consultation)`;
+    // 1F. Specific Inquiry: "What services does your company provide?" / "What services do you offer?"
+    if (q.includes('what services') || q.includes('services do you provide') || q.includes('services does your company provide') || q.includes('what do you do') || q.includes('about your company')) {
+      return `### Immigration & Relocation Services by Global Citizens Solution
+
+${websiteKnowledge.company.name} is a licensed immigration consultancy with ${websiteKnowledge.company.experience}. We provide end-to-end representation across 50+ countries:
+
+1. **Skilled Migration & Permanent Residence**: Express Entry (Canada), UK Skilled Worker, Australian PR, and German Opportunity Card (Chancenkarte).
+2. **Citizenship by Investment & Golden Visas**: Caribbean CBI passports ($100k–$250k) and European Golden Visas (Portugal, Greece, Spain, Malta).
+3. **Global Scholarships & University Placement**: University admission matching, SOP optimization, and high-value scholarship filings ($10,000–$150,000).
+4. **Work Permits & Corporate Relocation**: EU Blue Cards, digital nomad visas, and intra-company transfers.
+5. **Encrypted Document Vault & AI OCR Verification**: Pre-screen passports, police clearances, and financial statements for 100% compliance.
+6. **1-on-1 Strategy Consultations**: Dedicated 45-minute sessions with licensed RCIC consultants and immigration lawyers.
+
+**Direct Platform Links:**
+- [View All Service Packages](${platformRoutes.packages.path})
+- [Explore Visa Programs](${platformRoutes.programs.path})
+- [Book a 1-on-1 Strategy Session](${platformRoutes.consultation.path})
+- [Run Free Eligibility Assessment](${platformRoutes.eligibility.path})`;
     }
 
-    // 9. Consultation & Appointment Booking
-    if (q.includes('consultation') || q.includes('book') || q.includes('talk to') || q.includes('human') || q.includes('advisor') || q.includes('lawyer') || q.includes('appointment')) {
-      return `### Book a 1-on-1 Consultation with a Licensed Immigration Specialist
+    // 1G. Specific Inquiry: "Where can I see my application?" / "Track my case"
+    if (q.includes('where can i see my application') || q.includes('see my application') || q.includes('where is my application') || q.includes('track my application') || q.includes('view my case') || q.includes('my application status')) {
+      return `### How to Track & View Your Application
 
-Our certified immigration lawyers and consultants provide personalized legal reviews, profile evaluations, and custom application roadmaps.
+You can track your active immigration case in real-time from your private Client Portal:
 
-- **Video Consultation (Zoom / Meet / In-App)**: 45-minute comprehensive strategy session.
-- **Full Document Pre-Screening**: Assessment of qualification credentials, work proof, and funds.
-- **Custom Filing Timeline & Risk Analysis**.
+1. **Sign In**: Go to **[Sign In](${platformRoutes.login.path})** using your registered client credentials.
+2. **Open Case Tracking**: Navigate to **[Client Case Tracking](${platformRoutes.cases.path})**.
+3. **Review Case Timeline**: Monitor each stage of your application:
+   - **Profile Created & Document Intake**
+   - **AI OCR Verification & Legal Specialist Audit**
+   - **Official Government Filing**
+   - **Biometrics & Medicals Scheduled**
+   - **Final Government Decision & Visa Issuance**
+4. **Consultant Notes**: Read direct case updates and milestone notes left by your assigned case officer.
 
-**Schedule Your Session Now:**
-- [Book a Consultation Session](/consultation)
-- [Manage Existing Appointments](/dashboard/appointments)`;
+**Direct Links:**
+- [Open Client Case Tracking](${platformRoutes.cases.path})
+- [Access Full Client Dashboard](${platformRoutes.dashboard.path})`;
     }
 
-    // 10. Service Packages & Pricing
-    if (q.includes('package') || q.includes('price') || q.includes('cost') || q.includes('fee') || q.includes('how much')) {
-      return `### Transparent Immigration Service Packages
+    // 1H. Specific Inquiry: "What payment methods do you accept?"
+    if (q.includes('what payment methods') || q.includes('payment methods do you accept') || q.includes('how can i pay') || q.includes('payment options') || q.includes('accept crypto') || q.includes('bank wire')) {
+      return `### Accepted Payment Methods & Escrow Security
 
-We offer clear, all-inclusive packages with no hidden fees:
+Global Citizens Solution provides 3 secure institutional payment rails:
 
-- **Holiday & Tourist Package**: Document curation, itinerary building, and embassy booking.
-- **Student Visa & Scholarship Package**: University matching, admission SOP guidance, scholarship filings, and student visa handling.
-- **Skilled Worker & Express Entry Package**: Points optimization, ECA assistance, employer sponsor guidance, and legal submission.
-- **Investor & Golden Visa Package**: Full legal due diligence, escrow guidance, and government dossier filing.
+1. **Credit / Debit Card (Stripe)**:
+   - Instant processing with PCI-DSS Level 1 encryption.
+   - Best for consultation bookings, document audits, and retainer fees.
 
-**View Details:**
-- [Explore All Service Packages](/packages)
-- [Payment Options & Crypto Wallet](/dashboard/wallet)`;
+2. **Bank Wire Transfer (SWIFT / SEPA / IBAN)**:
+   - Institutional bank-to-bank escrow with 1–2 business day confirmation.
+   - Generates an official invoice with your unique client reference ID.
+   - Ideal for full service packages, government statutory fees, and investor capital.
+
+3. **Cryptocurrency Escrow (BTC, ETH, USDT, USDC)**:
+   - Fast borderless settlement on the blockchain (15–30 minutes).
+   - Generates a dedicated single-use escrow address with a 30-minute price lock and zero FX exchange penalties.
+
+**Direct Links:**
+- [Manage Billing & Wallet](${platformRoutes.wallet.path})
+- [Browse Service Packages](${platformRoutes.packages.path})`;
+    }
+
+    // 1I. Specific Inquiry: "Do you handle Canada immigration?"
+    if (q.includes('do you handle canada') || q.includes('do you do canada') || q.includes('handle canada immigration') || q.includes('canada immigration')) {
+      return `### Canada Immigration & Permanent Residence Services
+
+Yes, absolutely! Global Citizens Solution provides full legal representation and case management for all major Canadian immigration pathways:
+
+1. **Express Entry (Federal Skilled Worker & Canadian Experience Class)**:
+   - Comprehensive Ranking System (CRS) points optimization.
+   - Educational Credential Assessment (ECA) via WES/ICAS.
+   - Language test strategy (IELTS / CELPIP / TEF).
+2. **Provincial Nominee Programs (PNP)**:
+   - Direct provincial nominations (+600 CRS points) across Ontario (OINP), British Columbia (BCPNP), and Alberta (AAIP).
+3. **Study-to-PR & Post-Graduation Work Permits (PGWP)**:
+   - University matching, admission SOP, student visa filing, and transition to permanent residency.
+4. **Start-up Visa & Intra-Company Transfers**:
+   - Canadian business establishment and permanent residency for entrepreneurs.
+
+**Next Steps:**
+- [Evaluate Your Canada PR Points](${platformRoutes.eligibility.path})
+- [Explore Canada Country Guide](${platformRoutes.countryDetail('CA').path})
+- [Book an RCIC Licensed Consultant](${platformRoutes.consultation.path})`;
+    }
+
+    // 1J. Specific Inquiry: "Where can I find investment programs?" / CBI / Golden Visas
+    if (q.includes('where can i find investment') || q.includes('find investment programs') || q.includes('citizenship by investment') || q.includes('cbi') || q.includes('golden visa') || q.includes('second passport') || q.includes('investor programs')) {
+      return `### Citizenship by Investment & Golden Visa Programs
+
+You can explore our complete directory of government-approved investment migration pathways:
+
+1. **Caribbean Fast-Track Citizenship (3–6 Months Processing)**:
+   - **Countries**: St. Kitts & Nevis, Dominica, Grenada, Antigua & Barbuda, Saint Lucia.
+   - **Investment**: Government donation from $100,000–$240,000 or qualifying luxury real estate.
+   - **Key Benefit**: Direct second passport with visa-free travel to 140+ countries (UK, Schengen, Singapore).
+
+2. **European Golden Visas & Residency**:
+   - **Portugal Golden Residence Permit**: €500k qualifying investment funds (no crypto/real estate, 5-year PR/citizenship route).
+   - **Greece Golden Visa**: €250k–€800k real estate investment for full EU Schengen residency.
+   - **Malta MEIN & MPRP**: European permanent residency & direct citizenship pathways.
+   - **UAE 10-Year Golden Visa**: 2M AED real estate or investor qualification.
+
+**Direct Platform Links:**
+- [Explore Citizenship by Investment Portal](${platformRoutes.cbiPrograms.path})
+- [View Investor Service Packages](${platformRoutes.packages.path})
+- [Book Private Wealth Immigration Specialist](${platformRoutes.consultation.path})`;
+    }
+
+    // 1K. Specific Inquiry: "How do I book a consultation?"
+    if (q.includes('how do i book a consultation') || q.includes('how to book consultation') || q.includes('book a consultation') || q.includes('schedule consultation') || q.includes('talk to an expert') || q.includes('speak with lawyer')) {
+      return `### How to Book a 1-on-1 Immigration Consultation
+
+You can schedule a private 45-minute strategy consultation directly online:
+
+1. Visit our **[Consultation Booking Page](${platformRoutes.consultation.path})**.
+2. Select your consultation format:
+   - **Encrypted HD Video Session** (Zoom / Meet / In-Portal).
+   - **Direct Phone Consultation**.
+3. Choose your preferred date, time slot, and target country/program.
+4. Outline your immigration goals or questions for your assigned legal specialist.
+5. Confirm booking via secure card or wallet payment.
+
+**What You Receive:**
+- Complete profile and eligibility pre-screening.
+- Personalized document checklist and risk assessment.
+- Step-by-step filing roadmap and timeline.
+
+**Direct Links:**
+- [Book Your Consultation Now](${platformRoutes.consultation.path})
+- [Manage Existing Appointments](${platformRoutes.appointments.path})`;
+    }
+
+    // 1L. Specific Inquiry: "Can I apply for a scholarship?" / Global Scholarships
+    if (q.includes('can i apply for a scholarship') || q.includes('apply for scholarship') || q.includes('how to apply for scholarship') || q.includes('scholarship') || q.includes('tuition grant') || q.includes('fellowship')) {
+      return `### Apply for Fully-Funded Global Scholarships
+
+Yes! Global Citizens Solution features 10 prestigious, fully-funded global scholarships offering grants up to $150,000:
+
+1. **Fulbright Foreign Student Program (USA)**: Up to $50,000 covering full tuition, living stipend, round-trip flights, and J-1 visa sponsorship.
+2. **Chevening Scholarships (UK)**: 100% tuition coverage for master's programs with monthly living allowances.
+3. **DAAD Helmut-Schmidt-Programme (Germany)**: Full tuition waiver + €934/month stipend and health insurance.
+4. **Australia Awards (Australia)**: Full university tuition + establishment allowance + airfare.
+5. **Vanier CGS (Canada)**: $50,000 CAD/year doctoral grants for 3 years ($150,000 total).
+6. **Eiffel Excellence (France)**: Master's & PhD monthly stipend + flight grants.
+7. **Swiss Govt Excellence (Switzerland)**: Full research and PhD stipends (CHF 1,920/mo).
+8. **MEXT Scholarship (Japan)**: 100% tuition waiver + 145,000 JPY/month.
+9. **SINGA Award (Singapore)**: 4-year PhD fellowship + SGD 2,700/mo.
+10. **Govt of Ireland Scholarship (Ireland)**: Full tuition waiver + €10,000 living stipend.
+
+**Next Steps:**
+- [Browse All 10+ Scholarships & Deadlines](${platformRoutes.scholarships.path})
+- [Student Success & Scholarship Package](${platformRoutes.packages.path})
+- [Book an Education Consultant](${platformRoutes.consultation.path})`;
     }
 
     // Default intelligent immigration response
@@ -765,25 +887,25 @@ Based on your inquiry:
 ${context}
 
 **Helpful Platform Links:**
-- [Check Your Eligibility](/eligibility)
-- [Explore Scholarships](/scholarships)
-- [View Service Packages](/packages)
-- [Book a Consultation](/consultation)
+- [Check Your Eligibility](${platformRoutes.eligibility.path})
+- [Explore Scholarships](${platformRoutes.scholarships.path})
+- [View Service Packages](${platformRoutes.packages.path})
+- [Book a Consultation](${platformRoutes.consultation.path})
 
 Would you like more details on requirements, processing times, or application fees?`;
     }
 
-    return `### Global Citizens Solution Assistant
+    return `### Global Immigration Concierge
 
-I am here to guide you across all visa pathways, scholarships, and platform tools.
+I am here to guide you across all visa pathways, global scholarships, document requirements, and platform tools.
 
 **Where would you like to go?**
-- **Check Points & Eligibility**: [Launch Assessment](/eligibility)
-- **10+ Global Scholarships**: [View Scholarships](/scholarships)
-- **Our Legal Packages**: [Explore Packages](/packages)
-- **Compare Countries**: [Country Directory](/countries)
-- **Talk to an Expert**: [Book Consultation](/consultation)
-- **Track Your Active Case**: [Open Client Dashboard](/dashboard/cases)
+- **Check Points & Eligibility**: [Launch Assessment](${platformRoutes.eligibility.path})
+- **10+ Global Scholarships**: [View Scholarships](${platformRoutes.scholarships.path})
+- **Our Legal Packages**: [Explore Packages](${platformRoutes.packages.path})
+- **Compare Countries**: [Country Directory](${platformRoutes.countries.path})
+- **Talk to an Expert**: [Book Consultation](${platformRoutes.consultation.path})
+- **Track Your Active Case**: [Open Client Dashboard](${platformRoutes.cases.path})
 
 Feel free to ask any specific question about visas, required documents, or destination requirements!`;
   }
