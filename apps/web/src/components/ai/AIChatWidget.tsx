@@ -336,28 +336,28 @@ export default function AIChatWidget() {
 
   return (
     <>
-      {/* Floating Action Button */}
-      <div className="fixed bottom-6 right-6 z-50">
+      {/* Floating Action Button - Stacked above Tawk.to Live Chat */}
+      <div className="fixed bottom-24 right-5 sm:right-6 z-40">
         <motion.button
           onClick={() => setOpen(!open)}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           aria-label="Open AI Immigration Assistant"
           className={cn(
-            'flex h-14 w-14 items-center justify-center rounded-full transition-all duration-300',
+            'flex h-13 w-13 sm:h-14 sm:w-14 items-center justify-center rounded-full transition-all duration-300 shadow-xl',
             open
-              ? 'bg-deep-navy border border-border text-white shadow-xl'
-              : 'bg-gradient-to-tr from-atlantic to-royal border border-accent/40 shadow-xl text-white hover:shadow-cyan-900/40'
+              ? 'bg-deep-navy border border-sky-400/40 text-white shadow-2xl'
+              : 'bg-gradient-to-tr from-sky-600 via-sky-500 to-sky-400 border border-sky-300/40 text-white hover:shadow-sky-500/30'
           )}
         >
           {open ? (
             <X className="h-6 w-6" />
           ) : (
             <div className="relative flex items-center justify-center">
-              <Bot className="h-7 w-7" />
+              <Bot className="h-6 w-6 sm:h-7 sm:w-7" />
               <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-accent" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-400" />
               </span>
             </div>
           )}
@@ -372,7 +372,7 @@ export default function AIChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-24 right-4 sm:right-6 z-50 flex h-[620px] max-h-[85vh] w-[92vw] sm:w-[440px] flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl"
+            className="fixed bottom-24 sm:bottom-28 right-4 sm:right-6 z-50 flex h-[580px] max-h-[78vh] w-[92vw] sm:w-[420px] flex-col overflow-hidden rounded-2xl border border-sky-500/20 bg-[#0A1F38]/95 backdrop-blur-2xl shadow-2xl"
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-border/20 bg-gradient-to-r from-deep-navy to-atlantic p-4 text-white">
