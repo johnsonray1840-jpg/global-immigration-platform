@@ -67,6 +67,24 @@ GUEST MODE & ACCESS RULES:
   4. View private application / case status -> Direct to [Client Case Tracking](/dashboard/cases) (sign-in required).
   5. Make a payment or deposit -> Direct to [Billing & Wallet](/dashboard/wallet) or [Service Packages](/packages).
 
+ANTI-GENERIC & PROGRESSIVE PROFILING RULES:
+- NEVER give generic, dismissive answers like "Yes, there are many options" or "It depends on your situation."
+- When asked general eligibility or country questions (e.g. "Can I immigrate to Canada?"), provide a structured breakdown of the specific pathways available on the platform:
+  1. Skilled Points & Permanent Residence (e.g., Express Entry, Australia GSM, UK Skilled Worker).
+  2. Provincial / Regional Nominee Streams (PNPs).
+  3. Study-to-Work & Post-Graduation Pathways.
+  4. Family & Spousal Sponsorship.
+  5. Employer-Sponsored Work Permits.
+  6. Investment & Business Programs.
+- THEN ask relevant profiling questions to progressively understand the user's profile:
+  - "What is your age?"
+  - "What is your highest qualification (Bachelor's, Master's, PhD)?"
+  - "How many years of full-time skilled work experience do you have?"
+  - "Do you have an official language test score (IELTS, CELPIP, PTE, TEF)?"
+  - "Do you have an existing job offer or connection to the target country?"
+  - "Are you applying alone or accompanying a spouse and children?"
+- If the user provides their details, interpret those factors specifically (e.g., calculate age brackets, degree points, language benchmarks) and recommend the best-fit programs.
+
 Your primary role is to:
 1. Help both guests and registered clients navigate the entire website with clickable markdown links.
 2. Answer detailed questions about visas (Express Entry, Work Permits, Student Visas, Golden Visas, Citizenship by Investment, Digital Nomad Visas).
@@ -800,27 +818,36 @@ Global Citizens Solution provides 3 secure institutional payment rails:
 - [Browse Service Packages](${platformRoutes.packages.path})`;
     }
 
-    // 1I. Specific Inquiry: "Do you handle Canada immigration?"
-    if (q.includes('do you handle canada') || q.includes('do you do canada') || q.includes('handle canada immigration') || q.includes('canada immigration')) {
-      return `### Canada Immigration & Permanent Residence Services
+    // 1I. Specific Inquiry: "Can I immigrate to Canada?" / "Do you handle Canada immigration?"
+    if (q.includes('can i immigrate to canada') || q.includes('immigrate to canada') || q.includes('do you handle canada') || q.includes('do you do canada') || q.includes('handle canada immigration') || q.includes('canada immigration')) {
+      return `### Canadian Immigration Pathways
 
-Yes, absolutely! Global Citizens Solution provides full legal representation and case management for all major Canadian immigration pathways:
+Yes, Canada offers several well-defined immigration pathways based on your profile, background, and relocation goals:
 
 1. **Express Entry (Federal Skilled Worker & Canadian Experience Class)**:
-   - Comprehensive Ranking System (CRS) points optimization.
-   - Educational Credential Assessment (ECA) via WES/ICAS.
-   - Language test strategy (IELTS / CELPIP / TEF).
-2. **Provincial Nominee Programs (PNP)**:
-   - Direct provincial nominations (+600 CRS points) across Ontario (OINP), British Columbia (BCPNP), and Alberta (AAIP).
-3. **Study-to-PR & Post-Graduation Work Permits (PGWP)**:
-   - University matching, admission SOP, student visa filing, and transition to permanent residency.
-4. **Start-up Visa & Intra-Company Transfers**:
-   - Canadian business establishment and permanent residency for entrepreneurs.
+   - Direct permanent residence for professionals based on the Comprehensive Ranking System (CRS).
+2. **Provincial Nominee Programs (PNPs)**:
+   - Specific provincial streams across Ontario (OINP), British Columbia (BCPNP), and Alberta (AAIP) offering +600 bonus CRS points.
+3. **Study-to-Work & Post-Graduation Work Permit (PGWP)**:
+   - Study at a Canadian university or college, obtain a 3-year open work permit, and transition to PR via Canadian Experience Class.
+4. **Family & Spousal Sponsorship**:
+   - Permanent residence sponsorship for spouses, common-law partners, and dependent children of Canadian citizens/PRs.
+5. **Employer-Specific Work Permits & Intra-Company Transfers**:
+   - Work authorizations supported by an approved LMIA or international trade agreements.
+6. **Start-up Visa & Investor Pathways**:
+   - Direct PR for innovative entrepreneurs with designated venture capital, angel investor, or incubator commitments.
 
-**Next Steps:**
-- [Evaluate Your Canada PR Points](${platformRoutes.eligibility.path})
-- [Explore Canada Country Guide](${platformRoutes.countryDetail('CA').path})
-- [Book an RCIC Licensed Consultant](${platformRoutes.consultation.path})`;
+---
+
+### To recommend the most viable pathway for you, please share a few details:
+1. **What is your age?**
+2. **What is your highest completed qualification** *(Bachelor's, Master's, PhD, or Diploma)*?
+3. **How many years of full-time skilled work experience do you have?**
+4. **Have you taken an official language test** *(IELTS General, CELPIP, or TEF/TCF French)*?
+5. **Do you currently have a valid job offer in Canada?**
+6. **Are you applying as an individual or accompanied by a spouse and children?**
+
+*You can also run an instant calculation on our [Interactive Points Assessment](${platformRoutes.eligibility.path}) or [Book a Strategy Session with a Licensed RCIC Consultant](${platformRoutes.consultation.path}).*`;
     }
 
     // 1J. Specific Inquiry: "Where can I find investment programs?" / CBI / Golden Visas
