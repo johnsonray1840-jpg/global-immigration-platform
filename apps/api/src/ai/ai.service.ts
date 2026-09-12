@@ -23,6 +23,8 @@ import {
   generateFraudRefusalResponse,
   generateAuthorityClarificationResponse,
   enforceResponseLegalSafety,
+  detectHighRiskTopic,
+  formatHighRiskAdvisoryResponse,
 } from './knowledge';
 
 export interface ChatMetadata {
@@ -520,6 +522,13 @@ Provide a structured, helpful, and thorough response. Use bolding, bullet points
     if (detectGuaranteeOrAuthorityTrap(query)) {
       return generateAuthorityClarificationResponse(query);
     }
+
+    // 0C. High-Risk Case Advisory Dispatcher (Item 13: Criminal, deportation, refusals, inadmissibility, overstays, appeals)
+    const highRiskMatch = detectHighRiskTopic(query);
+    if (highRiskMatch) {
+      return formatHighRiskAdvisoryResponse(highRiskMatch);
+    }
+
 
     // 1. Off-topic filter
     const offTopicTriggers = ['recipe', 'poem', 'joke', 'crypto pump', 'weather today', 'write code for', 'python function', 'movie recommendation'];
