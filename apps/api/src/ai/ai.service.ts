@@ -2,7 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { HfInference } from '@huggingface/inference';
 import type { Response } from 'express';
-import { websiteKnowledge, platformRoutes, searchKnowledge, findFAQMatch } from './knowledge';
+import {
+  websiteKnowledge,
+  platformRoutes,
+  searchKnowledge,
+  findFAQMatch,
+  extractConversationProfile,
+  UserProfileState,
+} from './knowledge';
 
 export interface ChatMetadata {
   sessionId?: string;
