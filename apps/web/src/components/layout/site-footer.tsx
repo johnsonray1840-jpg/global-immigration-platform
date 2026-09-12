@@ -43,7 +43,7 @@ export default function SiteFooter() {
             </span>
           </Link>
           <p className="mt-4 text-sm leading-relaxed text-slate-400">
-            Government‑approved immigration and citizenship by investment consultancy with 50+ years of combined expertise.
+            Government‑approved immigration and citizenship by investment consultancy with 10+ years of combined expertise.
             Your trusted partner for global mobility.
           </p>
         </div>

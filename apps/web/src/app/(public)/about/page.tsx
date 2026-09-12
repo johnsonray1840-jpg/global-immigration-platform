@@ -24,7 +24,7 @@ export default function AboutPage() {
             Trusted Global Immigration <span className="text-accent">Excellence</span>
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-white/80">
-            With over 50 years of combined experience, we deliver transparent, ethical, and expert guidance for individuals and families pursuing global mobility.
+            With over 10 years of combined experience, we deliver transparent, ethical, and expert guidance for individuals and families pursuing global mobility.
           </p>
         </div>
       </section>
