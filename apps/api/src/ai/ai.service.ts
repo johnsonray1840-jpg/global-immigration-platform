@@ -11,6 +11,11 @@ import {
   UserProfileState,
   evaluatePathways,
   formatRecommendationMarkdown,
+  getVerifiedTimeSensitiveResponse,
+  findTimeSensitivePolicy,
+  formatTimeSensitiveFooter,
+  isQueryTimeSensitive,
+  STANDARD_CURRENT_INFO_DISCLAIMER,
 } from './knowledge';
 
 export interface ChatMetadata {
@@ -508,6 +513,13 @@ Provide a structured, helpful, and thorough response. Use bolding, bullet points
     if (faqMatch) {
       return faqMatch.answer;
     }
+
+    // 1A2. Time-Sensitive Immigration Rules & Verified Metrics Registry (Item 10)
+    const timeSensitiveMatch = getVerifiedTimeSensitiveResponse(query);
+    if (timeSensitiveMatch) {
+      return timeSensitiveMatch;
+    }
+
 
     // 1B. Conversational Follow-Up Turn: Broad Country Statement (e.g. "I want to move to Canada")
     if (
