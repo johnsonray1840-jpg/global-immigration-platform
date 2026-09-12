@@ -9,6 +9,8 @@ import {
   findFAQMatch,
   extractConversationProfile,
   UserProfileState,
+  evaluatePathways,
+  formatRecommendationMarkdown,
 } from './knowledge';
 
 export interface ChatMetadata {
@@ -801,6 +803,12 @@ Acquire a second passport or residence permit through qualifying investment:
   - Greece Golden Visa (€250k - €800k real estate investment).
   - Malta Permanent Residence & Citizenship by Direct Investment.
   - UAE Golden Visa (10-year residency with 2M AED investment).
+
+**Direct Platform Links:**
+- [Explore Investment Programs](${platformRoutes.programs.path}?category=investment)
+- [Compare Golden Visas](${platformRoutes.compare.path})
+- [Book Private Consultation](${platformRoutes.consultation.path})`;
+    }
 
     // 1F. Specific Inquiry: "What services does your company provide?" / "What services do you offer?"
     if (q.includes('what services') || q.includes('services do you provide') || q.includes('services does your company provide') || q.includes('what do you do') || q.includes('about your company')) {

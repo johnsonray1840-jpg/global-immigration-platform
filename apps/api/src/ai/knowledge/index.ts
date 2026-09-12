@@ -19,6 +19,7 @@ export * from './types';
 export * from './website-knowledge';
 export * from './faq-80-questions';
 export * from './conversation-state';
+export * from './pathway-recommender';
 
 export const allKnowledgeCategories: KnowledgeCategory[] = [
   generalImmigrationCategory,     // A. GENERAL IMMIGRATION

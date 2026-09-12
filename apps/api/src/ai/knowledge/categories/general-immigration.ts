@@ -36,6 +36,7 @@ Our platform provides end-to-end evaluation, certified translation, AI document 
     },
     {
       id: 'country-comparison',
+      category: 'GENERAL_IMMIGRATION',
       title: 'Comparing Destination Countries',
       keywords: ['compare countries', 'cost of living', 'safety index', 'tax rate', 'passport power', 'which country is best'],
       summary: 'Compare safety ratings, healthcare, cost of living, and tax rates across 50+ destinations.',
