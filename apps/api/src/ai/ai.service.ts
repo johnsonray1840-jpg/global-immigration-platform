@@ -16,6 +16,8 @@ import {
   formatTimeSensitiveFooter,
   isQueryTimeSensitive,
   STANDARD_CURRENT_INFO_DISCLAIMER,
+  detectCountryIntent,
+  formatCountrySpecificResponse,
 } from './knowledge';
 
 export interface ChatMetadata {
@@ -521,15 +523,27 @@ Provide a structured, helpful, and thorough response. Use bolding, bullet points
     }
 
 
-    // 1B. Conversational Follow-Up Turn: Broad Country Statement (e.g. "I want to move to Canada")
-    if (
-      (q === 'i want to move to canada' || q === 'move to canada' || q === 'relocate to canada' || q === 'canada') &&
-      (!profile?.interestPathway || profile.interestPathway === 'pr')
-    ) {
-      return `I can help you explore the possible pathways to Canada.
+    // 1A3. Country-Aware Knowledge Dispatcher (Item 9)
+    const countryMatch = detectCountryIntent(query);
+    const isCountryInquiry =
+      q.includes('move to') ||
+      q.includes('immigrate to') ||
+      q.includes('relocate to') ||
+      q.includes('live in') ||
+      q.includes('visas for') ||
+      q.includes('pathways to') ||
+      q.includes('pathway to') ||
+      q.includes('options for') ||
+      q.includes('how to go to') ||
+      q.includes('settle in') ||
+      q.includes('how can i move to') ||
+      q.includes('how do i move to') ||
+      q.includes('how to migrate to');
 
-Are you primarily interested in **work**, **study**, **family sponsorship**, **business/investment**, or direct **permanent residence**?`;
+    if (countryMatch && (isCountryInquiry || q === countryMatch.name.toLowerCase() || countryMatch.aliases.some((a) => q === a))) {
+      return formatCountrySpecificResponse(countryMatch);
     }
+
 
     // 1C. Conversational Follow-Up Turn: Single Pathway Selection (e.g. "Work", "Study", "PR")
     if (q === 'work' || q === 'working' || q === 'job' || q === 'employment') {

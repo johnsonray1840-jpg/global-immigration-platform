@@ -21,6 +21,8 @@ export * from './faq-80-questions';
 export * from './conversation-state';
 export * from './pathway-recommender';
 export * from './time-sensitive-registry';
+export * from './country-knowledge';
+
 
 export const allKnowledgeCategories: KnowledgeCategory[] = [
   generalImmigrationCategory,     // A. GENERAL IMMIGRATION
