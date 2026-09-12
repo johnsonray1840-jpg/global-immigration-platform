@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { HfInference } from '@huggingface/inference';
 import type { Response } from 'express';
-import { websiteKnowledge, platformRoutes } from './knowledge/website-knowledge';
+import { websiteKnowledge, platformRoutes, searchKnowledge } from './knowledge';
 
 export interface ChatMetadata {
   sessionId?: string;
@@ -453,6 +453,15 @@ Provide a structured, helpful, and thorough response. Use bolding, bullet points
       }
       if (faqs.length) {
         contextParts.push('FAQ Answers:\n' + faqs.map((f) => `Q: ${f.question}\nA: ${f.answer}`).join('\n'));
+      }
+
+      // Add matching structured knowledge from dedicated knowledge layer
+      const matchedTopics = searchKnowledge(query, 2);
+      if (matchedTopics.length) {
+        contextParts.push(
+          'Knowledge Base Context:\n' +
+            matchedTopics.map((t) => `Topic: ${t.title}\n${t.content}`).join('\n\n')
+        );
       }
 
       return contextParts.join('\n\n').trim();
