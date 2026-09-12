@@ -30,6 +30,8 @@ import {
   generateGuestPersonalDataPrompt,
   formatAuthenticatedCaseStatus,
   formatCaseStatusLabel,
+  detectNavigationIntent,
+  formatNavigationResponse,
 } from './knowledge';
 
 export interface ChatMetadata {
@@ -657,6 +659,11 @@ Provide a structured, helpful, and thorough response. Use bolding, bullet points
       return formatHighRiskAdvisoryResponse(highRiskMatch);
     }
 
+    // 0D. Website Navigation Dispatcher (Item 16: Internal route references for where to go)
+    const navMatch = detectNavigationIntent(query);
+    if (navMatch) {
+      return formatNavigationResponse(navMatch);
+    }
 
     // 1. Off-topic filter
     const offTopicTriggers = ['recipe', 'poem', 'joke', 'crypto pump', 'weather today', 'write code for', 'python function', 'movie recommendation'];

@@ -186,3 +186,4 @@ ${appointmentBlock}
 - [Message Your Assigned Case Officer](${platformRoutes.dashboard.path}/messages)
 - [Manage Appointments](${platformRoutes.appointments.path})`;
 }
+
