@@ -18,6 +18,11 @@ import {
   STANDARD_CURRENT_INFO_DISCLAIMER,
   detectCountryIntent,
   formatCountrySpecificResponse,
+  detectFraudOrMisrepresentation,
+  detectGuaranteeOrAuthorityTrap,
+  generateFraudRefusalResponse,
+  generateAuthorityClarificationResponse,
+  enforceResponseLegalSafety,
 } from './knowledge';
 
 export interface ChatMetadata {
@@ -151,6 +156,8 @@ Provide a structured, helpful, and thorough response. Use bolding, bullet points
     if (!finalReply) {
       finalReply = this.generateExpertReply(trimmedMsg, context, profile, missingQuestions);
     }
+
+    finalReply = enforceResponseLegalSafety(finalReply);
 
     // Persist conversation log in database for admin monitoring
     await this.logConversation(trimmedMsg, finalReply, metadata);
@@ -503,6 +510,16 @@ Provide a structured, helpful, and thorough response. Use bolding, bullet points
     missingQuestions?: string[]
   ): string {
     const q = query.toLowerCase().trim();
+
+    // 0A. Legal & Anti-Fraud Safety Guard (Item 12: Refuse deception / fraud / illegal routes)
+    if (detectFraudOrMisrepresentation(query)) {
+      return generateFraudRefusalResponse(query);
+    }
+
+    // 0B. Professional Identity & Guarantee Trap Guard (Item 12: Non-officer / No guarantee disclosure)
+    if (detectGuaranteeOrAuthorityTrap(query)) {
+      return generateAuthorityClarificationResponse(query);
+    }
 
     // 1. Off-topic filter
     const offTopicTriggers = ['recipe', 'poem', 'joke', 'crypto pump', 'weather today', 'write code for', 'python function', 'movie recommendation'];
