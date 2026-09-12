@@ -117,6 +117,27 @@ export default function RootLayout({
               setTimeout(function() {
                 observer.disconnect();
               }, 5000);
+
+              // Auto-recover from deployment chunk mismatches
+              window.addEventListener('error', function(e) {
+                if (e && e.message && /Loading chunk [\d]+ failed/i.test(e.message)) {
+                  var chunkKey = 'gcs_reload_' + (e.filename || 'general');
+                  if (!sessionStorage.getItem(chunkKey)) {
+                    sessionStorage.setItem(chunkKey, '1');
+                    window.location.reload();
+                  }
+                }
+              });
+
+              window.addEventListener('unhandledrejection', function(e) {
+                if (e && e.reason && (e.reason.name === 'ChunkLoadError' || (e.reason.message && /Loading chunk/i.test(e.reason.message)))) {
+                  var rejectKey = 'gcs_rejection_reload';
+                  if (!sessionStorage.getItem(rejectKey)) {
+                    sessionStorage.setItem(rejectKey, '1');
+                    window.location.reload();
+                  }
+                }
+              });
             })();
           `}
         </Script>
