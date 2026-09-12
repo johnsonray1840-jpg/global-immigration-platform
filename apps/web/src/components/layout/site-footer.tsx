@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import api from '@/lib/api-client';
 import { toast } from 'sonner';
 import { Mail, Phone, MapPin, CheckCircle2 } from 'lucide-react';
@@ -28,8 +29,18 @@ export default function SiteFooter() {
       <div className="container-premium grid grid-cols-1 gap-12 py-16 md:grid-cols-2 lg:grid-cols-4">
         {/* Brand */}
         <div>
-          <Link href="/" className="font-display text-2xl font-bold text-white tracking-tight">
-            Global<span className="text-accent">Citizens</span> Solution
+          <Link href="/" className="flex items-center gap-3">
+            <div className="relative h-12 w-12 overflow-hidden rounded-full ring-2 ring-accent/40 shadow-lg shrink-0 bg-[#030D1A]">
+              <Image
+                src="/logo.png"
+                alt="Global Citizens Solution Emblem"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <span className="font-display text-2xl font-bold text-white tracking-tight">
+              Global<span className="text-accent">Citizens</span> Solution
+            </span>
           </Link>
           <p className="mt-4 text-sm leading-relaxed text-slate-400">
             Government‑approved immigration and citizenship by investment consultancy with 50+ years of combined expertise.

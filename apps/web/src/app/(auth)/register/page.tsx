@@ -25,6 +25,8 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 
+import Image from 'next/image';
+
 const passwordSchema = z
   .string()
   .min(8, 'At least 8 characters')
@@ -108,13 +110,22 @@ export default function RegisterPage() {
       <div className="relative w-full max-w-md">
         {/* Brand */}
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2">
+          <Link href="/" className="inline-flex flex-col items-center gap-3">
+            <div className="relative h-16 w-16 overflow-hidden rounded-full ring-2 ring-accent/40 shadow-xl bg-[#030D1A]">
+              <Image
+                src="/logo.png"
+                alt="Global Citizens Solution Emblem"
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
             <span className="font-display text-2xl md:text-3xl font-bold text-white tracking-tight">
               Global<span className="text-accent">Citizens</span> Solution
             </span>
           </Link>
-          <p className="mt-2 text-sm text-slate-300">
-            Your trusted path to global freedom
+          <p className="mt-2 text-xs uppercase tracking-widest text-slate-400 font-semibold">
+            Your Journey. Our Expertise. Global Possibilities.
           </p>
         </div>
 

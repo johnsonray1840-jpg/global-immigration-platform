@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   LayoutDashboard,
   Briefcase,
@@ -91,8 +92,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     <div className="flex min-h-screen bg-[#030D1A] text-white">
       {/* Sidebar (Desktop) */}
       <aside className="hidden w-64 flex-col bg-[#030D1A]/95 border-r border-sky-500/20 p-6 md:flex backdrop-blur-xl shadow-2xl">
-        <Link href="/" className="flex items-center space-x-2">
-          <span className="font-display text-xl font-bold text-white tracking-tight">
+        <Link href="/" className="flex items-center space-x-2.5">
+          <div className="relative h-9 w-9 overflow-hidden rounded-full ring-2 ring-sky-400/40 shadow-md shrink-0 bg-[#030D1A]">
+            <Image
+              src="/logo.png"
+              alt="Global Citizens Solution"
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+          <span className="font-display text-lg font-bold text-white tracking-tight">
             Global<span className="text-sky-400">Citizens</span>
           </span>
           <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">
@@ -151,8 +161,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Mobile Top Bar */}
       <div className="fixed top-0 left-0 right-0 z-40 border-b border-sky-500/20 bg-[#030D1A]/95 backdrop-blur-xl md:hidden">
         <div className="flex items-center justify-between p-4">
-          <Link href="/" className="font-display text-lg font-bold text-white">
-            Global<span className="text-sky-400">Citizens</span>
+          <Link href="/" className="flex items-center gap-2.5">
+            <div className="relative h-8 w-8 overflow-hidden rounded-full ring-2 ring-sky-400/40 shadow-md shrink-0 bg-[#030D1A]">
+              <Image
+                src="/logo.png"
+                alt="Global Citizens Solution"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <span className="font-display text-base font-bold text-white">
+              Global<span className="text-sky-400">Citizens</span>
+            </span>
           </Link>
           <div className="flex items-center gap-2">
             <NotificationsBell />

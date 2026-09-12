@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import LanguageSwitcher from './language-switcher';
 import { Button } from '@/components/ui/button';
@@ -75,8 +76,19 @@ export default function SiteHeader() {
     )}>
       <div className="container-premium flex h-16 md:h-20 items-center justify-between">
         {/* Brand */}
-        <Link href="/" className="font-display text-xl md:text-2xl font-bold text-primary tracking-tight">
-          Global<span className="text-accent">Citizens</span> Solution
+        <Link href="/" className="flex items-center gap-3">
+          <div className="relative h-9 w-9 md:h-11 md:w-11 overflow-hidden rounded-full ring-2 ring-accent/40 shadow-md shrink-0 bg-[#030D1A]">
+            <Image
+              src="/logo.png"
+              alt="Global Citizens Solution Emblem"
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+          <span className="font-display text-lg md:text-2xl font-bold text-white tracking-tight">
+            Global<span className="text-accent">Citizens</span> Solution
+          </span>
         </Link>
 
         {/* Desktop nav */}
@@ -212,8 +224,16 @@ export default function SiteHeader() {
               className="w-84 max-w-[90vw] p-0 bg-[#030D1A]/95 backdrop-blur-2xl text-foreground border-r border-sky-500/20 flex flex-col justify-between"
             >
               <div>
-                <div className="p-5 border-b border-sky-500/15 flex items-center justify-between">
-                  <SheetTitle className="font-display text-xl font-bold text-sky-400 tracking-tight">
+                <div className="p-5 border-b border-sky-500/15 flex items-center gap-3">
+                  <div className="relative h-10 w-10 overflow-hidden rounded-full ring-2 ring-accent/40 shadow-md shrink-0 bg-[#030D1A]">
+                    <Image
+                      src="/logo.png"
+                      alt="Global Citizens Solution"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <SheetTitle className="font-display text-lg font-bold text-white tracking-tight">
                     Global<span className="text-accent">Citizens</span> Solution
                   </SheetTitle>
                 </div>
