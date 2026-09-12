@@ -342,7 +342,7 @@ export default function AIChatWidget() {
           onClick={() => setOpen(!open)}
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.94 }}
-          aria-label="Open AI Immigration Assistant"
+          aria-label="Open Global Immigration Concierge"
           className={cn(
             'group relative flex h-13 w-13 sm:h-14 sm:w-14 items-center justify-center rounded-full transition-all duration-300 shadow-2xl',
             open
@@ -386,15 +386,15 @@ export default function AIChatWidget() {
                 <div>
                   <div className="flex items-center gap-2">
                     <h3 className="font-display text-sm sm:text-base font-bold text-white tracking-wide">
-                      AI Immigration Advisor
+                      Global Immigration Concierge
                     </h3>
                     <span className="rounded-full bg-accent/20 px-2 py-0.5 text-[9px] font-semibold text-accent uppercase tracking-wider border border-accent/30">
-                      Global Citizens Solution
+                      GCS
                     </span>
                   </div>
                   <p className="flex items-center gap-1.5 text-xs text-white/80 mt-0.5">
                     <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                    Always Available • Platform Navigator
+                    Always Available • Professional & Trustworthy
                   </p>
                 </div>
               </div>
@@ -424,10 +424,10 @@ export default function AIChatWidget() {
                   <div className="rounded-2xl border border-border bg-card p-4 shadow-xs">
                     <div className="flex items-center gap-2 text-primary dark:text-accent font-semibold text-xs uppercase tracking-wider">
                       <Sparkles className="h-3.5 w-3.5" />
-                      Welcome to Global Citizens Solution
+                      Global Immigration Concierge
                     </div>
                     <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                      I am your 24/7 AI Navigator. I can answer complex visa questions, explain PR pathways, show available scholarships, and guide you anywhere across our platform.
+                      Welcome to Global Citizens Solution. I am your dedicated Global Immigration Concierge. I can assist you with visa programs, eligibility criteria, document requirements, global scholarships, and portal navigation.
                     </p>
                   </div>
 
