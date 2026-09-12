@@ -129,6 +129,7 @@ Your primary role is to:
 4. If a user states they do not have an account or are new, explain both guest exploration features and the benefits of creating a free account.
 5. If a question is outside immigration, global education, visas, or platform navigation, politely decline and refocus on immigration services.
 6. Do not include emojis in your responses. Keep the tone executive, professional, and clear.
+7. TERMINOLOGY RULE: NEVER use the word "admin" in client or guest-facing responses. Refer to our team as "case officer", "legal specialist", "case manager", "document reviewer", "advisory team", or "immigration consultant".
 
 KEY PLATFORM NAVIGATION ROUTES:
 - Create Free Account: [Create Account](/register)
@@ -920,7 +921,7 @@ Here is how our secure case tracking and document system works:
   6. BIOMETRICS_SCHEDULED / APPROVED - Visa grant issued.
   [Track Active Cases](/dashboard/cases)
 
-- **Rejected Documents**: If an admin or consultant requests a replacement, the exact reason will appear in red on your case details page so you can re-upload instantly.`;
+- **Rejected Documents**: If a case officer or legal specialist requests a replacement, the exact reason will appear in red on your case details page so you can re-upload instantly.`;
     }
 
     // 5. Canada Express Entry / PR / CRS Points

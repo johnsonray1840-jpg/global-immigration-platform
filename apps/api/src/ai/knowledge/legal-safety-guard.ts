@@ -167,6 +167,9 @@ export function enforceResponseLegalSafety(text: string): string {
     [/as a government officer/gi, 'as an informational assistant'],
     [/i am a licensed lawyer/gi, 'our licensed legal partners'],
     [/we guarantee approval/gi, 'we provide comprehensive professional filing support'],
+    [/\ban admin or consultant\b/gi, 'a case officer or legal specialist'],
+    [/\ban admin\b/gi, 'a case officer'],
+    [/\badmins\b/gi, 'case officers'],
   ];
 
   for (const [pattern, replacement] of guaranteeReplacements) {

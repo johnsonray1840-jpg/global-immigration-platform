@@ -1283,7 +1283,7 @@ We support 3 secure, tier-1 institutional payment rails:
 
 Global Citizens Solution maintains an institutional escrow protection policy:
 
-- **Pre-Service Cancellation**: If you cancel before legal drafting or document verification begins, funds held in escrow are refunded minus standard administrative gateway fees.
+- **Pre-Service Cancellation**: If you cancel before legal drafting or document verification begins, funds held in escrow are refunded minus standard payment gateway processing fees.
 - **Milestone Protection**: Funds are disbursed in transparent tranches only as specific work milestones are achieved.
 - **Government Fees**: Government statutory filing fees are non-refundable once paid to immigration authorities.
 
