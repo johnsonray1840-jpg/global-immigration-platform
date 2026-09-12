@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { HfInference } from '@huggingface/inference';
 import type { Response } from 'express';
-import { websiteKnowledge, platformRoutes, searchKnowledge } from './knowledge';
+import { websiteKnowledge, platformRoutes, searchKnowledge, findFAQMatch } from './knowledge';
 
 export interface ChatMetadata {
   sessionId?: string;
@@ -477,7 +477,13 @@ Provide a structured, helpful, and thorough response. Use bolding, bullet points
     // 1. Off-topic filter
     const offTopicTriggers = ['recipe', 'poem', 'joke', 'crypto pump', 'weather today', 'write code for', 'python function', 'movie recommendation'];
     if (offTopicTriggers.some((t) => q.includes(t))) {
-      return `I am your dedicated AI Immigration & Platform Navigator for Global Citizens Solution. I specialize exclusively in visa pathways, citizenship by investment, global scholarship funding, document requirements, and platform navigation.\n\nHow can I assist your global immigration or relocation goals today?\n- [Check Visa Eligibility](/eligibility)\n- [Explore 10+ Global Scholarships](/scholarships)\n- [Browse Service Packages](/packages)\n- [Book 1-on-1 Consultation](/consultation)`;
+      return `I am your dedicated AI Immigration & Platform Navigator for Global Citizens Solution. I specialize exclusively in visa pathways, citizenship by investment, global scholarship funding, document requirements, and platform navigation.\n\nHow can I assist your global immigration or relocation goals today?\n- [Check Visa Eligibility](${platformRoutes.eligibility.path})\n- [Explore 10+ Global Scholarships](${platformRoutes.scholarships.path})\n- [Browse Service Packages](${platformRoutes.packages.path})\n- [Book 1-on-1 Consultation](${platformRoutes.consultation.path})`;
+    }
+
+    // 1A. Exact 80-Question Knowledge Base Matcher
+    const faqMatch = findFAQMatch(query);
+    if (faqMatch) {
+      return faqMatch.answer;
     }
 
     // 1A. Platform Operations: How to Sign In / Login

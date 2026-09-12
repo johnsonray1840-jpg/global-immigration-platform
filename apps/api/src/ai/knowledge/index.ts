@@ -17,6 +17,7 @@ import { websiteHelpCategory } from './categories/website-help';
 
 export * from './types';
 export * from './website-knowledge';
+export * from './faq-80-questions';
 
 export const allKnowledgeCategories: KnowledgeCategory[] = [
   generalImmigrationCategory,     // A. GENERAL IMMIGRATION
