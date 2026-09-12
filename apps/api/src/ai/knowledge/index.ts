@@ -24,6 +24,8 @@ export * from './time-sensitive-registry';
 export * from './country-knowledge';
 export * from './legal-safety-guard';
 export * from './high-risk-advisory';
+export * from './registered-client-context';
+
 
 
 

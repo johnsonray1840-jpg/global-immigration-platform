@@ -25,6 +25,11 @@ import {
   enforceResponseLegalSafety,
   detectHighRiskTopic,
   formatHighRiskAdvisoryResponse,
+  AuthenticatedClientContext,
+  isPersonalCaseQuery,
+  generateGuestPersonalDataPrompt,
+  formatAuthenticatedCaseStatus,
+  formatCaseStatusLabel,
 } from './knowledge';
 
 export interface ChatMetadata {
@@ -58,6 +63,22 @@ export class AiService {
         reply: 'Hello! I am your AI Immigration & Platform Navigator for Global Citizens Solution. How can I assist you with visa pathways, global scholarships, or website navigation today?',
         contextUsed: false,
       };
+    }
+
+    // Item 15: Registered Client Mode & Authorized Personal Context
+    if (isPersonalCaseQuery(trimmedMsg)) {
+      if (!metadata?.userId) {
+        const guestPrompt = generateGuestPersonalDataPrompt();
+        await this.logConversation(trimmedMsg, guestPrompt, metadata);
+        return { reply: guestPrompt, contextUsed: false };
+      }
+
+      const clientCtx = await this.fetchClientContext(metadata.userId);
+      if (clientCtx) {
+        const authStatusReply = formatAuthenticatedCaseStatus(clientCtx, trimmedMsg);
+        await this.logConversation(trimmedMsg, authStatusReply, metadata);
+        return { reply: authStatusReply, contextUsed: true };
+      }
     }
 
     const context = await this.retrieveContext(trimmedMsg);
@@ -245,6 +266,113 @@ Provide a structured, helpful, and thorough response. Use bolding, bullet points
       }
     } catch (err) {
       console.warn('Could not persist AI chat record:', err?.message || err);
+    }
+  }
+
+  /**
+   * Securely fetches authenticated client case context for personalized AI responses (Item 15)
+   */
+  private async fetchClientContext(userId: string): Promise<AuthenticatedClientContext | null> {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: { id: userId },
+        include: {
+          profile: true,
+          cases: {
+            include: {
+              destinationCountry: true,
+              visaRule: { include: { visaType: true } },
+              documents: true,
+              checklistItems: true,
+              appointments: {
+                where: { status: { not: 'CANCELLED' } },
+                orderBy: { scheduledAt: 'asc' },
+              },
+              consultant: { include: { user: { include: { profile: true } } } },
+            },
+            orderBy: { updatedAt: 'desc' },
+            take: 3,
+          },
+          appointments: {
+            where: { status: { not: 'CANCELLED' } },
+            include: { consultant: { include: { user: { include: { profile: true } } } } },
+            orderBy: { scheduledAt: 'asc' },
+            take: 3,
+          },
+          invoices: {
+            where: { status: 'PENDING' },
+          },
+          wallet: true,
+        },
+      });
+
+      if (!user) return null;
+
+      const userName =
+        user.profile?.firstName
+          ? `${user.profile.firstName} ${user.profile.lastName || ''}`.trim()
+          : user.email || 'Valued Client';
+
+      const activeCases = (user.cases || []).map((c) => {
+        const verifiedDocs = (c.documents || [])
+          .filter((d) => d.status === 'VERIFIED')
+          .map((d) => d.name);
+
+        const rejectedDocs = (c.documents || [])
+          .filter((d) => d.status === 'REJECTED')
+          .map((d) => ({ name: d.name, reason: d.reviewNotes || undefined }));
+
+        const uploadedDocNames = (c.documents || []).map((d) => d.name.toLowerCase());
+        const pendingDocs = (c.checklistItems || [])
+          .filter((item) => !item.isProvided && !uploadedDocNames.includes(item.documentName.toLowerCase()))
+          .map((item) => item.documentName);
+
+        const consultantName = c.consultant?.user?.profile?.firstName
+          ? `${c.consultant.user.profile.firstName} ${c.consultant.user.profile.lastName || ''}`.trim()
+          : c.consultant?.user?.email || undefined;
+
+        return {
+          id: c.id,
+          destinationCountry: c.destinationCountry?.name || 'Destination Country',
+          programName: c.visaRule?.visaType?.name || 'Immigration Program',
+          status: c.status,
+          statusLabel: formatCaseStatusLabel(c.status),
+          consultantName,
+          verifiedDocs,
+          pendingDocs,
+          rejectedDocs,
+          updatedAt: c.updatedAt ? new Date(c.updatedAt).toLocaleDateString() : 'Recently',
+        };
+      });
+
+      const upcomingAppointments = (user.appointments || []).map((a) => ({
+        id: a.id,
+        type: a.type,
+        scheduledAt: new Date(a.scheduledAt).toLocaleString(),
+        consultantName: a.consultant?.user?.profile?.firstName
+          ? `${a.consultant.user.profile.firstName} ${a.consultant.user.profile.lastName || ''}`.trim()
+          : a.consultant?.user?.email || undefined,
+        meetingLink: a.meetingLink || undefined,
+      }));
+
+      const totalPendingAmount = (user.invoices || []).reduce((sum, inv) => sum + (inv.amount || 0), 0);
+
+      return {
+        userId: user.id,
+        userName,
+        userEmail: user.email,
+        hasActiveCase: activeCases.length > 0,
+        activeCases,
+        upcomingAppointments,
+        billingSummary: {
+          walletBalance: user.wallet?.balance || 0,
+          pendingInvoicesCount: (user.invoices || []).length,
+          totalPendingAmount,
+        },
+      };
+    } catch (err) {
+      console.warn('Error fetching authenticated client context:', err?.message || err);
+      return null;
     }
   }
 
