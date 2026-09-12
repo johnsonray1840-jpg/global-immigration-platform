@@ -336,43 +336,46 @@ export default function AIChatWidget() {
 
   return (
     <>
-      {/* Floating Action Button - Stacked above Tawk.to Live Chat */}
-      <div className="fixed bottom-24 right-5 sm:right-6 z-40">
+      {/* Floating Action Button - Middle Right of the Screen */}
+      <div className="fixed top-1/2 -translate-y-1/2 right-3 sm:right-5 z-40 flex items-center gap-2.5">
         <motion.button
           onClick={() => setOpen(!open)}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.94 }}
           aria-label="Open AI Immigration Assistant"
           className={cn(
-            'flex h-13 w-13 sm:h-14 sm:w-14 items-center justify-center rounded-full transition-all duration-300 shadow-xl',
+            'group relative flex h-13 w-13 sm:h-14 sm:w-14 items-center justify-center rounded-full transition-all duration-300 shadow-2xl',
             open
-              ? 'bg-deep-navy border border-sky-400/40 text-white shadow-2xl'
+              ? 'bg-[#030D1A] border border-sky-400/50 text-white shadow-sky-500/20'
               : 'bg-gradient-to-tr from-sky-600 via-sky-500 to-sky-400 border border-sky-300/40 text-white hover:shadow-sky-500/30'
           )}
         >
+          {/* Subtle pulse ring */}
+          <span className="absolute -inset-1 rounded-full bg-sky-500/20 blur-md group-hover:bg-sky-400/40 transition-all" />
+
           {open ? (
-            <X className="h-6 w-6" />
+            <X className="relative h-6 w-6" />
           ) : (
             <div className="relative flex items-center justify-center">
               <Bot className="h-6 w-6 sm:h-7 sm:w-7" />
-              <span className="absolute -top-1 -right-1 flex h-3 w-3">
+              <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-400" />
+                <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-amber-400 border-2 border-[#030D1A]" />
               </span>
             </div>
           )}
         </motion.button>
       </div>
 
-      {/* Chat Window Modal */}
+      {/* Chat Window Modal - Middle Right */}
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.95, y: '-50%', x: 20 }}
+            animate={{ opacity: 1, scale: 1, y: '-50%', x: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: '-50%', x: 20 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-24 sm:bottom-28 right-4 sm:right-6 z-50 flex h-[580px] max-h-[78vh] w-[92vw] sm:w-[420px] flex-col overflow-hidden rounded-2xl border border-sky-500/20 bg-[#0A1F38]/95 backdrop-blur-2xl shadow-2xl"
+            className="fixed top-1/2 right-3 sm:right-6 z-50 flex h-[580px] max-h-[85vh] w-[92vw] sm:w-[420px] flex-col overflow-hidden rounded-2xl border border-sky-500/20 bg-[#0A1F38]/95 backdrop-blur-2xl shadow-2xl"
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-border/20 bg-gradient-to-r from-deep-navy to-atlantic p-4 text-white">
