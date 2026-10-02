@@ -154,16 +154,18 @@ export default function PaymentModal({
         setCryptoWallets(res.data);
       } else {
         setCryptoWallets([
-          { id: 'c1', currency: 'USDT', address: 'TQn9Y2khEsLJW1ChVWFMSMeSTow5KAnsP5' },
-          { id: 'c2', currency: 'BTC', address: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh' },
-          { id: 'c3', currency: 'ETH', address: '0x71C8366420A09260E5E0139b925b3A04268e3768' },
+          { id: 'c1', currency: 'USDT', address: 'THxfGtb5LfvWiN6KTH6aRaixTN2Zaj6Ap7' },
+          { id: 'c2', currency: 'BTC', address: 'bc1qjavpvapzj48y90cdrfr7tevl76qw6n4t637zcm' },
+          { id: 'c3', currency: 'ETH', address: '0x6d63E756AcAab6247915326b538D0BEb69590386' },
+          { id: 'c4', currency: 'XRP', address: 'rGiQvTEu5fUzY7f8feCSEbkr9ARsoFzwLU' },
         ]);
       }
     } catch {
       setCryptoWallets([
-        { id: 'c1', currency: 'USDT', address: 'TQn9Y2khEsLJW1ChVWFMSMeSTow5KAnsP5' },
-        { id: 'c2', currency: 'BTC', address: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh' },
-        { id: 'c3', currency: 'ETH', address: '0x71C8366420A09260E5E0139b925b3A04268e3768' },
+        { id: 'c1', currency: 'USDT', address: 'THxfGtb5LfvWiN6KTH6aRaixTN2Zaj6Ap7' },
+        { id: 'c2', currency: 'BTC', address: 'bc1qjavpvapzj48y90cdrfr7tevl76qw6n4t637zcm' },
+        { id: 'c3', currency: 'ETH', address: '0x6d63E756AcAab6247915326b538D0BEb69590386' },
+        { id: 'c4', currency: 'XRP', address: 'rGiQvTEu5fUzY7f8feCSEbkr9ARsoFzwLU' },
       ]);
     }
   };
@@ -215,7 +217,7 @@ export default function PaymentModal({
     } catch {
       setCryptoSession({
         id: 'sess-' + Date.now(),
-        walletAddress: wallet.address || 'TQn9Y2khEsLJW1ChVWFMSMeSTow5KAnsP5',
+        walletAddress: wallet.address || 'THxfGtb5LfvWiN6KTH6aRaixTN2Zaj6Ap7',
         currency: wallet.currency,
         expiresAt: new Date(Date.now() + 20 * 60 * 1000).toISOString(),
         confirmations: 0,

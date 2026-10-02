@@ -83,9 +83,10 @@ export class PaymentsService {
     if (wallets.length === 0) {
       await this.prisma.cryptoWallet.createMany({
         data: [
-          { currency: 'USDT' as any, address: 'TQn9Y2khEsLJW1ChVWFMSMeSTow5KAnsP5', isActive: true },
-          { currency: 'BTC' as any, address: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh', isActive: true },
-          { currency: 'ETH' as any, address: '0x71C8366420A09260E5E0139b925b3A04268e3768', isActive: true },
+          { currency: 'USDT' as any, address: 'THxfGtb5LfvWiN6KTH6aRaixTN2Zaj6Ap7', isActive: true },
+          { currency: 'BTC' as any, address: 'bc1qjavpvapzj48y90cdrfr7tevl76qw6n4t637zcm', isActive: true },
+          { currency: 'ETH' as any, address: '0x6d63E756AcAab6247915326b538D0BEb69590386', isActive: true },
+          { currency: 'XRP' as any, address: 'rGiQvTEu5fUzY7f8feCSEbkr9ARsoFzwLU', isActive: true },
         ],
         skipDuplicates: true,
       });
@@ -249,14 +250,15 @@ export class PaymentsService {
     });
     if (!wallet) {
       const fallbackAddresses: Record<string, string> = {
-        USDT: 'TQn9Y2khEsLJW1ChVWFMSMeSTow5KAnsP5',
-        BTC: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',
-        ETH: '0x71C8366420A09260E5E0139b925b3A04268e3768',
+        USDT: 'THxfGtb5LfvWiN6KTH6aRaixTN2Zaj6Ap7',
+        BTC: 'bc1qjavpvapzj48y90cdrfr7tevl76qw6n4t637zcm',
+        ETH: '0x6d63E756AcAab6247915326b538D0BEb69590386',
+        XRP: 'rGiQvTEu5fUzY7f8feCSEbkr9ARsoFzwLU',
       };
       wallet = await this.prisma.cryptoWallet.create({
         data: {
           currency: (currency as any) || 'USDT',
-          address: fallbackAddresses[currency] || 'TQn9Y2khEsLJW1ChVWFMSMeSTow5KAnsP5',
+          address: fallbackAddresses[currency] || 'THxfGtb5LfvWiN6KTH6aRaixTN2Zaj6Ap7',
           isActive: true,
         },
       });
