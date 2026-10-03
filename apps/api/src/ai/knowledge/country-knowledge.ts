@@ -640,6 +640,58 @@ export const countryProfiles: CountryKnowledgeProfile[] = [
     primaryRoute: platformRoutes.cbiPrograms.path,
     faqPromptSuggestions: ['Which Caribbean country is fastest for CBI?', 'What are the visa-free travel benefits of a Caribbean passport?'],
   },
+  {
+    code: 'GH',
+    name: 'Ghana',
+    aliases: ['ghana', 'ghanaian', 'accra', 'kumasi', 'gis', 'ghana immigration service', 'right of abode', 'year of return', 'beyond the return'],
+    flag: '🇬🇭',
+    currency: 'GHS (GH₵)',
+    governingAuthority: 'Ghana Immigration Service (GIS) & Ministry of the Interior',
+    officialLanguage: 'English',
+    overview: 'Ghana is a premier West African economic, cultural, and diaspora hub offering residency permits, Right of Abode for the African diaspora, work permits, and study visas.',
+    pathways: [
+      {
+        name: 'Right of Abode (Diaspora Pathway)',
+        category: 'PASSIVE_INCOME_NOMAD',
+        description: 'Grants individuals of African descent in the diaspora the indefinite right to reside, work, and stay in Ghana without requiring periodic visa renewals under Immigration Act 2000 (Act 573).',
+        eligibilitySnippet: 'Open to persons of African descent or former Ghanaian citizens who have renounced citizenship.',
+      },
+      {
+        name: 'Ghana Work Permit & Immigrant Quota',
+        category: 'WORK_PERMIT',
+        description: 'Authorization granted to foreign nationals employed by registered Ghanaian enterprises or organizations under the Immigrant Quota system through GIPC or GIS.',
+        eligibilitySnippet: 'Requires approved Immigrant Quota or employer work permit sponsorship, tax clearance, and contract.',
+      },
+      {
+        name: 'GIPC Investor & Business Residency',
+        category: 'INVESTMENT_GOLDEN_VISA',
+        description: 'Residence permits for foreign investors registering with the Ghana Investment Promotion Centre (GIPC) across joint ventures or 100% foreign-owned enterprises.',
+        eligibilitySnippet: 'Requires minimum foreign equity capital based on GIPC guidelines ($200k joint venture / $500k wholly foreign).',
+      },
+      {
+        name: 'Student Visa & Academic Residence',
+        category: 'STUDY_GRADUATE',
+        description: 'Residence permit for international students enrolled in accredited Ghanaian universities and tertiary colleges.',
+        eligibilitySnippet: 'Proof of admission from a recognized Ghanaian institution, financial support, and medical certificate.',
+      },
+      {
+        name: 'Spousal & Family Residence',
+        category: 'FAMILY_SPONSORSHIP',
+        description: 'Residence permit for non-Ghanaian spouses married to Ghanaian citizens or foreign nationals lawfully resident in Ghana.',
+        eligibilitySnippet: 'Valid marriage certificate, spousal sponsorship declaration, and clean police report.',
+      },
+    ],
+    keyRequirements: [
+      'Valid international passport with at least 6 months remaining validity',
+      'Non-Citizen Ghanacard issued by the National Identification Authority (NIA)',
+      'Police clearance certificate from home country and Ghana CID (if resident)',
+      'Proof of financial means / business registration / employment contract',
+      'Yellow fever vaccination card and medical examination certificate',
+    ],
+    processingTimeOverview: 'Standard Residence & Work Permits: 4–8 weeks | Right of Abode: 3–6 months | Visitor Visas: 5–10 business days',
+    primaryRoute: platformRoutes.countryDetail('GH').path,
+    faqPromptSuggestions: ['How do I apply for Ghana Right of Abode?', 'What are the GIPC investor visa requirements for Ghana?'],
+  },
 ];
 
 /**

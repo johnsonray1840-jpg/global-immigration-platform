@@ -46,6 +46,7 @@ const destinationOptions = [
   { code: 'PT', name: 'Portugal' },
   { code: 'CH', name: 'Switzerland' },
   { code: 'NZ', name: 'New Zealand' },
+  { code: 'GH', name: 'Ghana' },
 ];
 
 export default function OnboardingPage() {

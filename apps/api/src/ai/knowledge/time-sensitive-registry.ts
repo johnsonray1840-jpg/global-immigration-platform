@@ -177,6 +177,24 @@ export const timeSensitivePolicyRegistry: TimeSensitivePolicyRecord[] = [
     },
     notes: 'EB-5 Reform and Integrity Act (RIA) offers reserved visa set-asides (20% Rural, 10% High Unemployment).',
   },
+  {
+    id: 'gh-residence-work',
+    country: 'Ghana',
+    program: 'Ghana Residence Permit & Right of Abode',
+    category: 'VISA_REQUIREMENTS',
+    source: 'Ghana Immigration Service (GIS) & Ministry of the Interior',
+    effectiveDate: '2026-01-01',
+    lastVerifiedDate: '2026-09-01',
+    verificationStatus: 'VERIFIED_CURRENT',
+    data: {
+      visitorVisaFee: '$60–$150 USD depending on entry type (single vs multiple)',
+      residencePermitFee: '$500–$1,000 USD per annum for foreign nationals',
+      diasporaRightOfAbode: 'Indefinite residence authorization under Immigration Act 2000 (Act 573)',
+      processingTimeStandard: '4–8 weeks for residence permits; 5–10 days for entry visas',
+      mandatoryGhanacard: 'Non-Citizen Ghanacard required for all foreign residents ($120 USD initial registration)',
+    },
+    notes: 'All foreign residents residing in Ghana for 90+ days must hold a valid Non-Citizen Ghanacard and GIS residence permit.',
+  },
 ];
 
 /**
@@ -360,6 +378,30 @@ Current thresholds under the EB-5 Reform and Integrity Act (RIA):
 | **Job Creation Requirement** | ${record.data.jobCreationRequirement} |
 | **Form I-526E Filing Fee** | ${record.data.formI526EFee} |
 | **Rural Project Processing** | ${record.data.processingTimeRural} |
+
+${formatTimeSensitiveFooter(record)}`;
+  }
+
+  // Ghana Residence & Right of Abode
+  if (
+    q.includes('ghana visa fee') ||
+    q.includes('ghana residence fee') ||
+    q.includes('ghana right of abode cost') ||
+    q.includes('ghanacard fee') ||
+    q.includes('ghana processing time')
+  ) {
+    const record = findTimeSensitivePolicy('gh-residence-work')!;
+    return `### Ghana Residence & Diaspora Pathways — Verified Statutory Fees & Timelines
+
+Official parameters under the Ghana Immigration Service (GIS):
+
+| Component | Verified Requirement / Fee |
+| :--- | :--- |
+| **Visitor / Entry Visa Fee** | ${record.data.visitorVisaFee} |
+| **Annual Residence Permit Fee** | ${record.data.residencePermitFee} |
+| **Non-Citizen Ghanacard Registration** | ${record.data.mandatoryGhanacard} |
+| **Standard Processing Window** | ${record.data.processingTimeStandard} |
+| **Right of Abode (Diaspora)** | ${record.data.diasporaRightOfAbode} |
 
 ${formatTimeSensitiveFooter(record)}`;
   }

@@ -47,6 +47,7 @@ export const globeCountries: GlobeCountry[] = [
   { name: 'Chile', code: 'CL', lat: -35.6751, lng: -71.5430, timezone: 'America/Santiago', capital: 'Santiago' },
   { name: 'Mexico', code: 'MX', lat: 23.6345, lng: -102.5528, timezone: 'America/Mexico_City', capital: 'Mexico City' },
   { name: 'South Africa', code: 'ZA', lat: -30.5595, lng: 22.9375, timezone: 'Africa/Johannesburg', capital: 'Pretoria' },
+  { name: 'Ghana', code: 'GH', lat: 7.9465, lng: -1.0232, timezone: 'Africa/Accra', capital: 'Accra' },
   { name: 'Rwanda', code: 'RW', lat: -1.9403, lng: 29.8739, timezone: 'Africa/Kigali', capital: 'Kigali' },
   { name: 'Mauritius', code: 'MU', lat: -20.3484, lng: 57.5522, timezone: 'Indian/Mauritius', capital: 'Port Louis' },
   { name: 'Estonia', code: 'EE', lat: 58.5953, lng: 25.0136, timezone: 'Europe/Tallinn', capital: 'Tallinn' },

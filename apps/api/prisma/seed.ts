@@ -75,6 +75,7 @@ async function main() {
     { code: 'CO', name: 'Colombia', continent: 'South America', passportRank: 35, safetyIndex: 68, livingCostIndex: 42, healthcareIndex: 72, educationIndex: 75, taxRate: 35, currency: 'COP', languages: ['Spanish'] },
     { code: 'PE', name: 'Peru', continent: 'South America', passportRank: 28, safetyIndex: 70, livingCostIndex: 45, healthcareIndex: 68, educationIndex: 73, taxRate: 29.5, currency: 'PEN', languages: ['Spanish'] },
     { code: 'ZA', name: 'South Africa', continent: 'Africa', passportRank: 43, safetyIndex: 60, livingCostIndex: 40, healthcareIndex: 65, educationIndex: 70, taxRate: 45, currency: 'ZAR', languages: ['Afrikaans', 'English', 'Zulu'] },
+    { code: 'GH', name: 'Ghana', continent: 'Africa', passportRank: 75, safetyIndex: 68, livingCostIndex: 33, healthcareIndex: 62, educationIndex: 68, taxRate: 35, currency: 'GHS', languages: ['English', 'Akan', 'Ewe', 'Ga'] },
     { code: 'NG', name: 'Nigeria', continent: 'Africa', passportRank: 80, safetyIndex: 55, livingCostIndex: 35, healthcareIndex: 60, educationIndex: 65, taxRate: 30, currency: 'NGN', languages: ['English'] },
     { code: 'EG', name: 'Egypt', continent: 'Africa', passportRank: 65, safetyIndex: 60, livingCostIndex: 30, healthcareIndex: 65, educationIndex: 70, taxRate: 22.5, currency: 'EGP', languages: ['Arabic'] },
     { code: 'KE', name: 'Kenya', continent: 'Africa', passportRank: 70, safetyIndex: 55, livingCostIndex: 32, healthcareIndex: 60, educationIndex: 68, taxRate: 30, currency: 'KES', languages: ['Swahili', 'English'] },
