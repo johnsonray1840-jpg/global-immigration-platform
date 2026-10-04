@@ -53,6 +53,7 @@ export class MailService {
         const response = await this.resend.emails.send({
           from: this.from,
           to,
+          reply_to: 'support@gcsworldwide.org',
           subject,
           html,
         });
