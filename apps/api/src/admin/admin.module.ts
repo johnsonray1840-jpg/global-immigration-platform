@@ -5,6 +5,7 @@ import { AdminWireAccountsController } from './admin-wire-accounts.controller';
 import { AdminApprovalsController } from './admin-approvals.controller';
 import { AdminCasesController } from './admin-cases.controller';
 import { AdminDocumentsController } from './admin-documents.controller';
+import { AdminEmailsController } from './admin-emails.controller';
 import { PaymentsModule } from '../payments/payments.module';
 import { CasesModule } from '../cases/cases.module';
 import { DocumentsModule } from '../documents/documents.module';
@@ -18,6 +19,7 @@ import { DocumentsModule } from '../documents/documents.module';
     AdminApprovalsController,
     AdminCasesController,
     AdminDocumentsController,
+    AdminEmailsController,
   ],
 })
 export class AdminModule {}

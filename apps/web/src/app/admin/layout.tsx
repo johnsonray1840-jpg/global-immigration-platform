@@ -23,12 +23,14 @@ import {
   GraduationCap,
   Briefcase,
   Bot,
+  Mail,
 } from 'lucide-react';
 import ThemeToggle from '@/components/layout/theme-toggle';
 import { cn } from '@/lib/utils';
 
 const nav = [
   { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },
+  { label: 'Custom Emails', href: '/admin/emails', icon: Mail },
   { label: 'AI Inquiries & Chats', href: '/admin/ai-chats', icon: Bot },
   { label: 'Payment Approvals', href: '/admin/approvals', icon: CheckSquare },
   { label: 'Users & Roles', href: '/admin/users', icon: Users },
